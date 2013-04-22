@@ -1,0 +1,69 @@
+openDLX v1.0-1 - A DLX/MIPS processor simulator.
+Copyright (C) 2013 The openDLX project, University of Augsburg
+Stefan Metzlaff (Simulator)
+Alexander Vogelgsang (Assembler)
+Nico Krezic-Luger (GUI)
+
+Project URL: <http://sourceforge.net/projects/opendlx>
+
+
+----------------------------
+Requirements
+----------------------------
+
+- Java 7
+- ant-doxygen >= 1.6.1
+- apache-log4j = 1.2.17
+
+----------------------------
+Install Dependencies
+----------------------------
+
+- Obtain ant-doxygen from 
+  http://sourceforge.net/projects/ant-doxygen 
+  and extract to lib_local/ant-doxygen
+- Obtain apache-log4j from 
+  http://logging.apache.org/log4j/1.2/download.html 
+  and extract to lib_local/apache-log4j-1.2.17
+
+----------------------------
+Building
+----------------------------
+
+1. Install dependencies.
+
+2. Just use the provided ant script 
+   build.xml and call "ant build_and_package".
+
+
+----------------------------
+Usage
+----------------------------
+
+For GUI version:
+  java -jar openDLX.jar [-g]
+For non interactive version:
+  java -jar openDLX.jar -c config_file.cfg
+For help message:
+  java -jar openDLX.jar -h
+About & license information:
+  java -jar openDLX.jar -about
+
+----------------------------
+License
+----------------------------
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program, see <LICENSE>. If not, see 
+<http://www.gnu.org/licenses/>.
+

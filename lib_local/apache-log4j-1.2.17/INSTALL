@@ -1,0 +1,7 @@
+----------------------------
+Install Dependencies
+----------------------------
+
+- Obtain apache-log4j from 
+  http://logging.apache.org/log4j/1.2/download.html 
+  and extract this directory

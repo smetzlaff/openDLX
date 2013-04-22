@@ -1,0 +1,28 @@
+To create MIPS binaries from C or assembler code the mipsel gcc cross-compiler is required.
+For installation on Debian or Ubuntu from emdebian.org do the following:
+
+
+1. Add the repository key:
+
+apt-get install emdebian-archive-keyring 
+
+
+2. Add the repository to sources.list
+
+Add the following lines to /etc/apt/sources.list or create /etc/apt/sources.list.d/emdebian.list containing the following lines:
+
+#
+# -- Emdebian cross toolchains
+deb http://www.emdebian.org/debian/ testing main
+
+
+3. Update repositories
+
+apt-get update
+
+
+4. Install mipsel-Compiler
+
+apt-get install g++-4.4-mipsel-linux-gnu g++-4.4-multilib-mipsel-linux-gnu gcc-4.4-mipsel-linux-gnu gcc-4.4-multilib-mipsel-linux-gnu
+
+
