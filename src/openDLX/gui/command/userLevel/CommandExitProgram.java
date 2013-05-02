@@ -56,7 +56,7 @@ public class CommandExitProgram implements Command
         CommandSaveFrameConfigurationSysLevel c11 = new CommandSaveFrameConfigurationSysLevel(mf);
         c11.execute();
         
-        System.out.println(f.getAbsolutePath());
+        System.out.println("java.io.tmpdir = " + f.getAbsolutePath());
         System.exit(0);
     }
 

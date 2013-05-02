@@ -20,7 +20,6 @@
  ******************************************************************************/
 package openDLX.gui.command.userLevel;
 
-import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -34,13 +33,7 @@ public class CommandShowAbout implements Command
     @Override
     public void execute()
     {
-    	URL imageURL = CommandShowAbout.class.getResource("/openDLX/img/openDLX_small.png");
-    	
-    	System.out.println("Image URL is: " + imageURL);
-    	// FIXME icon is not loaded correctly
-//    	final ImageIcon icon = new ImageIcon(imageURL, "Icon");    	    	
-    	final ImageIcon icon = new ImageIcon(getClass().getResource("/openDLX/img/openDLX_small.png"), "Icon");    	    	
-    	System.out.println("Image Size: " + icon.getIconHeight() + "x" + icon.getIconWidth() + " -> " + icon.getDescription());
+    	final ImageIcon icon = new ImageIcon(getClass().getResource("/openDLX/img/openDLX_small.png"), "openDLX logo");    	    	
     	JOptionPane.showMessageDialog(MainFrame.getInstance(), GlobalConfig.ABOUT, "About", JOptionPane.INFORMATION_MESSAGE, icon);
     }
 

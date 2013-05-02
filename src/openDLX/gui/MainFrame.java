@@ -79,9 +79,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     private MainFrame()
     {
         initialize();
-        // FIXME icon is not loaded correctly
-		ImageIcon icon = new ImageIcon(getClass().getResource("/openDLX/img/openDLX-quadrat128x128.png"));
-		System.out.println("Image Size: " + icon.getIconHeight() + "x" + icon.getIconWidth() + " -> " + icon.getDescription());
+		final ImageIcon icon = new ImageIcon(getClass().getResource("/openDLX/img/openDLX-quadrat128x128.png"), "openDLX icon");
 		setIconImage(icon.getImage());
 
         setTitle("openDLX " + GlobalConfig.VERSION);
