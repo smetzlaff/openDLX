@@ -147,7 +147,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         run = new JButton("assemble");
         save = new JButton("save as");
         clear = new JButton("clear");
-        //if  parameter command = null, comand is not yet implemented and should be implemented soon   
+        //if  parameter command = null, command is not yet implemented and should be implemented soon   
 
         EventCommandLookUp.put(run.hashCode(), new CommandRunFromEditor(this));
         EventCommandLookUp.put(save.hashCode(), new CommandSave());

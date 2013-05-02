@@ -33,7 +33,7 @@ public class CommandShowAbout implements Command
     @Override
     public void execute()
     {
-    	final ImageIcon icon = new ImageIcon(getClass().getResource("/openDLX/img/openDLX_small.png"), "openDLX logo");    	    	
+    	final ImageIcon icon = new ImageIcon(getClass().getResource("/img/openDLX_small.png"), "openDLX logo");    	    	
     	JOptionPane.showMessageDialog(MainFrame.getInstance(), GlobalConfig.ABOUT, "About", JOptionPane.INFORMATION_MESSAGE, icon);
     }
 

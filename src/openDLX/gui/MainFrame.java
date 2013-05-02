@@ -22,15 +22,11 @@ package openDLX.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -79,7 +75,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     private MainFrame()
     {
         initialize();
-		final ImageIcon icon = new ImageIcon(getClass().getResource("/openDLX/img/openDLX-quadrat128x128.png"), "openDLX icon");
+		final ImageIcon icon = new ImageIcon(getClass().getResource("/img/openDLX-quadrat128x128.png"), "openDLX icon");
 		setIconImage(icon.getImage());
 
         setTitle("openDLX " + GlobalConfig.VERSION);

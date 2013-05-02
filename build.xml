@@ -45,6 +45,10 @@
 			<copy file="log4j_warn.properties" tofile="./bin/openDLX/log4j_warn.properties"/>
 			<copy file="lib_local/apache-log4j-1.2.17/LICENSE" tofile="./bin/META-INF/LICENSE.log4j"/>
 			<copy file="lib_local/apache-log4j-1.2.17/NOTICE" tofile="./bin/META-INF/NOTICE.log4j"/>
+		<mkdir dir="./bin/img/"/>
+			<copy file="img/openDLX_small.png" tofile="./bin/img/openDLX_small.png"/>
+			<copy file="img/openDLX-quadrat128x128.png" tofile="./bin/img/openDLX-quadrat128x128.png"/>
+			<copy file="img/openDLX-quadrat16x16.png" tofile="./bin/img/openDLX-quadrat16x16.png"/>
         <jar destfile="openDLX.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="openDLX.main.OpenDLXSimulatorMain"/>
