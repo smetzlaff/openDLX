@@ -35,4 +35,22 @@ public class Preference
 	public static String bpInitialStatePreferenceKey = "bbinitialstate";
 	public static String btbSizePreferenceKey = "btbsize";
 	public static String maxCyclesPreferenceKey = "maxcycles";
+	public static String displayMemoryAsHex = "displayMemoryAsHex";
+	public static String displayRegistersAsHex = "displayRegistersAsHex";
+	
+	public static boolean displayMemoryAsHex()
+	{
+		// TODO: Add GUI switch
+        // boolean isHex = pref.getBoolean(displayMemoryAsHex, true);
+		return true;
+	}
+	
+	public static boolean displayRegistersAsHex()
+	{
+		// TODO: Add GUI switch
+		// boolean isHex = pref.getBoolean(displayRegistersAsHex, true);
+		return true;
+	}
+	
+	// TODO: Also move all configuration stuff into this file.
 }

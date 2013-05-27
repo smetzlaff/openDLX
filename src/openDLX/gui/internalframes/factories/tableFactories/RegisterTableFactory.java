@@ -28,6 +28,7 @@ import javax.swing.table.TableColumnModel;
 import openDLX.RegisterSet;
 import openDLX.datatypes.ArchCfg;
 import openDLX.datatypes.uint8;
+import openDLX.gui.Preference;
 import openDLX.gui.command.userLevel.CommandChangeRegister;
 import openDLX.gui.internalframes.renderer.ChangeableFrameTableCellRenderer;
 import openDLX.gui.internalframes.util.NotSelectableTableModel;
@@ -51,12 +52,17 @@ public class RegisterTableFactory extends TableFactory
         model.addColumn("Register");
         model.addColumn("Values");
 
-        for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
-        {
-            model.addRow(new Object[]
-                    {
-                        ArchCfg.getRegisterDescription(i), rs.read(new uint8(i))
-                    });
+		for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
+		{
+			if (Preference.displayRegistersAsHex())
+			{
+				model.addRow(new Object[] { ArchCfg.getRegisterDescription(i),
+						rs.read(new uint8(i)) });
+			} else
+			{
+				model.addRow(new Object[] { ArchCfg.getRegisterDescription(i),
+						rs.read(new uint8(i)).getValue() });
+			}
         }
 
         //default max width values change here 

@@ -28,6 +28,7 @@ import javax.swing.table.TableColumnModel;
 import openDLX.datatypes.uint32;
 import openDLX.exception.MemoryException;
 import openDLX.gui.MainFrame;
+import openDLX.gui.Preference;
 import openDLX.gui.command.userLevel.CommandChangeMemory;
 import openDLX.gui.internalframes.renderer.ChangeableFrameTableCellRenderer;
 import openDLX.gui.internalframes.util.NotSelectableTableModel;
@@ -58,13 +59,23 @@ public class MemoryTableFactory extends TableFactory
         model.addColumn("value");
 
         try {
-	        for (int i = 0; i < rows; ++i)
-	        {
-	            model.addRow(new Object[]
-	                    {
-	                        new uint32(startAddr + i * 4), (openDLXSim.getPipeline().getMainMemory().read_u32(new uint32(startAddr + i * 4), false)).getValue()
-	                    });
-	        }
+        	for (int i = 0; i < rows; ++i)
+        	{
+        		if(Preference.displayMemoryAsHex())
+        		{
+        			model.addRow(new Object[]
+        					{
+        					new uint32(startAddr + i * 4), (openDLXSim.getPipeline().getMainMemory().read_u32(new uint32(startAddr + i * 4), false))
+        					});
+        		}
+        		else
+        		{
+        			model.addRow(new Object[]
+        					{
+        					new uint32(startAddr + i * 4), (openDLXSim.getPipeline().getMainMemory().read_u32(new uint32(startAddr + i * 4), false).getValue())
+        					});
+        		}
+        	}
         } catch (MemoryException e)
         {
         	MainFrame.getInstance().getPipelineExceptionHandler().handlePipelineExceptions(e);

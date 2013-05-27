@@ -27,6 +27,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,6 +40,7 @@ import openDLX.asm.Labels;
 import openDLX.datatypes.uint32;
 import openDLX.exception.MemoryException;
 import openDLX.gui.MainFrame;
+import openDLX.gui.Preference;
 import openDLX.gui.command.systemLevel.CommandLoadFrameConfigurationSysLevel;
 import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
 import openDLX.gui.internalframes.factories.InternalFrameFactory;
@@ -81,8 +83,14 @@ public final class MemoryFrame extends OpenDLXSimInternalFrame implements Action
             {
                 for (int i = 0; i < model.getRowCount(); ++i)
                 {
-                    int value = MainFrame.getInstance().getOpenDLXSim().getPipeline().getMainMemory().read_u32(new uint32(Integer.parseInt(startAddrString.substring(2), 16) + i * 4)).getValue();
-                    model.setValueAt(value, i, 1);
+                	if(Preference.displayMemoryAsHex())
+                	{
+                		model.setValueAt(MainFrame.getInstance().getOpenDLXSim().getPipeline().getMainMemory().read_u32(new uint32(Integer.parseInt(startAddrString.substring(2), 16) + i * 4)).getHex(), i, 1);
+                	}
+                	else
+                	{
+                		model.setValueAt(MainFrame.getInstance().getOpenDLXSim().getPipeline().getMainMemory().read_u32(new uint32(Integer.parseInt(startAddrString.substring(2), 16) + i * 4)).getValue(), i, 1);
+                	}
                 }
             }
             catch (MemoryException e)

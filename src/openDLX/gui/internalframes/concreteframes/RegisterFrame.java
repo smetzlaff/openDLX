@@ -26,6 +26,7 @@ import openDLX.RegisterSet;
 import openDLX.datatypes.ArchCfg;
 import openDLX.datatypes.uint8;
 import openDLX.gui.MainFrame;
+import openDLX.gui.Preference;
 import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
 import openDLX.gui.internalframes.factories.tableFactories.RegisterTableFactory;
 import openDLX.gui.internalframes.util.TableSizeCalculator;
@@ -47,10 +48,17 @@ public final class RegisterFrame extends OpenDLXSimInternalFrame
     @Override
     public void update()
     {
-        for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
-        {
-            registerTable.getModel().setValueAt(rs.read(new uint8(i)), i, 1);
-        }
+    	for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
+    	{
+    		if (Preference.displayRegistersAsHex())
+    		{
+    			registerTable.getModel().setValueAt(rs.read(new uint8(i)), i, 1);
+    		}
+    		else
+    		{
+    			registerTable.getModel().setValueAt(rs.read(new uint8(i)).getValue(), i, 1);
+    		}
+    	}
     }
 
     @Override
