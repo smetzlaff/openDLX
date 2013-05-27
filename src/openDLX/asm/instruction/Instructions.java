@@ -230,15 +230,15 @@ public class Instructions {
 					"srai[Shift word Right Arithmetic Immediate] rd,rt,sa: do an right arithmetic shift on rt by sa bits and save result in rd");//srai
 			add("sll",
 					new Instruction(0, 0, 0, 0, 0, 0x04),
-					InstructionType.ALU_REGISTER,
+					InstructionType.SHIFT_REGISTER,
 					"sll[Shift word Left Logical] rd,rt,rs: do an left logical shift on rt by rs bits and save result in rd");//sllv
 			add("srl",
 					new Instruction(0, 0, 0, 0, 0, 0x06),
-					InstructionType.ALU_REGISTER,
+					InstructionType.SHIFT_REGISTER,
 					"srl[Shift word Right Logical] rd,rt,rs: do an right logical shift on rt by rs bits and save result in rd");//srlv
 			add("sra",
 					new Instruction(0, 0, 0, 0, 0, 0x07),
-					InstructionType.ALU_REGISTER,
+					InstructionType.SHIFT_REGISTER,
 					"sra[Shift word Right Arithmetic] rd,rt,sa: do an right artihmetic shift on rt by rs bits and save result in rd");//srav
 			add("jr", new Instruction(0, 0, 0, 0, 0, 0x08), InstructionType.JUMP_REGISTER,
 					"jr[Jump Register] rs: jump to rs");

@@ -267,6 +267,9 @@ public class Parser {
 			case SAVE:
 				save(instr, tokens);
 				break;
+			case SHIFT_REGISTER:
+				shiftRegister(instr, tokens);
+				break;
 			case SHIFT_IMMEDIATE:
 				shiftImmediate(instr, tokens);
 				break;
@@ -376,6 +379,47 @@ public class Parser {
 			++i;
 			value = Registers.instance().getInteger(tokens[i].getString());
 			instr.setRt(value);
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			throw new ParserException(INCOMPLETE_INSTRUCTION, tokens[0]);
+		} catch (NullPointerException ex) {
+			throw new ParserException(NOT_A_REGISTER, tokens[i]);
+		} catch (InstructionException ex) {
+			throw new ParserException(INSTRUCTION_EXCEPTION + ex.getMessage(), tokens[i]);
+		}
+	}
+	
+	/**
+	 * e.g. sll(v) r1,r2,r3
+	 * 
+	 * @param instr
+	 * @param tokens
+	 * @return
+	 * @throws ParserException
+	 */
+	private void shiftRegister(Instruction instr, Token[] tokens) throws ParserException {
+		int i = 0;
+		try {
+			Integer value;
+			//r1
+			++i;
+			value = Registers.instance().getInteger(tokens[i].getString());
+			instr.setRd(value);
+			//,
+			++i;
+			if (!tokens[i].getString().equals(","))
+				throw new ParserException(MISSING_SEPARATOR, tokens[i]);
+			//r2
+			++i;
+			value = Registers.instance().getInteger(tokens[i].getString());
+			instr.setRt(value);
+			//,
+			++i;
+			if (!tokens[i].getString().equals(","))
+				throw new ParserException(MISSING_SEPARATOR, tokens[i]);
+			//r3
+			++i;
+			value = Registers.instance().getInteger(tokens[i].getString());
+			instr.setRs(value);
 		} catch (ArrayIndexOutOfBoundsException ex) {
 			throw new ParserException(INCOMPLETE_INSTRUCTION, tokens[0]);
 		} catch (NullPointerException ex) {
@@ -674,7 +718,7 @@ public class Parser {
 	}
 
 	/**
-	 * e.g. sll r2,r1,2
+	 * e.g. slli r2,r1,2
 	 * 
 	 * @param instr
 	 * @param tmpTokens
