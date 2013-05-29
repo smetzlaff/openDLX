@@ -30,6 +30,7 @@ public class Preference
 
     // global definitions of the different preference keys
     public static final String forwardingPreferenceKey = "forwadingenabled"; 
+	public static final String mipsCompatibilityPreferenceKey = "mipscompatibilityenabled";
     public static final String isaTypePreferenceKey = "isatype"; 
 	public static final String bpTypePreferenceKey = "bptype";
 	public static String bpInitialStatePreferenceKey = "bbinitialstate";

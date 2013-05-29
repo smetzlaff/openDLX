@@ -31,7 +31,9 @@ public class ArchCfg
 
     // forwarding implies the two boolean: use_forwarding and use_load_stall_bubble
     public static boolean use_forwarding = Preference.pref.getBoolean(Preference.forwardingPreferenceKey, true);
-    public static boolean  use_load_stall_bubble = Preference.pref.getBoolean(Preference.forwardingPreferenceKey, true);
+    
+    // TODO: rename variable
+    public static boolean  use_load_stall_bubble = Preference.pref.getBoolean(Preference.mipsCompatibilityPreferenceKey, true);
     
     public static final String[] GP_NAMES_MIPS =
     {

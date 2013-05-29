@@ -22,6 +22,9 @@ package openDLX.gui.menubar;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.*;
 import openDLX.gui.LookAndFeel.LookAndFeelStrategyJava;
 import openDLX.gui.LookAndFeel.LookAndFeelStrategySystemMonoSpaced;
@@ -40,6 +43,24 @@ import openDLX.gui.internalframes.factories.InternalFrameFactory;
 
 public class MainFrameMenuBarFactory extends JMenuBarFactory
 {
+	public static final String STRING_MENU_FILE = "File";
+	public static final String STRING_MENU_SIMULATOR = "Simulator";
+	public static final String STRING_MENU_WINDOW = "Window";
+	public static final String STRING_MENU_HELP = "Help";
+	
+	public static final String STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM = "Run program";
+	public static final String STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM_SLOWLY = "Run program slowly";
+	public static final String STRING_MENU_SIMULATOR_ITEM_STOP_RUNNING = "Stop running";
+	public static final String STRING_MENU_SIMULATOR_ITEM_DO_CYCLE = "Do cycle";
+	public static final String STRING_MENU_SIMULATOR_ITEM_DO_X_CYCLES = "Do X cycles";
+	public static final String STRING_MENU_SIMULATOR_ITEM_RUN_TO = "Run to address X";
+	public static final String STRING_MENU_SIMULATOR_ITEM_RESTART = "Restart program";
+	public static final String STRING_MENU_SIMULATOR_ITEM_OPTIONS = "Options";
+	public static final String STRING_MENU_SIMULATOR_ITEM_FORWARDING = "Forwarding";
+	
+	
+	public static Map<String,Integer> MENU_IDS;
+	public static Map<String,Integer> MENU_ITEM_IDS;
 
     MainFrame mf;
 
@@ -47,22 +68,37 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     {
         super(al, il);
         this.mf = mf;
+        
+        // FIXME: very dirty implementation
+        MENU_IDS = new HashMap<String,Integer>();
+        MENU_ITEM_IDS = new HashMap<String,Integer>();
     }
 
     @Override
     public JMenuBar createJMenuBar()
     {
-        JMenu fileMenu = new JMenu("File");
-        JMenu simulatorMenu = new JMenu("Simulator");
-        JMenu windowMenu = new JMenu("Window");
-        JMenu helpMenu = new JMenu("Help");
+        JMenu fileMenu = new JMenu(STRING_MENU_FILE);
+        JMenu simulatorMenu = new JMenu(STRING_MENU_SIMULATOR);
+        JMenu windowMenu = new JMenu(STRING_MENU_WINDOW);
+        JMenu helpMenu = new JMenu(STRING_MENU_HELP);
 
+        int menu_id = 0;
         jmb.add(fileMenu);
+        MENU_IDS.put(STRING_MENU_FILE, menu_id);
+        
+        menu_id++;
         jmb.add(simulatorMenu);
+        MENU_IDS.put(STRING_MENU_SIMULATOR, menu_id);
+        
+        menu_id++;
         jmb.add(windowMenu);
+        MENU_IDS.put(STRING_MENU_WINDOW, menu_id);
+        
+        menu_id++;
         jmb.add(helpMenu);
+        MENU_IDS.put(STRING_MENU_HELP, menu_id);
 
-        //if  parameter command = null, comand is not yet implemented and should be implemented soon 
+        //if  parameter command = null, command is not yet implemented and should be implemented soon 
         EventCommandLookUp.put(addMenuItem(fileMenu, "Open", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.Event.CTRL_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFile(mf));
         EventCommandLookUp.put(addMenuItem(fileMenu, "Open and assemble", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.Event.CTRL_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandLoadAndRunFile(mf));
         EventCommandLookUp.put(addMenuItem(fileMenu, "Add code", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.Event.CTRL_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFileBelow(mf));
@@ -70,23 +106,54 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         EventCommandLookUp.put(addMenuItem(fileMenu, "Run from configuration file", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.Event.ALT_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandRunFromConfigurationFile(mf));
         EventCommandLookUp.put(addMenuItem(fileMenu, "Exit program", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.Event.ALT_MASK), StateValidator.allStates).hashCode(), new CommandExitProgram(mf));
 
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, "Run program", KeyStroke.getKeyStroke("F5"), StateValidator.executingStates).hashCode(), new CommandRun(mf));
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, "Run program slowly", KeyStroke.getKeyStroke("F6"), StateValidator.executingStates).hashCode(), new CommandRunSlowly(mf));
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, "Stop running", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.Event.CTRL_MASK), StateValidator.RunningStates).hashCode(), new CommandStopRunning(mf));
+        int item_id = 0;
+        
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM, KeyStroke.getKeyStroke("F5"), StateValidator.executingStates).hashCode(), new CommandRun(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM, item_id);
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM_SLOWLY, KeyStroke.getKeyStroke("F6"), StateValidator.executingStates).hashCode(), new CommandRunSlowly(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM_SLOWLY, item_id);
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_STOP_RUNNING, KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.Event.CTRL_MASK), StateValidator.RunningStates).hashCode(), new CommandStopRunning(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_STOP_RUNNING, item_id);
+        
+        item_id++;
         simulatorMenu.addSeparator();
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, "Do cycle", KeyStroke.getKeyStroke("F7"), StateValidator.executingStates).hashCode(), new CommandDoCycle(mf));
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, "Do X cycles", KeyStroke.getKeyStroke("F8"), StateValidator.executingStates).hashCode(), new CommandDoXCycles(mf));
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, "Run to address X", KeyStroke.getKeyStroke("F9"), StateValidator.executingStates).hashCode(), new CommandRunToAddressX(mf));
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, "Restart program", KeyStroke.getKeyStroke("F4"), StateValidator.executingStates).hashCode(), new CommandResetCurrentProgram(mf));
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_DO_CYCLE, KeyStroke.getKeyStroke("F7"), StateValidator.executingStates).hashCode(), new CommandDoCycle(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_DO_CYCLE, item_id);
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_DO_X_CYCLES, KeyStroke.getKeyStroke("F8"), StateValidator.executingStates).hashCode(), new CommandDoXCycles(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_DO_X_CYCLES, item_id);
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_RUN_TO, KeyStroke.getKeyStroke("F9"), StateValidator.executingStates).hashCode(), new CommandRunToAddressX(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_RUN_TO, item_id);
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_RESTART, KeyStroke.getKeyStroke("F4"), StateValidator.executingStates).hashCode(), new CommandResetCurrentProgram(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_RESTART, item_id);
+        
+        item_id++;
         simulatorMenu.addSeparator();
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, "Options", null, StateValidator.executingOrLazyStates).hashCode(), new CommandShowOptionDialog());
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_OPTIONS, null, StateValidator.executingOrLazyStates).hashCode(), new CommandShowOptionDialog());
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_OPTIONS, item_id);
+        
+        item_id++;
         {
         	// TODO: update the menu entry for forwarding after changing it in the options dialog 
-            OpenDLXSimCheckBoxMenuItem fw_checkitem = addCheckBoxMenuItem(simulatorMenu, "Forwarding", null, StateValidator.executingOrLazyStates);
+            OpenDLXSimCheckBoxMenuItem fw_checkitem = addCheckBoxMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_FORWARDING, null, StateValidator.executingOrLazyStates);
             EventCommandLookUp.put(fw_checkitem.hashCode(), new CommandForwarding(fw_checkitem));
             fw_checkitem.setSelected(Preference.pref.getBoolean(Preference.forwardingPreferenceKey, true));
         }
-
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_FORWARDING, item_id);
+        
         EventCommandLookUp.put(addMenuItem(windowMenu, "Save current window configuration", null, StateValidator.executingOrLazyStates).hashCode(), new CommandSaveFrameConfigurationUsrLevel(mf));
         EventCommandLookUp.put(addMenuItem(windowMenu, "Load saved window configuration", null, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFrameConfigurationUsrLevel(mf));
         EventCommandLookUp.put(addMenuItem(windowMenu, "Clear all preferences", null, StateValidator.executingOrLazyStates).hashCode(), new CommandClearAllPreferences());

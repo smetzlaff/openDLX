@@ -30,6 +30,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -37,7 +38,9 @@ import openDLX.BranchPredictionModule;
 import openDLX.datatypes.ArchCfg;
 import openDLX.datatypes.BranchPredictorState;
 import openDLX.datatypes.BranchPredictorType;
+import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
+import openDLX.gui.menubar.MainFrameMenuBarFactory;
 
 @SuppressWarnings("serial")
 public class OptionDialog extends JDialog implements ActionListener
@@ -49,6 +52,7 @@ public class OptionDialog extends JDialog implements ActionListener
     
     // checkBoxes
     private JCheckBox forwardingCheckBox;
+    private JCheckBox mipsCompatibilityCheckBox;
     
     /*Combo Box
      * 
@@ -82,15 +86,24 @@ public class OptionDialog extends JDialog implements ActionListener
         buttonPanel.add(cancel);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        /*instantiate all the components that youd like to use as input, 
+        /*instantiate all the components that you'd like to use as input, 
          * as well as any labels describing them, HERE: */
 
         /*create a checkboxes
          * 
-         * checkboxes dont need a label -> the name is part of the constructor
-         *-> its a single element, hence it doesnt need a JPanel  */
+         * checkboxes don't need a label -> the name is part of the constructor
+         *-> its a single element, hence it doesn't need a JPanel  */
         forwardingCheckBox = new JCheckBox("Use Forwarding");
         forwardingCheckBox.setSelected(Preference.pref.getBoolean(Preference.forwardingPreferenceKey, true)); // load current value
+
+        mipsCompatibilityCheckBox = new JCheckBox("MIPS compatibility mode (requires forwarding)");
+        mipsCompatibilityCheckBox.setSelected(Preference.pref.getBoolean(Preference.mipsCompatibilityPreferenceKey, true)); // load current value
+        
+        // disable MIPS compatibility if no forwading is active
+        if(!forwardingCheckBox.isSelected())
+        {
+        	mipsCompatibilityCheckBox.setSelected(false);
+        }
 
         /*create a JComboBoxes
          * 
@@ -157,6 +170,7 @@ public class OptionDialog extends JDialog implements ActionListener
         //dont forget adding the components to the panel !!!
 
         optionPanel.add(forwardingCheckBox);
+        optionPanel.add(mipsCompatibilityCheckBox);
         optionPanel.add(bpTypeListPanel);
         optionPanel.add(bpInitialStateListPanel);
         optionPanel.add(btbSizeTextFieldPanel);
@@ -189,16 +203,38 @@ public class OptionDialog extends JDialog implements ActionListener
         if (e.getSource().equals(confirm))
         {
             Preference.pref.putBoolean(Preference.forwardingPreferenceKey, forwardingCheckBox.isSelected());
+            Preference.pref.putBoolean(Preference.mipsCompatibilityPreferenceKey, mipsCompatibilityCheckBox.isSelected());
             if (forwardingCheckBox.isSelected())
             {
             	ArchCfg.use_forwarding = true;
-            	ArchCfg.use_load_stall_bubble = true;
+            	if(mipsCompatibilityCheckBox.isSelected())
+            	{
+            		ArchCfg.use_load_stall_bubble = true;
+            	}
+            	else
+            	{
+            		ArchCfg.use_load_stall_bubble = false;
+            	}
+            		
             }
             else
             {
             	ArchCfg.use_forwarding = false;
             	ArchCfg.use_load_stall_bubble = false;
+            	
+            	if(mipsCompatibilityCheckBox.isSelected())
+            	{
+            		// reset the MIPS compatibility
+            		mipsCompatibilityCheckBox.setSelected(false);
+            		Preference.pref.putBoolean(Preference.mipsCompatibilityPreferenceKey, false);
+            		
+            		JOptionPane.showMessageDialog(MainFrame.getInstance(), "Reset \"MIPS compatibility mode\", since it requires activated forwarding.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            	}
             }
+            
+            // propagate forwarding to menu
+            propagateFWToMenu(forwardingCheckBox.isSelected());
+            
 
             // TODO also add a field for disabling the branch prediction 
             // TODO do some checks for the setting of the BP initial state and sizes
@@ -291,5 +327,18 @@ public class OptionDialog extends JDialog implements ActionListener
             dispose();
         }
     }
+    
+    private void propagateFWToMenu(boolean forwarding_enabled)
+    {
+        // FIXME: very dirty implementation
+    	int menu_id = MainFrameMenuBarFactory.MENU_IDS.get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR);
+    	int item_id = MainFrameMenuBarFactory.MENU_ITEM_IDS.get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR_ITEM_FORWARDING);
+
+    	System.out.println("Menu:" + MainFrame.getInstance().getJMenuBar().getMenu(menu_id));
+    	System.out.println("Item:" + MainFrame.getInstance().getJMenuBar().getMenu(menu_id).getItem(item_id));
+
+    	MainFrame.getInstance().getJMenuBar().getMenu(menu_id).getItem(item_id).setSelected(forwarding_enabled);
+    }
+
 
 }

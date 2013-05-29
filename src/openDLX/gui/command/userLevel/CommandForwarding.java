@@ -38,7 +38,7 @@ public class CommandForwarding implements Command
         if (forwardingEnabled)
         {
             ArchCfg.use_forwarding = true;
-            ArchCfg.use_load_stall_bubble = true;
+            ArchCfg.use_load_stall_bubble = Preference.pref.getBoolean(Preference.mipsCompatibilityPreferenceKey, true);
         }
         else
         {
@@ -52,10 +52,11 @@ public class CommandForwarding implements Command
         this.item = item;
     }
 
-    public static boolean isForwardingEnabled()
-    {
-        return forwardingEnabled;
-    }
+//    TODO: Unused?!
+//    public static boolean isForwardingEnabled()
+//    {
+//        return forwardingEnabled;
+//    }
 
     public static void setForwardingEnabled(boolean forwardingEnabled)
     {
@@ -67,7 +68,7 @@ public class CommandForwarding implements Command
         if (forwardingEnabled)
         {
             ArchCfg.use_forwarding = true;
-            ArchCfg.use_load_stall_bubble = true;
+//            ArchCfg.use_load_stall_bubble = true;
         }
         else
         {
