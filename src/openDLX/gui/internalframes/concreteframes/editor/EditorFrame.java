@@ -25,6 +25,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,6 +34,7 @@ import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
+
 import openDLX.gui.GUI_CONST.OpenDLXSimState;
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.EventCommandLookUp;
@@ -145,8 +147,11 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         add(scrollPane, BorderLayout.CENTER);
         JPanel down = new JPanel();
         run = new JButton("assemble");
+        run.setMnemonic(KeyEvent.VK_A);
         save = new JButton("save as");
+        save.setMnemonic(KeyEvent.VK_S);
         clear = new JButton("clear");
+        clear.setMnemonic(KeyEvent.VK_C);
         //if  parameter command = null, command is not yet implemented and should be implemented soon   
 
         EventCommandLookUp.put(run.hashCode(), new CommandRunFromEditor(this));
