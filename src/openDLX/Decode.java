@@ -1206,10 +1206,16 @@ public class Decode
 				current_inst.setType(InstructionType.RTYPE);
 			
 				current_inst.setReadDLXTrapParameterRegister(true);
+				if(current_inst.getRs().getValue() == PipelineConstants.DLX_TRAP_READ)
+				{
+					// prepare to write the number of read bytes into register R1
+					current_inst.setWriteDLXTrapResultRegister(true);
+				}
 			
 				current_inst.setALUFunction(ALUFunction.TRAP);
 				current_inst.setALUPortA(ALUPort.RT);
 				current_inst.setALUPortB(ALUPort.IMM);
+				
 				break;
 			default:
 				op = (OpcodeSPECIAL.UNKNOWN);

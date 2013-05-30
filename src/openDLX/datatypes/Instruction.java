@@ -567,6 +567,24 @@ public class Instruction
 			throw new PipelineDataTypeException("Cannot reset trap parameters.");
 		}
 	}
+	
+	public void setWriteDLXTrapResultRegister(boolean b) throws PipelineDataTypeException
+	{
+		if(write_rd == true)
+		{
+			throw new PipelineDataTypeException("DLX trap result register parameter already set.");
+		}
+
+		if(b)
+		{
+			rd.setValue(PipelineConstants.REG_R1);
+			write_rd = true;
+		}
+		else
+		{
+			throw new PipelineDataTypeException("Cannot reset trap result parameters.");
+		}
+	}
 
 
 	public void setMemoryWidth(MemoryWidth mem_width)

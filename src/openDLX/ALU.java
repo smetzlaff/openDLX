@@ -397,9 +397,9 @@ public class ALU
 			break;
 		case TRAP:
 			// NOTICE: this ALU function is only needed for the DLX ISA
-			doDLXTrap(B.getValue(),A.getValue());
+			uint32 trapResult = doDLXTrap(B.getValue(),A.getValue());
 			
-			resultLO.setValue(B.getValue());
+			resultLO.setValue(trapResult);
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -475,8 +475,10 @@ public class ALU
 		return results;
 	}
 	
-	private void doDLXTrap(int trap_id, int parameter) throws PipelineException 
+	private uint32 doDLXTrap(int trap_id, int parameter) throws PipelineException 
 	{
+		uint32 return_result = new uint32(trap_id);
+		
 		switch(trap_id)
 		{
 		case PipelineConstants.DLX_TRAP_STOP:
@@ -498,7 +500,8 @@ public class ALU
 		}
 		case PipelineConstants.DLX_TRAP_READ:
 		{
-			trap_handler.read(parameter);
+			uint32 trap_result = trap_handler.read(parameter);
+			return_result.setValue(trap_result);
 			break;
 		}
 		case PipelineConstants.DLX_TRAP_WRITE:
@@ -515,6 +518,7 @@ public class ALU
 		default:
 			logger.warn("Unknown Trap: " + trap_id + " parameter: " + parameter);
 		}
+		return return_result;
 	}
 
 	private void doSyscall(int syscall_id, int value)

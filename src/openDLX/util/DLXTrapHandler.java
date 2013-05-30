@@ -83,12 +83,13 @@ public class DLXTrapHandler {
 		throw new DLXTrapException("TRAP " + PipelineConstants.DLX_TRAP_OPEN + " not implemented. Parameter: " + parameter);
 	}
 
-	public void read(int parameter) throws MemoryException 
+	public uint32 read(int parameter) throws MemoryException 
 	{
 		String user_input = null;
 //		uint32 unknown = new uint32(parameter);
 		uint32 write_addr = mem.read_u32(new uint32(parameter+4));
 		int input_length = mem.read_u32(new uint32(parameter+8)).getValue();
+		uint32 return_value = new uint32(-1);
 		
 		if((oInput != null) && (input != null))
 		{
@@ -107,8 +108,11 @@ public class DLXTrapHandler {
 				mem.write_u8(write_addr, new uint8(raw[i]));
 				write_addr.setValue(write_addr.getValue()+1);
 			}
+			return_value.setValue(raw.length);
 		}
 		mem.write_u8(write_addr, new uint8(INPUT_END));
+		
+		return return_value;
 	}
 	
 	public void write(int parameter) throws DLXTrapException, MemoryException 
@@ -201,6 +205,8 @@ public class DLXTrapHandler {
 		{
 			oOutput.notifyObservers(print_string);
 		}
+		
+		// TODO return the number of printed bytes to be written to R1 
 	}
 	
 
