@@ -1,0 +1,19 @@
+openDLX 1.0-4
+=============
+
+- refined options for forwarding (added MIPS compatibility mode)
+- added test_forwarding.s example to show effects of forwarding
+- refined behaviour of trap 3, it now stores the number of read bytes in R1
+- added shortcuts for coding frame buttons (ALT + a,s,c will assemble, save, or clear the written code)
+
+openDLX 1.0-3
+=============
+
+- fixed bug in shift operations
+- changed format of values in memory window to hex
+
+
+openDLX 1.0-2
+=============
+
+- fixed bug with icons

@@ -75,6 +75,7 @@
 			  <zipfileset dir="." includes="openDLX.jar"/>
 			  <zipfileset dir="." includes="README"/>
 			  <zipfileset dir="." includes="LICENSE"/>
+			  <zipfileset dir="." includes="CHANGELOG"/>
 			  <zipfileset dir="." includes="log4j*"/>
 			  <zipfileset dir="." includes="run_openDLX.sh"/>
 			  <zipfileset dir="./apps/dlx_apps/" prefix="apps/dlx_apps" includes="*.s"/>
