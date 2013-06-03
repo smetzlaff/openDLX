@@ -18,7 +18,8 @@ main:
 			;*** Set prompt for InputUnsigned function
 			addi	r1,r0,Prompt
 			jal		InputUnsigned ; call of InputUnsigned
-			nop ; REQUIRED for branch delay slot
+			nop ; required for branch delay slots
+			nop ; required for branch delay slots
 			
 			;*** Output of entered integer
 			sw		PrintfValue, r1
@@ -81,14 +82,18 @@ InputUnsigned:
 
 Loop:		;*** reads digits to end of line
 		lbu		r3,0(r2)
+                nop ; required because of data dependency on R3
 		seqi		r5,r3,10	;LF -> Exit
 		bnez		r5,Finish
+		nop ; required for branch delay slots
+		nop ; required for branch delay slots
 		subi		r3,r3,48	;´0´
 		multu		r1,r1,r4	;Shift decimal
 		add		r1,r1,r3
 		addi		r2,r2,1 	;increment pointer
 		j		Loop
-		nop ; REQUIRED for branch delay slot
+		nop ; required for branch delay slots
+		nop ; required for branch delay slots
 		
 Finish: 	;*** restore old register contents
 		lw		r2,SaveR2
@@ -96,4 +101,5 @@ Finish: 	;*** restore old register contents
 		lw		r4,SaveR4
 		lw		r5,SaveR5
 		jr		r31		; Return
-		nop ; REQUIRED for branch delay slot
+		nop ; required for branch delay slots
+		nop ; required for branch delay slots

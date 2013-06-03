@@ -15,8 +15,10 @@ pointer:  .word          number3; pointer, points to address of number3
           .global main          ; declares the main module and makes it visible
 main:							; entry point of program
           lw       r1,number3   ; loads content of number3 to register R1
+          nop                   ; nop, because of data dependency regarding R1
           sw       number2,r1   ; writes content of register R1 to number2
           lw       r2,pointer   ; loads the value of the pointer (addresse of number3) to register R2
+          nop                   ; nop, because of data dependency regarding R2
           lw       r3,(r2)      ; loads the value of number3 to register R3
 
 		  ; end of program

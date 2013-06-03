@@ -14,5 +14,5 @@ TextAdr:  .word         Text1
 main:
           addi  r14,r0,TextAdr  ; storing the address of the string into register R14
           trap  5               ; calling trap for text output
-		  						; the trap prints a zero terminated string starting at the address provided in register R14 
+                                ; the trap prints a zero terminated string starting at the address provided in register R14 
           trap  0               ; trap for halting processor and exiting of simulation
