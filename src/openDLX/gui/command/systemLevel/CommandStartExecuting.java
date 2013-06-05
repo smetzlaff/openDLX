@@ -31,11 +31,18 @@ public class CommandStartExecuting implements Command
 
     private File configFile; //in
     private MainFrame mf;
+    private String[] intFrameOrder;
 
-    public CommandStartExecuting(MainFrame mf, File f)
+    public CommandStartExecuting(MainFrame mf, File f, String[] intFrameOrder)
     {
         this.mf = mf;
         this.configFile = f;
+        this.intFrameOrder = intFrameOrder;
+    }
+    
+    public CommandStartExecuting(MainFrame mf, File f)
+    {
+        this(mf, f, new String[]{});
     }
 
     @Override
@@ -46,7 +53,7 @@ public class CommandStartExecuting implements Command
         c10.execute();
         if (mf.getOpenDLXSim() != null)
         {   //create all executing-frames   
-            CommandCreateFrames c9 = new CommandCreateFrames(mf);
+            CommandCreateFrames c9 = new CommandCreateFrames(mf, intFrameOrder);
             c9.execute();
         }
         else

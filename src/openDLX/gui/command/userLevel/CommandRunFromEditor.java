@@ -21,6 +21,9 @@
 package openDLX.gui.command.userLevel;
 
 import java.io.File;
+
+import javax.swing.JInternalFrame;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandCompileCode;
@@ -63,6 +66,10 @@ public class CommandRunFromEditor implements Command
                 CommandCompileCode c8 = new CommandCompileCode(mf, tmpFile);
                 c8.execute();
                 File configFile = c8.getConfigFile();
+                JInternalFrame[] intFrames = mf.getinternalFrames();
+                String[] intFrameOrder = new String[intFrames.length];
+                for (int i = 0; i < intFrames.length; ++i)
+                    intFrameOrder[i] = intFrames[i].getTitle();
 
                 if (configFile != null)
                 //reset simulator before loading new content
@@ -72,7 +79,7 @@ public class CommandRunFromEditor implements Command
 
 
                     //initialize openDLX and create internal frames, set status to executing
-                    CommandStartExecuting c7 = new CommandStartExecuting(mf, configFile);
+                    CommandStartExecuting c7 = new CommandStartExecuting(mf, configFile, intFrameOrder);
                     c7.execute();
                 }
 

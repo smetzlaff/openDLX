@@ -20,16 +20,18 @@
  ******************************************************************************/
 package openDLX.gui.internalframes.factories;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.systemLevel.CommandLoadFrameConfigurationSysLevel;
 import openDLX.gui.internalframes.concreteframes.ClockCycleFrame;
 import openDLX.gui.internalframes.concreteframes.CodeFrame;
-import openDLX.gui.internalframes.concreteframes.editor.EditorFrame;
 import openDLX.gui.internalframes.concreteframes.LogFrame;
 import openDLX.gui.internalframes.concreteframes.MemoryFrame;
 import openDLX.gui.internalframes.concreteframes.RegisterFrame;
 import openDLX.gui.internalframes.concreteframes.StatisticsFrame;
+import openDLX.gui.internalframes.concreteframes.editor.EditorFrame;
 
 public class InternalFrameFactory
 {
@@ -65,14 +67,35 @@ public class InternalFrameFactory
         mf = MainFrame.getInstance();
     }
 
-    public void createAllFrames()
+    public void createAllFrames(){
+        createAllFrames(new String[]{});
+    }
+
+    public void createAllFrames(String[] intFrameOrder)
     {
-        createRegisterFrame();
-        createCodeFrame();
-        createLogFrame();
-        createStatisticsFrame();
-        createMemoryFrame(mf);
-        createClockCycleFrame();
+        ArrayList<String> frameOrder = new ArrayList<>(frameNames.size());
+        for (String s : intFrameOrder)
+            frameOrder.add(s);
+        for (String s : frameNames.values())
+            if (!frameOrder.contains(s))
+                frameOrder.add(s);
+
+        for (String s : frameOrder)
+        {
+            if (s.equals("register set"))
+                createRegisterFrame();
+            else if (s.equals("code"))
+                createCodeFrame();
+            else if (s.equals("log"))
+                createLogFrame();
+            else if (s.equals("statistics"))
+                createStatisticsFrame();
+            else if (s.equals("memory"))
+                createMemoryFrame(mf);
+            else if (s.equals("cycles and pipeline"))
+                createClockCycleFrame();
+        }
+
         CommandLoadFrameConfigurationSysLevel c10 = new CommandLoadFrameConfigurationSysLevel(mf);
         c10.execute();
     }
@@ -86,41 +109,35 @@ public class InternalFrameFactory
     {
         MemoryFrame f = new MemoryFrame(frameNames.get(MemoryFrame.class).toString(),mf);
         this.mf.addInternalFrame(f);
-        f.moveToFront();
     }
 
     private void createRegisterFrame()
     {
         RegisterFrame rf = new RegisterFrame(frameNames.get(RegisterFrame.class).toString());
         mf.addInternalFrame(rf);
-        rf.moveToFront();
     }
 
     private void createCodeFrame()
     {
         CodeFrame cf = new CodeFrame(frameNames.get(CodeFrame.class).toString());
         mf.addInternalFrame(cf);
-        cf.moveToFront();
     }
 
     private void createStatisticsFrame()
     {
         StatisticsFrame sf = new StatisticsFrame(frameNames.get(StatisticsFrame.class).toString());
         mf.addInternalFrame(sf);
-        sf.moveToFront();
     }
 
     private void createLogFrame()
     {
         LogFrame lf = new LogFrame(frameNames.get(LogFrame.class).toString());
         mf.addInternalFrame(lf);
-        lf.moveToFront();
     }
      private void createClockCycleFrame()
     {
         ClockCycleFrame ccf = new ClockCycleFrame(frameNames.get(ClockCycleFrame.class).toString());
         mf.addInternalFrame(ccf);
-        ccf.moveToFront();
     }
 
 
