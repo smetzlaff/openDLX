@@ -21,6 +21,7 @@
 package openDLX.gui.command.systemLevel;
 
 import javax.swing.JOptionPane;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.internalframes.factories.InternalFrameFactory;
@@ -29,10 +30,17 @@ public class CommandCreateFrames implements Command
 {
 
     private MainFrame mf;
+    private String[] intFrameOrder;
 
-    public CommandCreateFrames(MainFrame mf)
+    public CommandCreateFrames(MainFrame mf, String[] intFrameOrder)
     {
         this.mf = mf;
+        this.intFrameOrder = intFrameOrder;
+    }
+    
+    public CommandCreateFrames(MainFrame mf)
+    {
+        this(mf, new String[]{});
     }
 
     @Override
@@ -40,7 +48,7 @@ public class CommandCreateFrames implements Command
     {
         try
         {
-            InternalFrameFactory.getInstance().createAllFrames();
+            InternalFrameFactory.getInstance().createAllFrames(intFrameOrder);
         }
         catch (Exception e)
         {
