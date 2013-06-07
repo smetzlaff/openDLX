@@ -29,7 +29,7 @@ import openDLX.gui.LookAndFeel.LookAndFeelStrategySystemMonoSpaced;
 public class OpenDLXSimGui
 {
 
-    static final public String preferenceKey = "lookandfeel";    
+    public static final String preferenceKey = "lookandfeel";
 
     public static void openDLXGui_main()
     {
@@ -37,20 +37,14 @@ public class OpenDLXSimGui
         String lookAndFeel = LookAndFeelStrategySystemMonoSpaced.class.toString();
         //get user preference
         lookAndFeel = Preference.pref.get(preferenceKey, lookAndFeel);
-        //find fitting LaF
-        if (LookAndFeelStrategySystemMonoSpaced.class.toString().equals(lookAndFeel))
-        {
-            new LookAndFeelStrategySystemMonoSpaced().setLookAndFeel();
-            
-        }
-        else if (LookAndFeelStrategyJava.class.toString().equals(lookAndFeel))
-        {
-            new LookAndFeelStrategyJava().setLookAndFeel();
-        }
 
+        //find and set selected LaF
+        if (LookAndFeelStrategySystemMonoSpaced.class.toString().equals(lookAndFeel))
+            new LookAndFeelStrategySystemMonoSpaced().setLookAndFeel();
+        else if (LookAndFeelStrategyJava.class.toString().equals(lookAndFeel))
+            new LookAndFeelStrategyJava().setLookAndFeel();
 
         MainFrame.getInstance();
-
     }
 
     //set look and feel for the whole program

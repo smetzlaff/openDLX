@@ -53,10 +53,9 @@ public class ThreadCommandRunSlowly implements Runnable
                 {
                     Thread.sleep(100);
                 }
-                catch (Exception e)
-                {
-                }
+                catch (Exception e) {}
             }
+
             // do a cycle within openDLX
             try
             {

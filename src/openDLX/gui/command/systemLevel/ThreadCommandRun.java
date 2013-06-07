@@ -68,10 +68,8 @@ public class ThreadCommandRun implements Runnable
                 public void run()
                 {
                     //update frames when loop is finished or paused (isRunning is set to false by event dispatch thread/user)
-                    CommandUpdateFrames c10 = new CommandUpdateFrames(mf);
-                    c10.execute();
+                    new CommandUpdateFrames(mf).execute();
                 }
-
             });
         }
         catch (Exception e)
@@ -83,8 +81,7 @@ public class ThreadCommandRun implements Runnable
         if (openDLXSim.isFinished())
         { // if the current openDLX has finished, dont allow any gui updates any more                
             mf.setUpdateAllowed(false);
-            CommandSimulatorFinishedInfo c3 = new CommandSimulatorFinishedInfo();
-            c3.execute();
+            new CommandSimulatorFinishedInfo().execute();
         }
     }
 
