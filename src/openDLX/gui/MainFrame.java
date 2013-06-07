@@ -56,10 +56,15 @@ import openDLX.util.TrapObservableDefault;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame implements ActionListener, ItemListener
 {
-
-    public final int RUN_SPEED_DEFAULT = 16;
-    // MainFrame is a Singleton. 
+    public static final int RUN_SPEED_DEFAULT = 16;
+    
+    // MainFrame is a Singleton.
+    // hence it has a private constructor    
     private static final MainFrame mf = new MainFrame();
+
+    public Output output;
+    public Input input;
+    public CheckBoxList boxes = CheckBoxList.getInstance();
     private OpenDLXSimulator openDLXSim = null;
     private EditorFrame editor;
     private JDesktopPane desktop;
@@ -70,20 +75,15 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     private File configFile;
     private JMenuBar menuBar;
     private PipelineExceptionHandler pexHandler = null;
-    public Output output;
-    public Input input;
-    public CheckBoxList boxes = CheckBoxList.getInstance();
     private String loadedCodeFilePath="code.s";//default
-    //hence it has a private constructor    
 
     private MainFrame()
     {
         initialize();
-		final ImageIcon icon = new ImageIcon(getClass().getResource("/img/openDLX-quadrat128x128.png"), "openDLX icon");
-		setIconImage(icon.getImage());
+        final ImageIcon icon = new ImageIcon(getClass().getResource("/img/openDLX-quadrat128x128.png"), "openDLX icon");
+        setIconImage(icon.getImage());
 
         setTitle("openDLX " + GlobalConfig.VERSION);
-        
 
         // Register output for pipeline
         TrapObservableDefault observableOutput = new TrapObservableDefault();
@@ -118,7 +118,6 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
 
     private void initialize()
     {
-
         //uses a factory to outsource creation of the menuBar 
         MainFrameMenuBarFactory menuBarFactory = new MainFrameMenuBarFactory(this, this, this);
         menuBar = menuBarFactory.createJMenuBar();
@@ -127,14 +126,21 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         desktop = new JDesktopPane();
         desktop.setBackground(Color.WHITE);
         setContentPane(desktop);
+        
         editor = EditorFrame.getInstance(this);
         desktop.add(editor);
+        
         //set Editor checkbox in main menu selected as editor is visible
         boxes.get(InternalFrameFactory.getFrameName(EditorFrame.class)).setSelected(true);
+        
         output = Output.getInstance(mf);
         input = Input.getInstance(mf);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(200, 200));
         setExtendedState(MAXIMIZED_BOTH);
         setVisible(true);
+        
         setOpenDLXSimState(OpenDLXSimState.IDLE);
         pexHandler = new PipelineExceptionHandler(this);
         
@@ -168,7 +174,6 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     {
         this.openDLXSim = openDLXSim;
         pexHandler.setSimulator(openDLXSim);
-
     }
 
     public void setOpenDLXSimState(OpenDLXSimState s)
@@ -185,29 +190,17 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
 
     public boolean isRunning()
     {
-        if (state == OpenDLXSimState.RUNNING)
-        {
-            return true;
-        }
-        return false;
+        return (state == OpenDLXSimState.RUNNING);
     }
 
     public boolean isExecuting()
     {
-        if (state == OpenDLXSimState.EXECUTING)
-        {
-            return true;
-        }
-        return false;
+        return (state == OpenDLXSimState.EXECUTING);
     }
 
     public boolean isLazy()
     {
-        if (state == OpenDLXSimState.IDLE)
-        {
-            return true;
-        }
-        return false;
+        return (state == OpenDLXSimState.IDLE);
     }
 
     public boolean isUpdateAllowed()
@@ -223,7 +216,6 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     public void addInternalFrame(OpenDLXSimInternalFrame mif)
     {
         desktop.add(mif);
-
     }
 
     public String getEditorText()

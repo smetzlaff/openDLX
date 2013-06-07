@@ -47,46 +47,36 @@ public class CommandRunFromEditor implements Command
     @Override
     public void execute()
     {
-
         MainFrame mf = MainFrame.getInstance();
         if (!mf.isRunning())
         {
             //save current window position
-            CommandSaveFrameConfigurationSysLevel c11 = new CommandSaveFrameConfigurationSysLevel(mf);
-            c11.execute();
+            new CommandSaveFrameConfigurationSysLevel(mf).execute();
             //create new temporary file
             CommandWriteToTmpFile c10 = new CommandWriteToTmpFile(ef.getText());
             c10.execute();
             File tmpFile = c10.getTmpFile();
-
-
-
 
             if (tmpFile != null)
             {
                 CommandCompileCode c8 = new CommandCompileCode(mf, tmpFile);
                 c8.execute();
                 File configFile = c8.getConfigFile();
+
                 JInternalFrame[] intFrames = mf.getinternalFrames();
                 String[] intFrameOrder = new String[intFrames.length];
                 for (int i = 0; i < intFrames.length; ++i)
                     intFrameOrder[i] = intFrames[i].getTitle();
 
-                if (configFile != null)
                 //reset simulator before loading new content
+                if (configFile != null)
                 {
-                    CommandResetSimulator cr = new CommandResetSimulator(mf);
-                    cr.execute();
-
+                    new CommandResetSimulator(mf).execute();
 
                     //initialize openDLX and create internal frames, set status to executing
-                    CommandStartExecuting c7 = new CommandStartExecuting(mf, configFile, intFrameOrder);
-                    c7.execute();
+                    new CommandStartExecuting(mf, configFile, intFrameOrder).execute();
                 }
-
-
             }
-
         }
     }
 
