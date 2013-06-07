@@ -43,24 +43,81 @@ import openDLX.gui.internalframes.factories.InternalFrameFactory;
 
 public class MainFrameMenuBarFactory extends JMenuBarFactory
 {
-	public static final String STRING_MENU_FILE = "File";
-	public static final String STRING_MENU_SIMULATOR = "Simulator";
-	public static final String STRING_MENU_WINDOW = "Window";
-	public static final String STRING_MENU_HELP = "Help";
+	private static final String STRING_MENU_FILE = "File";
+	private static final String STRING_MENU_SIMULATOR = "Simulator";
+	private static final String STRING_MENU_WINDOW = "Window";
+	private static final String STRING_MENU_HELP = "Help";
 	
-	public static final String STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM = "Run program";
-	public static final String STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM_SLOWLY = "Run program slowly";
-	public static final String STRING_MENU_SIMULATOR_ITEM_STOP_RUNNING = "Stop running";
-	public static final String STRING_MENU_SIMULATOR_ITEM_DO_CYCLE = "Do cycle";
-	public static final String STRING_MENU_SIMULATOR_ITEM_DO_X_CYCLES = "Do X cycles";
-	public static final String STRING_MENU_SIMULATOR_ITEM_RUN_TO = "Run to address X";
-	public static final String STRING_MENU_SIMULATOR_ITEM_RESTART = "Restart program";
-	public static final String STRING_MENU_SIMULATOR_ITEM_OPTIONS = "Options";
-	public static final String STRING_MENU_SIMULATOR_ITEM_FORWARDING = "Forwarding";
+	private static final String STRING_MENU_FILE_OPEN = "Open";
+	private static final String STRING_MENU_FILE_OPEN_AND_ASSEMBLE = "Open and assemble";
+	private static final String STRING_MENU_FILE_ADD_CODE = "Add code";
+	private static final String STRING_MENU_FILE_SAVE = "Save";
+	private static final String STRING_MENU_FILE_RUN_FROM_CONF = "Run from configuration file";
+	private static final String STRING_MENU_FILE_EXIT = "Exit program";
 	
+	private static final KeyStroke KEY_MENU_FILE_OPEN = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.Event.CTRL_MASK);
+	private static final KeyStroke KEY_MENU_FILE_OPEN_AND_ASSEMBLE = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.Event.CTRL_MASK);
+	private static final KeyStroke KEY_MENU_FILE_ADD_CODE = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.Event.CTRL_MASK);
+	private static final KeyStroke KEY_MENU_FILE_SAVE = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.Event.CTRL_MASK);
+	private static final KeyStroke KEY_MENU_FILE_RUN_FROM_CONF = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.Event.ALT_MASK);
+	private static final KeyStroke KEY_MENU_FILE_EXIT = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.Event.ALT_MASK);
 	
-	public static Map<String,Integer> MENU_IDS;
-	public static Map<String,Integer> MENU_ITEM_IDS;
+	private static final String STRING_MENU_SIMULATOR_RUN_PROGRAM = "Run program";
+	private static final String STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY = "Run program slowly";
+	private static final String STRING_MENU_SIMULATOR_STOP_RUNNING = "Stop running";
+	private static final String STRING_MENU_SIMULATOR_DO_CYCLE = "Do cycle";
+	private static final String STRING_MENU_SIMULATOR_DO_X_CYCLES = "Do X cycles";
+	private static final String STRING_MENU_SIMULATOR_RUN_TO = "Run to address X";
+	private static final String STRING_MENU_SIMULATOR_RESTART = "Restart program";
+	private static final String STRING_MENU_SIMULATOR_OPTIONS = "Options";
+	private static final String STRING_MENU_SIMULATOR_FORWARDING = "Forwarding";
+	
+	private static final KeyStroke KEY_MENU_SIMULATOR_RUN_PROGRAM = KeyStroke.getKeyStroke("F5");
+	private static final KeyStroke KEY_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY = KeyStroke.getKeyStroke("F6");
+	private static final KeyStroke KEY_MENU_SIMULATOR_STOP_RUNNING = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.Event.CTRL_MASK);
+	private static final KeyStroke KEY_MENU_SIMULATOR_DO_CYCLE = KeyStroke.getKeyStroke("F7");
+	private static final KeyStroke KEY_MENU_SIMULATOR_DO_X_CYCLES = KeyStroke.getKeyStroke("F8");
+	private static final KeyStroke KEY_MENU_SIMULATOR_RUN_TO = KeyStroke.getKeyStroke("F9");
+	private static final KeyStroke KEY_MENU_SIMULATOR_RESTART = KeyStroke.getKeyStroke("F4"); 
+	private static final KeyStroke KEY_MENU_SIMULATOR_OPTIONS = null; 
+	private static final KeyStroke KEY_MENU_SIMULATOR_FORWARDING = null; 
+	
+	private static final String STRING_MENU_WINDOW_SAVE = "Save current window configuration";
+	private static final String STRING_MENU_WINDOW_LOAD = "Load saved window configuration";
+	private static final String STRING_MENU_WINDOW_CLEAR = "Clear all preferences";
+	private static final String STRING_MENU_WINDOW_LF_SYSTEM = "System Look and Feel enabled (" + System.getProperty("os.name") + ")";
+	private static final String STRING_MENU_WINDOW_LF_JAVA = "Java Look and Feel enabled";
+	private static final String STRING_MENU_WINDOW_DISPLAY_EDITOR = "Display Editor";
+	private static final String STRING_MENU_WINDOW_DISPLAY_LOG = "Display Log";
+	private static final String STRING_MENU_WINDOW_DISPLAY_CODE = "Display Code";
+	private static final String STRING_MENU_WINDOW_DISPLAY_RS = "Display Register Set";
+	private static final String STRING_MENU_WINDOW_DISPLAY_CC = "Display Clock Cycle Diagram";
+	private static final String STRING_MENU_WINDOW_DISPLAY_STATS = "Display Statistics";
+	private static final String STRING_MENU_WINDOW_DISPLAY_MEM = "Display Memory";
+	
+	private static final KeyStroke KEY_MENU_WINDOW_SAVE = null;
+	private static final KeyStroke KEY_MENU_WINDOW_LOAD = null;
+	private static final KeyStroke KEY_MENU_WINDOW_CLEAR = null;
+	private static final KeyStroke KEY_MENU_WINDOW_LF_SYSTEM = null;
+	private static final KeyStroke KEY_MENU_WINDOW_LF_JAVA = null;
+	private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_EDITOR = null;
+	private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_LOG = null;
+	private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_CODE = null;
+	private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_RS = null; 
+	private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_CC = null;
+	private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_STATS = null; 
+	private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_MEM = null;
+        
+	private static final String STRING_MENU_HELP_TOOLTIPS = "Display tooltips";
+	private static final String STRING_MENU_HELP_TUTORIAL = "Tutorial";
+	private static final String STRING_MENU_HELP_ABOUT = "About";
+			
+	private static final KeyStroke KEY_MENU_HELP_TOOLTIPS = null;
+	private static final KeyStroke KEY_MENU_HELP_TUTORIAL = null;
+	private static final KeyStroke KEY_MENU_HELP_ABOUT = null;
+	
+	private static Map<String,Integer> MENU_IDS;
+	private static Map<String,Integer> MENU_ITEM_IDS;
 
     MainFrame mf;
 
@@ -99,64 +156,65 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         MENU_IDS.put(STRING_MENU_HELP, menu_id);
 
         //if  parameter command = null, command is not yet implemented and should be implemented soon 
-        EventCommandLookUp.put(addMenuItem(fileMenu, "Open", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.Event.CTRL_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFile(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, "Open and assemble", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.Event.CTRL_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandLoadAndRunFile(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, "Add code", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.Event.CTRL_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFileBelow(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, "Save", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.Event.CTRL_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandSave());
-        EventCommandLookUp.put(addMenuItem(fileMenu, "Run from configuration file", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.Event.ALT_MASK), StateValidator.executingOrLazyStates).hashCode(), new CommandRunFromConfigurationFile(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, "Exit program", KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.Event.ALT_MASK), StateValidator.allStates).hashCode(), new CommandExitProgram(mf));
+        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_OPEN, KEY_MENU_FILE_OPEN, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFile(mf));
+        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_OPEN_AND_ASSEMBLE, KEY_MENU_FILE_OPEN_AND_ASSEMBLE, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadAndRunFile(mf));
+        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_ADD_CODE, KEY_MENU_FILE_ADD_CODE, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFileBelow(mf));
+        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_SAVE, KEY_MENU_FILE_SAVE, StateValidator.executingOrLazyStates).hashCode(), new CommandSave());
+        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_RUN_FROM_CONF, KEY_MENU_FILE_RUN_FROM_CONF, StateValidator.executingOrLazyStates).hashCode(), new CommandRunFromConfigurationFile(mf));
+        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_EXIT, KEY_MENU_FILE_EXIT, StateValidator.allStates).hashCode(), new CommandExitProgram(mf));
 
         int item_id = 0;
         
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM, KeyStroke.getKeyStroke("F5"), StateValidator.executingStates).hashCode(), new CommandRun(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM, item_id);
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_PROGRAM, KEY_MENU_SIMULATOR_RUN_PROGRAM, StateValidator.executingStates).hashCode(), new CommandRun(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_RUN_PROGRAM, item_id);
         
         item_id++;
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM_SLOWLY, KeyStroke.getKeyStroke("F6"), StateValidator.executingStates).hashCode(), new CommandRunSlowly(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_RUN_PROGRAM_SLOWLY, item_id);
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, KEY_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, StateValidator.executingStates).hashCode(), new CommandRunSlowly(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, item_id);
         
         item_id++;
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_STOP_RUNNING, KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.Event.CTRL_MASK), StateValidator.RunningStates).hashCode(), new CommandStopRunning(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_STOP_RUNNING, item_id);
-        
-        item_id++;
-        simulatorMenu.addSeparator();
-        
-        item_id++;
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_DO_CYCLE, KeyStroke.getKeyStroke("F7"), StateValidator.executingStates).hashCode(), new CommandDoCycle(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_DO_CYCLE, item_id);
-        
-        item_id++;
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_DO_X_CYCLES, KeyStroke.getKeyStroke("F8"), StateValidator.executingStates).hashCode(), new CommandDoXCycles(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_DO_X_CYCLES, item_id);
-        
-        item_id++;
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_RUN_TO, KeyStroke.getKeyStroke("F9"), StateValidator.executingStates).hashCode(), new CommandRunToAddressX(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_RUN_TO, item_id);
-        
-        item_id++;
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_RESTART, KeyStroke.getKeyStroke("F4"), StateValidator.executingStates).hashCode(), new CommandResetCurrentProgram(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_RESTART, item_id);
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_STOP_RUNNING, KEY_MENU_SIMULATOR_STOP_RUNNING, StateValidator.RunningStates).hashCode(), new CommandStopRunning(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_STOP_RUNNING, item_id);
         
         item_id++;
         simulatorMenu.addSeparator();
         
         item_id++;
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_OPTIONS, null, StateValidator.executingOrLazyStates).hashCode(), new CommandShowOptionDialog());
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_OPTIONS, item_id);
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_DO_CYCLE, KEY_MENU_SIMULATOR_DO_CYCLE, StateValidator.executingStates).hashCode(), new CommandDoCycle(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_DO_CYCLE, item_id);
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_DO_X_CYCLES, KEY_MENU_SIMULATOR_DO_X_CYCLES, StateValidator.executingStates).hashCode(), new CommandDoXCycles(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_DO_X_CYCLES, item_id);
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_TO, KEY_MENU_SIMULATOR_RUN_TO, StateValidator.executingStates).hashCode(), new CommandRunToAddressX(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_RUN_TO, item_id);
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RESTART, KEY_MENU_SIMULATOR_RESTART, StateValidator.executingStates).hashCode(), new CommandResetCurrentProgram(mf));
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_RESTART, item_id);
+        
+        item_id++;
+        simulatorMenu.addSeparator();
+        
+        item_id++;
+        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_OPTIONS, KEY_MENU_SIMULATOR_OPTIONS, StateValidator.executingOrLazyStates).hashCode(), new CommandShowOptionDialog());
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_OPTIONS, item_id);
         
         item_id++;
         {
         	// TODO: update the menu entry for forwarding after changing it in the options dialog 
-            OpenDLXSimCheckBoxMenuItem fw_checkitem = addCheckBoxMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_ITEM_FORWARDING, null, StateValidator.executingOrLazyStates);
+            OpenDLXSimCheckBoxMenuItem fw_checkitem = addCheckBoxMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_FORWARDING, KEY_MENU_SIMULATOR_FORWARDING, StateValidator.executingOrLazyStates);
             EventCommandLookUp.put(fw_checkitem.hashCode(), new CommandForwarding(fw_checkitem));
             fw_checkitem.setSelected(Preference.pref.getBoolean(Preference.forwardingPreferenceKey, true));
         }
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_ITEM_FORWARDING, item_id);
+        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_FORWARDING, item_id);
         
-        EventCommandLookUp.put(addMenuItem(windowMenu, "Save current window configuration", null, StateValidator.executingOrLazyStates).hashCode(), new CommandSaveFrameConfigurationUsrLevel(mf));
-        EventCommandLookUp.put(addMenuItem(windowMenu, "Load saved window configuration", null, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFrameConfigurationUsrLevel(mf));
-        EventCommandLookUp.put(addMenuItem(windowMenu, "Clear all preferences", null, StateValidator.executingOrLazyStates).hashCode(), new CommandClearAllPreferences());
+        EventCommandLookUp.put(addMenuItem(windowMenu, STRING_MENU_WINDOW_SAVE, KEY_MENU_WINDOW_SAVE, StateValidator.executingOrLazyStates).hashCode(), new CommandSaveFrameConfigurationUsrLevel(mf));
+        EventCommandLookUp.put(addMenuItem(windowMenu, STRING_MENU_WINDOW_LOAD, KEY_MENU_WINDOW_LOAD, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFrameConfigurationUsrLevel(mf));
+        EventCommandLookUp.put(addMenuItem(windowMenu, STRING_MENU_WINDOW_CLEAR, KEY_MENU_WINDOW_CLEAR, StateValidator.executingOrLazyStates).hashCode(), new CommandClearAllPreferences());
+	
 
         /*this is a submenu of windowMenu
          JMenu defaultWindowConfigurationMenu = new JMenu("Load default window configuration");
@@ -172,7 +230,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         // a group of radio buttons
         ButtonGroup lookAndFeelOptionsGroup = new ButtonGroup();
         //add here new LookAndFeel options  
-        JRadioButtonMenuItem item = addRadioButtonMenuItem(windowMenu, "System Look and Feel enabled (" + System.getProperty("os.name") + ")", null, lookAndFeelOptionsGroup, StateValidator.allStates);
+        JRadioButtonMenuItem item = addRadioButtonMenuItem(windowMenu, STRING_MENU_WINDOW_LF_SYSTEM, KEY_MENU_WINDOW_LF_SYSTEM, lookAndFeelOptionsGroup, StateValidator.allStates);
         item.setName(LookAndFeelStrategySystemMonoSpaced.getLookAndFeelName());
         String laf = UIManager.getLookAndFeel().getClass().toString();
 
@@ -184,9 +242,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         }
         EventCommandLookUp.put(item.hashCode(), new CommandSetLaFSystem(item));
 
-
-
-        item = addRadioButtonMenuItem(windowMenu, "Java Look and Feel enabled", null, lookAndFeelOptionsGroup, StateValidator.allStates);
+        item = addRadioButtonMenuItem(windowMenu, STRING_MENU_WINDOW_LF_JAVA, KEY_MENU_WINDOW_LF_JAVA, lookAndFeelOptionsGroup, StateValidator.allStates);
         item.setName(LookAndFeelStrategyJava.getLookAndFeelName());
 
         if (laf.substring(laf.length() - 17).equals(item.getName().substring(item.getName().length() - 17)))
@@ -197,12 +253,12 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
 
         /*end of dirty code*/
         //help
-        OpenDLXSimCheckBoxMenuItem checkitem = addCheckBoxMenuItem(helpMenu, "Display tooltips", null, StateValidator.executingOrLazyStates);
+        OpenDLXSimCheckBoxMenuItem checkitem = addCheckBoxMenuItem(helpMenu, STRING_MENU_HELP_TOOLTIPS, KEY_MENU_HELP_TOOLTIPS, StateValidator.executingOrLazyStates);
         EventCommandLookUp.put(checkitem.hashCode(), new CommandDisplayTooltips(checkitem));
         // get preference and set selected if tooltips are enabled
         checkitem.setSelected(Preference.pref.getBoolean(CommandDisplayTooltips.preferenceKey, true));
-        EventCommandLookUp.put(addMenuItem(helpMenu, "Tutorial", null, StateValidator.executingOrLazyStates).hashCode(), new CommandTutorial());
-EventCommandLookUp.put(addMenuItem(helpMenu,"About",null,StateValidator.executingOrLazyStates).hashCode(), new CommandShowAbout());
+        EventCommandLookUp.put(addMenuItem(helpMenu, STRING_MENU_HELP_TUTORIAL, KEY_MENU_HELP_TUTORIAL, StateValidator.executingOrLazyStates).hashCode(), new CommandTutorial());
+        EventCommandLookUp.put(addMenuItem(helpMenu, STRING_MENU_HELP_ABOUT, KEY_MENU_HELP_ABOUT, StateValidator.executingOrLazyStates).hashCode(), new CommandShowAbout());
         return jmb;
     }
 
@@ -210,44 +266,44 @@ EventCommandLookUp.put(addMenuItem(helpMenu,"About",null,StateValidator.executin
     {
         //box name = frame title
         String name = InternalFrameFactory.getFrameName(EditorFrame.class);
-        JCheckBoxMenuItem box = addCheckBoxMenuItem(windowMenu, "Display Editor", null, StateValidator.allStates);
+        JCheckBoxMenuItem box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_EDITOR, KEY_MENU_WINDOW_DISPLAY_EDITOR, StateValidator.allStates);
         box.setName(name);
         EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
         mf.boxes.add(box);
 
 
         name = InternalFrameFactory.getFrameName(LogFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, "Display Log", null, StateValidator.executingOrRunningStates);
+        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_LOG, KEY_MENU_WINDOW_DISPLAY_LOG, StateValidator.executingOrRunningStates);
         box.setName(name);
         EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
         mf.boxes.add(box);
 
         name = InternalFrameFactory.getFrameName(CodeFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, "Display Code", null, StateValidator.executingOrRunningStates);
+        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_CODE, KEY_MENU_WINDOW_DISPLAY_CODE, StateValidator.executingOrRunningStates);
         box.setName(name);
         EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
         mf.boxes.add(box);
 
         name = InternalFrameFactory.getFrameName(RegisterFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, "Display Register Set", null, StateValidator.executingOrRunningStates);
+        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_RS, KEY_MENU_WINDOW_DISPLAY_RS, StateValidator.executingOrRunningStates);
         box.setName(name);
         EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
         mf.boxes.add(box);
 
         name = InternalFrameFactory.getFrameName(ClockCycleFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, "Display Clock Cycle Diagram", null, StateValidator.executingOrRunningStates);
+        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_CC, KEY_MENU_WINDOW_DISPLAY_CC, StateValidator.executingOrRunningStates);
         box.setName(name);
         EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
         mf.boxes.add(box);
 
         name = InternalFrameFactory.getFrameName(StatisticsFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, "Display Statistics", null, StateValidator.executingOrRunningStates);
+        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_STATS, KEY_MENU_WINDOW_DISPLAY_STATS, StateValidator.executingOrRunningStates);
         box.setName(name);
         EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
         mf.boxes.add(box);
 
         name = InternalFrameFactory.getFrameName(MemoryFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, "Display Memory", null, StateValidator.executingOrRunningStates);
+        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_MEM, KEY_MENU_WINDOW_DISPLAY_MEM, StateValidator.executingOrRunningStates);
         box.setName(name);
         EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
         mf.boxes.add(box);

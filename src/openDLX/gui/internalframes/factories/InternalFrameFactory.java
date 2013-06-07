@@ -40,21 +40,30 @@ public class InternalFrameFactory
     private MainFrame mf;
     static final private Hashtable<Class<?>, String> frameNames = new Hashtable<Class<?>, String>();
     private static InternalFrameFactory instance = null;
+    
+    private static final String FRAME_NAME_EDITOR = "coding frame";
+    private static final String FRAME_NAME_MEMORY = "memory";
+    private static final String FRAME_NAME_REGSET = "register set";
+    private static final String FRAME_NAME_CODE = "code";
+    private static final String FRAME_NAME_STATS = "statistics";
+    private static final String FRAME_NAME_LOG = "log";
+    private static final String FRAME_NAME_CLOCKCYCLE = "cycles and pipeline";
 
     static
     {
-        //add here new frames, -> global names, id-interface
-        frameNames.put(EditorFrame.class, "coding frame");
-        frameNames.put(MemoryFrame.class, "memory");
-        frameNames.put(RegisterFrame.class, "register set");
-        frameNames.put(CodeFrame.class, "code");
-        frameNames.put(StatisticsFrame.class, "statistics");
-        frameNames.put(LogFrame.class, "log");
-        frameNames.put(ClockCycleFrame.class, "cycles and pipeline");
+        //add here new frames
+        frameNames.put(EditorFrame.class, FRAME_NAME_EDITOR);
+        frameNames.put(MemoryFrame.class, FRAME_NAME_MEMORY);
+        frameNames.put(RegisterFrame.class, FRAME_NAME_REGSET);
+        frameNames.put(CodeFrame.class, FRAME_NAME_CODE);
+        frameNames.put(StatisticsFrame.class, FRAME_NAME_STATS);
+        frameNames.put(LogFrame.class, FRAME_NAME_LOG);
+        frameNames.put(ClockCycleFrame.class, FRAME_NAME_CLOCKCYCLE);
     }
 
     public static InternalFrameFactory getInstance()
     {
+    	// FIXME use lazy thread-safe singleton creation 
         if (instance == null)
         {
             instance = new InternalFrameFactory();
@@ -82,17 +91,17 @@ public class InternalFrameFactory
 
         for (String s : frameOrder)
         {
-            if (s.equals("register set"))
+            if (s.equals(FRAME_NAME_REGSET))
                 createRegisterFrame();
-            else if (s.equals("code"))
+            else if (s.equals(FRAME_NAME_CODE))
                 createCodeFrame();
-            else if (s.equals("log"))
+            else if (s.equals(FRAME_NAME_LOG))
                 createLogFrame();
-            else if (s.equals("statistics"))
+            else if (s.equals(FRAME_NAME_STATS))
                 createStatisticsFrame();
-            else if (s.equals("memory"))
+            else if (s.equals(FRAME_NAME_MEMORY))
                 createMemoryFrame(mf);
-            else if (s.equals("cycles and pipeline"))
+            else if (s.equals(FRAME_NAME_CLOCKCYCLE))
                 createClockCycleFrame();
         }
 
@@ -108,7 +117,7 @@ public class InternalFrameFactory
     public void createMemoryFrame(MainFrame mf)
     {
         MemoryFrame f = new MemoryFrame(frameNames.get(MemoryFrame.class).toString(),mf);
-        this.mf.addInternalFrame(f);
+        mf.addInternalFrame(f);
     }
 
     private void createRegisterFrame()
@@ -139,6 +148,4 @@ public class InternalFrameFactory
         ClockCycleFrame ccf = new ClockCycleFrame(frameNames.get(ClockCycleFrame.class).toString());
         mf.addInternalFrame(ccf);
     }
-
-
 }
