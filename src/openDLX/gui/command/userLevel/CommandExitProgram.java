@@ -22,8 +22,10 @@
 package openDLX.gui.command.userLevel;
 
 import java.util.prefs.BackingStoreException;
+
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+
 import openDLX.config.GlobalConfig;
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
@@ -40,54 +42,53 @@ public class CommandExitProgram implements Command
     {
         this.mf = mf;
     }
-    
+
     @Override
     public void execute()
     {
-    	if(close())
-    	{
-    		System.exit(0);
-    	}
+        if (close())
+        {
+            System.exit(0);
+        }
     }
-    
+
     public boolean close()
     {
-    	if(Preference.pref.getBoolean(Preference.showExitMessage, true))
-    	{
-    		String exit_message = "Are you sure you want to exit?";
-    		JCheckBox exit_checkbox = new JCheckBox("Do not show this message again.");
-    		Object content[] = {exit_message, exit_checkbox};
-    		int result = JOptionPane.showConfirmDialog(
-    				mf,
-    				content,
-    				"Exit openDLX "+ GlobalConfig.VERSION,
-    				JOptionPane.YES_NO_OPTION);
-    		
-    		if (result != JOptionPane.YES_OPTION)
-    		{
-    			return false;
-    		}
-    		
-    		Preference.pref.putBoolean(Preference.showExitMessage, !exit_checkbox.isSelected());
-    	}
+        if (Preference.pref.getBoolean(Preference.showExitMessage, true))
+        {
+            final String exit_message = "Are you sure you want to exit?";
+            final JCheckBox exit_checkbox = new JCheckBox("Do not show this message again.");
+            final Object content[] = {exit_message, exit_checkbox};
+            final int result = JOptionPane.showConfirmDialog(
+                    mf,
+                    content,
+                    "Exit openDLX "+ GlobalConfig.VERSION,
+                    JOptionPane.YES_NO_OPTION);
 
-    	try
-		{
-    		// push preferences to persistent store
-			Preference.pref.flush();
-		} catch (BackingStoreException e)
-		{
-			System.err.println("Could not save preferences.");
-			e.printStackTrace();
-		}
+            if (result != JOptionPane.YES_OPTION)
+            {
+                return false;
+            }
 
-    	// delete temporary files
-    	TmpFileCleaner.cleanUp();
+            Preference.pref.putBoolean(Preference.showExitMessage, !exit_checkbox.isSelected());
+        }
 
-    	//save current window position
-    	CommandSaveFrameConfigurationSysLevel c11 = new CommandSaveFrameConfigurationSysLevel(mf);
-    	c11.execute();
+        try
+        {
+            // push preferences to persistent store
+            Preference.pref.flush();
+        } catch (BackingStoreException e)
+        {
+            System.err.println("Could not save preferences.");
+            e.printStackTrace();
+        }
 
-    	return true;
+        // delete temporary files
+        TmpFileCleaner.cleanUp();
+
+        //save current window position
+        new CommandSaveFrameConfigurationSysLevel(mf).execute();
+
+        return true;
     }
 }

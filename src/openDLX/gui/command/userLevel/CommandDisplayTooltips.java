@@ -28,15 +28,10 @@ import openDLX.gui.menubar.OpenDLXSimCheckBoxMenuItem;
 public class CommandDisplayTooltips implements Command
 {
 
-    private static boolean tooltipsEnabled;
-    public final static String preferenceKey = "tooltipsenabled";
-    private OpenDLXSimCheckBoxMenuItem item;
+    public static final String preferenceKey = "tooltipsenabled";
+    private static boolean tooltipsEnabled = Preference.pref.getBoolean(preferenceKey, true);
 
-    static
-    {
-        //get saved preference, default -> tooltipsenabled = true
-        tooltipsEnabled = Preference.pref.getBoolean(preferenceKey, true);
-    }
+    private OpenDLXSimCheckBoxMenuItem item;
 
     public CommandDisplayTooltips(OpenDLXSimCheckBoxMenuItem item)
     {
@@ -50,7 +45,6 @@ public class CommandDisplayTooltips implements Command
 
     public static void setTooltipsEnabled(boolean tooltipsEnabled)
     {
-
         CommandDisplayTooltips.tooltipsEnabled = tooltipsEnabled;
         //save new preference
         Preference.pref.putBoolean(preferenceKey, tooltipsEnabled);

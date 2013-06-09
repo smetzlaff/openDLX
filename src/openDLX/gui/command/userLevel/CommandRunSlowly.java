@@ -41,9 +41,8 @@ public class CommandRunSlowly implements Command
     { //check if state is executing and check if the current openDLX has finished (when it has finished ->updates are no longer allowed)
         if (mf.isExecuting() && mf.isUpdateAllowed())
         {
-            Thread t10 = new Thread(new ThreadCommandRunSlowly(mf));
-            t10.start();
-            Player p = new Player(mf);
+            new Thread(new ThreadCommandRunSlowly(mf)).start();
+            new Player(mf);
         }
     }
 

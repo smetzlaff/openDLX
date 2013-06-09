@@ -22,6 +22,8 @@
 package openDLX.gui.command.userLevel;
 
 import javax.swing.JOptionPane;
+
+import openDLX.OpenDLXSimulator;
 import openDLX.datatypes.uint32;
 import openDLX.exception.PipelineException;
 import openDLX.gui.MainFrame;
@@ -30,14 +32,13 @@ import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandSimulatorFinishedInfo;
 import openDLX.gui.command.systemLevel.CommandUpdateFrames;
 import openDLX.gui.internalframes.util.ValueInput;
-import openDLX.OpenDLXSimulator;
 
 public class CommandRunToAddressX implements Command
 {
 
     private MainFrame mf;
     private String preferenceKey = "runtoaddressxaddress";
-    //default address 
+    //default address
     private String address = "0x0";
 
     public CommandRunToAddressX(MainFrame mf)
@@ -62,33 +63,25 @@ public class CommandRunToAddressX implements Command
                 {
                     // if value is valid, save it as new preference
                     Preference.pref.put(preferenceKey, "0x" + Integer.toHexString(value));
-                    while (!openDLXSim.getPipeline().getFetchDecodeLatch().element().getPc().equals(new uint32(value)))
+                    while (!openDLXSim.isFinished() && !openDLXSim.getPipeline().
+                            getFetchDecodeLatch().element().getPc().equals(new uint32(value)))
                     {
-                        if (!openDLXSim.isFinished())
+                        try
                         {
-                            try
-                            {
-                                openDLXSim.step();
-                            }
-                            catch (PipelineException e)
-                            {
-                                mf.getPipelineExceptionHandler().handlePipelineExceptions(e);
-                            }
+                            openDLXSim.step();
                         }
-                        else
+                        catch (PipelineException e)
                         {
-                            break;
+                            mf.getPipelineExceptionHandler().handlePipelineExceptions(e);
                         }
                     }
 
-                    CommandUpdateFrames c10 = new CommandUpdateFrames(mf);
-                    c10.execute();
+                    new CommandUpdateFrames(mf).execute();
 
                     if (openDLXSim.isFinished())
-                    { // if the current openDLX has finished, dont allow any gui updates any more                
+                    { // if the current openDLX has finished, dont allow any gui updates any more
                         mf.setUpdateAllowed(false);
-                        CommandSimulatorFinishedInfo c3 = new CommandSimulatorFinishedInfo();
-                        c3.execute();
+                        new CommandSimulatorFinishedInfo().execute();
                     }
                 }
             }

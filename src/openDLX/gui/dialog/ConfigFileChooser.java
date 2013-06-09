@@ -24,8 +24,10 @@ package openDLX.gui.dialog;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+
 import openDLX.gui.Preference;
 
 public class ConfigFileChooser
@@ -40,8 +42,6 @@ public class ConfigFileChooser
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-
-
         chooser.setFileFilter(new FileFilter()
         {
             @Override
@@ -55,15 +55,13 @@ public class ConfigFileChooser
             {
                 return "Configuration Files(*.cfg)";
             }
-
         });
 
         path = Preference.pref.get(preferenceKey, path);
-        final File file = new File(path);
-
-        chooser.setCurrentDirectory(file);
+        chooser.setCurrentDirectory(new File(path));
         chooser.addPropertyChangeListener(new PropertyChangeListener()
         {
+            @Override
             public void propertyChange(PropertyChangeEvent e)
             {
                 if (e.getPropertyName().equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)
@@ -76,15 +74,17 @@ public class ConfigFileChooser
         });
 
         chooser.setVisible(true);
-        final int result = chooser.showOpenDialog(null);
 
-        if (result == JFileChooser.APPROVE_OPTION)
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
         {
             path = chooser.getSelectedFile().getParent();
             Preference.pref.put(preferenceKey, path);
             return chooser.getSelectedFile();
         }
-        return null;
+        else
+        {
+            return null;
+        }
     }
 
 }
