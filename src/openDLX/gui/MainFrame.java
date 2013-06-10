@@ -26,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -37,6 +39,7 @@ import openDLX.OpenDLXSimulator;
 import openDLX.config.GlobalConfig;
 import openDLX.gui.GUI_CONST.OpenDLXSimState;
 import openDLX.gui.command.EventCommandLookUp;
+import openDLX.gui.command.userLevel.CommandExitProgram;
 import openDLX.gui.dialog.Input;
 import openDLX.gui.dialog.Output;
 import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
@@ -119,7 +122,6 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         MainFrameMenuBarFactory menuBarFactory = new MainFrameMenuBarFactory(this, this, this);
         menuBar = menuBarFactory.createJMenuBar();
         setJMenuBar(menuBar);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(200, 200));
         desktop = new JDesktopPane();
         desktop.setBackground(Color.WHITE);
@@ -134,6 +136,19 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         setVisible(true);
         setOpenDLXSimState(OpenDLXSimState.IDLE);
         pexHandler = new PipelineExceptionHandler(this);
+        
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener( new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                MainFrame frame = (MainFrame)e.getSource();
+                CommandExitProgram exit = new CommandExitProgram(frame);
+                if (exit.close())
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            }
+        });
+        
     }
 
     //INTERFACE

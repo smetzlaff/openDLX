@@ -21,7 +21,8 @@
 package openDLX.gui.command.userLevel;
 
 import java.io.File;
-
+import javax.swing.JOptionPane;
+import openDLX.config.GlobalConfig;
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandSaveFrameConfigurationSysLevel;
@@ -39,25 +40,44 @@ public class CommandExitProgram implements Command
     @Override
     public void execute()
     {
-    	// delete temporary files
-        String tmp = System.getProperty("java.io.tmpdir");
-        File f = new File(tmp);
-        File allFiles[] = f.listFiles();
-        for (int i = 0; i < allFiles.length; ++i)
-        {
-			// FIXME -> static name used!
-            if (allFiles[i].getName().contains("openDLX"))
-            {
-                allFiles[i].deleteOnExit();
-            }
-        }
-        
-        //save current window position
-        CommandSaveFrameConfigurationSysLevel c11 = new CommandSaveFrameConfigurationSysLevel(mf);
-        c11.execute();
-        
-        System.out.println("java.io.tmpdir = " + f.getAbsolutePath());
-        System.exit(0);
+    	if(close())
+    	{
+    		System.exit(0);
+    	}
     }
+    
+    public boolean close()
+    {
 
+    	int result = JOptionPane.showConfirmDialog(
+    			mf,
+    			"Are you sure you want to exit?",
+    			"Exit openDLX "+ GlobalConfig.VERSION,
+    			JOptionPane.YES_NO_OPTION);
+
+    	if (result == JOptionPane.YES_OPTION)
+    	{
+
+    		// delete temporary files
+    		String tmp = System.getProperty("java.io.tmpdir");
+    		File f = new File(tmp);
+    		File allFiles[] = f.listFiles();
+    		for (int i = 0; i < allFiles.length; ++i)
+    		{
+    			// FIXME -> static name used!
+    			if (allFiles[i].getName().contains("openDLX"))
+    			{
+    				allFiles[i].deleteOnExit();
+    			}
+    		}
+
+    		//save current window position
+    		CommandSaveFrameConfigurationSysLevel c11 = new CommandSaveFrameConfigurationSysLevel(mf);
+    		c11.execute();
+
+    		System.out.println("java.io.tmpdir = " + f.getAbsolutePath());
+    		return true;
+    	}
+    	return false;
+    }
 }
