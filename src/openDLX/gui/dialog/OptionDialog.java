@@ -331,8 +331,8 @@ public class OptionDialog extends JDialog implements ActionListener
     private void propagateFWToMenu(boolean forwarding_enabled)
     {
         // FIXME: very dirty implementation
-    	int menu_id = MainFrameMenuBarFactory.MENU_IDS.get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR);
-    	int item_id = MainFrameMenuBarFactory.MENU_ITEM_IDS.get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR_ITEM_FORWARDING);
+    	int menu_id = MainFrameMenuBarFactory.getMenuIDs().get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR);
+    	int item_id = MainFrameMenuBarFactory.getMenuItemIDs().get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR_FORWARDING);
 
 //    	System.out.println("Menu:" + MainFrame.getInstance().getJMenuBar().getMenu(menu_id));
 //    	System.out.println("Item:" + MainFrame.getInstance().getJMenuBar().getMenu(menu_id).getItem(item_id));

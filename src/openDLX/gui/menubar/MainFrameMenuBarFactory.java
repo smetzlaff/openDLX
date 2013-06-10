@@ -44,7 +44,7 @@ import openDLX.gui.internalframes.factories.InternalFrameFactory;
 public class MainFrameMenuBarFactory extends JMenuBarFactory
 {
 	private static final String STRING_MENU_FILE = "File";
-	private static final String STRING_MENU_SIMULATOR = "Simulator";
+	public static final String STRING_MENU_SIMULATOR = "Simulator";
 	private static final String STRING_MENU_WINDOW = "Window";
 	private static final String STRING_MENU_HELP = "Help";
 	
@@ -70,7 +70,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
 	private static final String STRING_MENU_SIMULATOR_RUN_TO = "Run to address X";
 	private static final String STRING_MENU_SIMULATOR_RESTART = "Restart program";
 	private static final String STRING_MENU_SIMULATOR_OPTIONS = "Options";
-	private static final String STRING_MENU_SIMULATOR_FORWARDING = "Forwarding";
+	public static final String STRING_MENU_SIMULATOR_FORWARDING = "Forwarding";
 	
 	private static final KeyStroke KEY_MENU_SIMULATOR_RUN_PROGRAM = KeyStroke.getKeyStroke("F5");
 	private static final KeyStroke KEY_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY = KeyStroke.getKeyStroke("F6");
@@ -308,5 +308,15 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
         mf.boxes.add(box);
     }
+
+	public static Map<String, Integer> getMenuIDs() 
+	{
+		return MENU_IDS;
+	}
+
+	public static Map<String, Integer> getMenuItemIDs() 
+	{
+		return MENU_ITEM_IDS;
+	}
 
 }
