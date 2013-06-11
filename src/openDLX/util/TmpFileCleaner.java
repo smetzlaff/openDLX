@@ -22,17 +22,24 @@ package openDLX.util;
 
 import java.io.File;
 
-public class Cleaner
+public class TmpFileCleaner
 {
 
     public static void cleanUp()
     {
-        FileFinder ff = new FileFinder();
-        File[] files = ff.loadFiles(System.getProperty("java.io.tmpdir"));
-        for (int i = 0; i < files.length; ++i)
-        {
-            files[i].deleteOnExit();
-        }
+    	// delete temporary files
+    	String tmp = System.getProperty("java.io.tmpdir");
+    	File f = new File(tmp);
+    	File allFiles[] = f.listFiles();
+    	for (int i = 0; i < allFiles.length; ++i)
+    	{
+    		// FIXME -> static name used!
+    		if (allFiles[i].getName().contains("openDLX"))
+    		{
+    			allFiles[i].deleteOnExit();
+    		}
+    	}
+    	System.out.println("Cleaned up: java.io.tmpdir = " + f.getAbsolutePath());
     }
 
 }

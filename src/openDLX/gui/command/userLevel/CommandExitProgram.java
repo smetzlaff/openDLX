@@ -20,7 +20,6 @@
  ******************************************************************************/
 package openDLX.gui.command.userLevel;
 
-import java.io.File;
 import java.util.prefs.BackingStoreException;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -29,6 +28,7 @@ import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandSaveFrameConfigurationSysLevel;
+import openDLX.util.TmpFileCleaner;
 
 public class CommandExitProgram implements Command
 {
@@ -51,8 +51,6 @@ public class CommandExitProgram implements Command
     
     public boolean close()
     {
-
-   		System.out.println("ShowExit is: " + Preference.pref.getBoolean(Preference.showExitMessage, true));
     	if(Preference.pref.getBoolean(Preference.showExitMessage, true))
     	{
     		String exit_message = "Are you sure you want to exit?";
@@ -83,23 +81,12 @@ public class CommandExitProgram implements Command
 		}
 
     	// delete temporary files
-    	String tmp = System.getProperty("java.io.tmpdir");
-    	File f = new File(tmp);
-    	File allFiles[] = f.listFiles();
-    	for (int i = 0; i < allFiles.length; ++i)
-    	{
-    		// FIXME -> static name used!
-    		if (allFiles[i].getName().contains("openDLX"))
-    		{
-    			allFiles[i].deleteOnExit();
-    		}
-    	}
+    	TmpFileCleaner.cleanUp();
 
     	//save current window position
     	CommandSaveFrameConfigurationSysLevel c11 = new CommandSaveFrameConfigurationSysLevel(mf);
     	c11.execute();
 
-    	System.out.println("java.io.tmpdir = " + f.getAbsolutePath());
     	return true;
     }
 }
