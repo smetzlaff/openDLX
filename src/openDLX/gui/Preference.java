@@ -33,11 +33,13 @@ public class Preference
 	public static final String mipsCompatibilityPreferenceKey = "mipscompatibilityenabled";
     public static final String isaTypePreferenceKey = "isatype"; 
 	public static final String bpTypePreferenceKey = "bptype";
-	public static String bpInitialStatePreferenceKey = "bbinitialstate";
-	public static String btbSizePreferenceKey = "btbsize";
-	public static String maxCyclesPreferenceKey = "maxcycles";
-	public static String displayMemoryAsHex = "displayMemoryAsHex";
-	public static String displayRegistersAsHex = "displayRegistersAsHex";
+	public static final String bpInitialStatePreferenceKey = "bbinitialstate";
+	public static final String btbSizePreferenceKey = "btbsize";
+	public static final String maxCyclesPreferenceKey = "maxcycles";
+	public static final String displayMemoryAsHex = "displayMemoryAsHex";
+	public static final String showExitMessage = "showexitmessage";
+	// TODO implement option
+	public static final String displayRegistersAsHex = "displayRegistersAsHex";
 	
 	public static boolean displayMemoryAsHex()
 	{
