@@ -1,3 +1,10 @@
+openDLX v1.0-5
+==============
+
+- fixed window ordering after pressing assemble
+- cleaned up temporary files on exit
+- fixed focus and key issue in output window
+
 openDLX v1.0-4
 ==============
 
