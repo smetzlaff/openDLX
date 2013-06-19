@@ -32,11 +32,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategyJava;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategySystemMonoSpaced;
 import openDLX.gui.command.EventCommandLookUp;
 import openDLX.gui.command.userLevel.CommandChangeWindowVisibility;
 import openDLX.gui.command.userLevel.CommandClearAllPreferences;
@@ -57,8 +56,7 @@ import openDLX.gui.command.userLevel.CommandRunSlowly;
 import openDLX.gui.command.userLevel.CommandRunToAddressX;
 import openDLX.gui.command.userLevel.CommandSave;
 import openDLX.gui.command.userLevel.CommandSaveFrameConfigurationUsrLevel;
-import openDLX.gui.command.userLevel.CommandSetLaFJava;
-import openDLX.gui.command.userLevel.CommandSetLaFSystem;
+import openDLX.gui.command.userLevel.CommandSetLaF;
 import openDLX.gui.command.userLevel.CommandShowAbout;
 import openDLX.gui.command.userLevel.CommandShowOptionDialog;
 import openDLX.gui.command.userLevel.CommandStopRunning;
@@ -263,29 +261,20 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         windowMenu.addSeparator();
         // a group of radio buttons
         ButtonGroup lookAndFeelOptionsGroup = new ButtonGroup();
+
         //add here new LookAndFeel options
-        JRadioButtonMenuItem item = addRadioButtonMenuItem(windowMenu, STRING_MENU_WINDOW_LF_SYSTEM, KEY_MENU_WINDOW_LF_SYSTEM, lookAndFeelOptionsGroup, StateValidator.allStates);
-        item.setName(LookAndFeelStrategySystemMonoSpaced.getLookAndFeelName());
-        String laf = UIManager.getLookAndFeel().getClass().toString();
+        LookAndFeelInfo lafInfo[] = UIManager.getInstalledLookAndFeels();
+        JRadioButtonMenuItem rbtns[] = new JRadioButtonMenuItem[lafInfo.length];
+        final String currentLaF = UIManager.getLookAndFeel().getClass().getCanonicalName();
 
-        /*quite dirty code follows here now, breaking every known code convention :-) - luckily its just a small piece of
-         * code in a huge program so we can afford to leave it like it its- so better dont try to change it*/
-        if (laf.substring(laf.length() - 17).equals(item.getName().substring(item.getName().length() - 17)))
+        for (int i = 0; i < lafInfo.length; ++i)
         {
-            item.setSelected(true);
+            rbtns[i] = addRadioButtonMenuItem(windowMenu, "Look&Feel: " + lafInfo[i].getName(), KEY_MENU_WINDOW_LF_SYSTEM, lookAndFeelOptionsGroup, StateValidator.allStates);
+            if (currentLaF.equals(lafInfo[i].getClassName()))
+                rbtns[i].setSelected(true);
+            EventCommandLookUp.put(rbtns[i].hashCode(), new CommandSetLaF(lafInfo[i].getClassName()));
         }
-        EventCommandLookUp.put(item, new CommandSetLaFSystem(item));
 
-        item = addRadioButtonMenuItem(windowMenu, STRING_MENU_WINDOW_LF_JAVA, KEY_MENU_WINDOW_LF_JAVA, lookAndFeelOptionsGroup, StateValidator.allStates);
-        item.setName(LookAndFeelStrategyJava.getLookAndFeelName());
-
-        if (laf.substring(laf.length() - 17).equals(item.getName().substring(item.getName().length() - 17)))
-        {
-            item.setSelected(true);
-        }
-        EventCommandLookUp.put(item, new CommandSetLaFJava(item));
-
-        /*end of dirty code*/
         //help
         OpenDLXSimCheckBoxMenuItem checkitem = addCheckBoxMenuItem(helpMenu, STRING_MENU_HELP_TOOLTIPS, KEY_MENU_HELP_TOOLTIPS, StateValidator.executingOrLazyStates);
         EventCommandLookUp.put(checkitem, new CommandDisplayTooltips(checkitem));

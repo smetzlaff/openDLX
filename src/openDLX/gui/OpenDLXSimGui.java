@@ -22,27 +22,23 @@
 package openDLX.gui;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 import openDLX.gui.LookAndFeel.LookAndFeelStrategy;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategyJava;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategySystemMonoSpaced;
+import openDLX.gui.LookAndFeel.LookAndFeelStrategyFlexible;
 
 public class OpenDLXSimGui
 {
-
     public static final String preferenceKey = "lookandfeel";
 
     public static void openDLXGui_main()
     {
         //set default
-        String lookAndFeel = LookAndFeelStrategySystemMonoSpaced.class.toString();
+        String lafClassName = UIManager.getLookAndFeel().getClass().getCanonicalName();
         //get user preference
-        lookAndFeel = Preference.pref.get(preferenceKey, lookAndFeel);
-
-        //find and set selected LaF
-        if (LookAndFeelStrategySystemMonoSpaced.class.toString().equals(lookAndFeel))
-            new LookAndFeelStrategySystemMonoSpaced().setLookAndFeel();
-        else if (LookAndFeelStrategyJava.class.toString().equals(lookAndFeel))
-            new LookAndFeelStrategyJava().setLookAndFeel();
+        lafClassName = Preference.pref.get(preferenceKey, lafClassName);
+        //set selected L&F
+        new LookAndFeelStrategyFlexible(lafClassName).setLookAndFeel();
 
         MainFrame.getInstance();
     }
@@ -53,5 +49,4 @@ public class OpenDLXSimGui
         laf.setLookAndFeel();
         SwingUtilities.updateComponentTreeUI(MainFrame.getInstance());
     }
-
 }

@@ -21,29 +21,26 @@
  ******************************************************************************/
 package openDLX.gui.command.userLevel;
 
-import javax.swing.JRadioButtonMenuItem;
-
 import openDLX.gui.OpenDLXSimGui;
 import openDLX.gui.Preference;
 import openDLX.gui.LookAndFeel.LookAndFeelStrategyFlexible;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategyJava;
 import openDLX.gui.command.Command;
 
 public class CommandSetLaF implements Command
 {
 
-    JRadioButtonMenuItem item;
+    final String lafClassName;
 
-    public CommandSetLaF(JRadioButtonMenuItem item)
+    public CommandSetLaF(final String lafClassName)
     {
-        this.item = item;
+        this.lafClassName = lafClassName;
     }
 
     @Override
     public void execute()
     {
-        OpenDLXSimGui.setLookAndFeel(new LookAndFeelStrategyFlexible(item.getName()));
-        Preference.pref.put(OpenDLXSimGui.preferenceKey, LookAndFeelStrategyJava.class.toString());
+        OpenDLXSimGui.setLookAndFeel(new LookAndFeelStrategyFlexible(lafClassName));
+        Preference.pref.put(OpenDLXSimGui.preferenceKey, lafClassName);
     }
 
 }
