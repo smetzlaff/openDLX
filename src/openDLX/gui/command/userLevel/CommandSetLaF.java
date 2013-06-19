@@ -19,33 +19,31 @@
  * along with this program, see <LICENSE>. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package openDLX.gui.LookAndFeel;
+package openDLX.gui.command.userLevel;
 
-import javax.swing.UIManager;
+import javax.swing.JRadioButtonMenuItem;
 
-public class LookAndFeelStrategyFlexible extends LookAndFeelStrategyMonoSpaced {
+import openDLX.gui.OpenDLXSimGui;
+import openDLX.gui.Preference;
+import openDLX.gui.LookAndFeel.LookAndFeelStrategyFlexible;
+import openDLX.gui.LookAndFeel.LookAndFeelStrategyJava;
+import openDLX.gui.command.Command;
 
-    private final String className;
+public class CommandSetLaF implements Command
+{
 
-    public LookAndFeelStrategyFlexible(String className) {
-        super();
-        this.className = className;
+    JRadioButtonMenuItem item;
+
+    public CommandSetLaF(JRadioButtonMenuItem item)
+    {
+        this.item = item;
     }
 
     @Override
-    public void setLookAndFeel()
+    public void execute()
     {
-        //sets monospaced font in tables and editable components
-        super.setLookAndFeel();
-        try
-        {   //sets the systems default LookAndFeel
-            UIManager.setLookAndFeel(className);
-        }
-        catch (Exception e)
-        {
-            System.err.println("Failed to set look and feel '" + className + "'");
-            e.printStackTrace();
-        }
+        OpenDLXSimGui.setLookAndFeel(new LookAndFeelStrategyFlexible(item.getName()));
+        Preference.pref.put(OpenDLXSimGui.preferenceKey, LookAndFeelStrategyJava.class.toString());
     }
 
 }
