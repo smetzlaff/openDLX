@@ -1,7 +1,8 @@
 /*******************************************************************************
  * openDLX - A DLX/MIPS processor simulator.
  * Copyright (C) 2013 The openDLX project, University of Augsburg, Germany
- * Project URL: <http://sourceforge.net/projects/opendlx>
+ * Project URL: <https://sourceforge.net/projects/opendlx>
+ * Development branch: <https://github.com/smetzlaff/openDLX>
  *
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program, see <LICENSE>. If not, see 
+ * along with this program, see <LICENSE>. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package openDLX.gui.command.userLevel;
