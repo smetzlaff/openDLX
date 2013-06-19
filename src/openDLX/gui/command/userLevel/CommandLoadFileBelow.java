@@ -51,8 +51,7 @@ public class CommandLoadFileBelow implements Command
             {
                 if (f != null)
                 {
-                    CommandLoadCodeFileToEditor c9 = new CommandLoadCodeFileToEditor(mf, f, false);
-                    c9.execute();
+                    new CommandLoadCodeFileToEditor(mf, f, false).execute();
                 }
             }
             catch (Exception e)

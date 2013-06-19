@@ -25,8 +25,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.Serializable;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+
 import openDLX.gui.Preference;
 
 @SuppressWarnings("serial")
@@ -41,8 +43,6 @@ public class CodeFileChooser implements Serializable
         final JFileChooser chooser = new JFileChooser("Choose file");
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
-
 
         chooser.setFileFilter(new FileFilter()
         {
@@ -61,11 +61,11 @@ public class CodeFileChooser implements Serializable
         });
 
         path = Preference.pref.get(preferenceKey, path);
-        final File file = new File(path);
 
-        chooser.setCurrentDirectory(file);
+        chooser.setCurrentDirectory(new File(path));
         chooser.addPropertyChangeListener(new PropertyChangeListener()
         {
+            @Override
             public void propertyChange(PropertyChangeEvent e)
             {
                 if (e.getPropertyName().equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)
@@ -78,15 +78,16 @@ public class CodeFileChooser implements Serializable
         });
 
         chooser.setVisible(true);
-        final int result = chooser.showOpenDialog(null);
 
-        if (result == JFileChooser.APPROVE_OPTION)
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
         {
             path = chooser.getSelectedFile().getParent();
             Preference.pref.put(preferenceKey, path);
             return chooser.getSelectedFile();
+        } else
+        {
+            return null;
         }
-        return null;
     }
 
 }

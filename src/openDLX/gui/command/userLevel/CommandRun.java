@@ -41,8 +41,7 @@ public class CommandRun implements Command
         //check if the main frame is executing/openDLX is loaded
         if (mf.isExecuting() && mf.isUpdateAllowed())
         {
-            Thread t10 = new Thread(new ThreadCommandRun(mf));
-            t10.start();
+            new Thread(new ThreadCommandRun(mf)).start();
         }
     }
 

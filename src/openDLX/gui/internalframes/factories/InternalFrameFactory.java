@@ -38,8 +38,7 @@ public class InternalFrameFactory
 {
     //here you find every frames title -> preferences depend on names
 
-    private MainFrame mf;
-    static final private Hashtable<Class<?>, String> frameNames = new Hashtable<Class<?>, String>();
+    private static final Hashtable<Class<?>, String> frameNames = new Hashtable<Class<?>, String>();
     private static InternalFrameFactory instance = null;
     
     private static final String FRAME_NAME_EDITOR = "coding frame";
@@ -49,6 +48,7 @@ public class InternalFrameFactory
     private static final String FRAME_NAME_STATS = "statistics";
     private static final String FRAME_NAME_LOG = "log";
     private static final String FRAME_NAME_CLOCKCYCLE = "cycles and pipeline";
+    private MainFrame mf;
 
     static
     {
@@ -106,8 +106,7 @@ public class InternalFrameFactory
                 createClockCycleFrame();
         }
 
-        CommandLoadFrameConfigurationSysLevel c10 = new CommandLoadFrameConfigurationSysLevel(mf);
-        c10.execute();
+        new CommandLoadFrameConfigurationSysLevel(mf).execute();
     }
 
     public static String getFrameName(Class<?> c)
@@ -117,36 +116,36 @@ public class InternalFrameFactory
 
     public void createMemoryFrame(MainFrame mf)
     {
-        MemoryFrame f = new MemoryFrame(frameNames.get(MemoryFrame.class).toString(),mf);
+        MemoryFrame f = new MemoryFrame(frameNames.get(MemoryFrame.class),mf);
         mf.addInternalFrame(f);
     }
 
     private void createRegisterFrame()
     {
-        RegisterFrame rf = new RegisterFrame(frameNames.get(RegisterFrame.class).toString());
+        RegisterFrame rf = new RegisterFrame(frameNames.get(RegisterFrame.class));
         mf.addInternalFrame(rf);
     }
 
     private void createCodeFrame()
     {
-        CodeFrame cf = new CodeFrame(frameNames.get(CodeFrame.class).toString());
+        CodeFrame cf = new CodeFrame(frameNames.get(CodeFrame.class));
         mf.addInternalFrame(cf);
     }
 
     private void createStatisticsFrame()
     {
-        StatisticsFrame sf = new StatisticsFrame(frameNames.get(StatisticsFrame.class).toString());
+        StatisticsFrame sf = new StatisticsFrame(frameNames.get(StatisticsFrame.class));
         mf.addInternalFrame(sf);
     }
 
     private void createLogFrame()
     {
-        LogFrame lf = new LogFrame(frameNames.get(LogFrame.class).toString());
+        LogFrame lf = new LogFrame(frameNames.get(LogFrame.class));
         mf.addInternalFrame(lf);
     }
      private void createClockCycleFrame()
     {
-        ClockCycleFrame ccf = new ClockCycleFrame(frameNames.get(ClockCycleFrame.class).toString());
+        ClockCycleFrame ccf = new ClockCycleFrame(frameNames.get(ClockCycleFrame.class));
         mf.addInternalFrame(ccf);
     }
 }

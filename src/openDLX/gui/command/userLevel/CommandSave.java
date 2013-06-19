@@ -26,7 +26,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javax.swing.JOptionPane;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.dialog.FileSaver;
@@ -42,18 +44,15 @@ public class CommandSave implements Command
         {
             mf.getContentPane().setCursor(
                     Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            FileSaver fs = new FileSaver();
-            File saveFile = fs.saveAs(mf);
+            File saveFile = new FileSaver().saveAs(mf);
             mf.getContentPane().setCursor(
                     Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             if (saveFile != null)
             {
-                String text = mf.getEditorText();
-
                 try
                 {
                     BufferedWriter out = new BufferedWriter(new FileWriter(saveFile.getAbsolutePath()));
-                    out.write(text);
+                    out.write(mf.getEditorText());
                     out.close();
                 }
                 catch (IOException e)
@@ -61,9 +60,7 @@ public class CommandSave implements Command
                     System.out.println("Exception ");
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(mf, "Saving file failed: " + e.toString());
-
                 }
-
             }
         }
     }

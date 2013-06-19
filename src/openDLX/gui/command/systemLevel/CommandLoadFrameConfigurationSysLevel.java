@@ -40,16 +40,12 @@ public class CommandLoadFrameConfigurationSysLevel implements Command
     @Override
     public void execute()
     {
-        JInternalFrame internalFrames[] = mf.getinternalFrames();
-        for (int i = 0; i < internalFrames.length; ++i)
+        for (JInternalFrame internalFrame : mf.getinternalFrames())
         {
-            FrameConfiguration fc = new FrameConfiguration(internalFrames[i]);
-            fc.loadFrameConfiguration();
-            JCheckBoxMenuItem item = mf.boxes.get(internalFrames[i].getTitle());
+            new FrameConfiguration(internalFrame).loadFrameConfiguration();
+            JCheckBoxMenuItem item = mf.boxes.get(internalFrame.getTitle());
             if (item != null)
-            {
-                item.setSelected(internalFrames[i].isVisible());
-            }
+                item.setSelected(internalFrame.isVisible());
         }
     }
 

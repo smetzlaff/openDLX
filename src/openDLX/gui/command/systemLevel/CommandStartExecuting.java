@@ -50,12 +50,10 @@ public class CommandStartExecuting implements Command
     public void execute()
     {
         // call the openDLX constructor and assign a configFile to the new openDLX
-        CommandCreateOpenDLXSim c10 = new CommandCreateOpenDLXSim(mf, configFile);
-        c10.execute();
+        new CommandCreateOpenDLXSim(mf, configFile).execute();
         if (mf.getOpenDLXSim() != null)
         {   //create all executing-frames   
-            CommandCreateFrames c9 = new CommandCreateFrames(mf, intFrameOrder);
-            c9.execute();
+            new CommandCreateFrames(mf, intFrameOrder).execute();
         }
         else
         {

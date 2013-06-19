@@ -56,17 +56,14 @@ public class CommandDoCycle implements Command
 
             if (!openDLXSim.isFinished())
             {
-                CommandUpdateFrames c10 = new CommandUpdateFrames(mf);
-                c10.execute();
+                new CommandUpdateFrames(mf).execute();
             }
             else
             {
                 mf.setUpdateAllowed(false);
-                CommandSimulatorFinishedInfo c3 = new CommandSimulatorFinishedInfo();
-                c3.execute();
+                new CommandSimulatorFinishedInfo().execute();
             }
         }
-
 
     }
 

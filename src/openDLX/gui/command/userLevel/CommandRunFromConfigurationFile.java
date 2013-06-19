@@ -22,6 +22,7 @@
 package openDLX.gui.command.userLevel;
 
 import java.io.File;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandOpenConfigFile;
@@ -45,28 +46,22 @@ public class CommandRunFromConfigurationFile implements Command
         if (!mf.isRunning())
         {
             //save current window position
-            CommandSaveFrameConfigurationSysLevel c11 = new CommandSaveFrameConfigurationSysLevel(mf);
-            c11.execute();
+            new CommandSaveFrameConfigurationSysLevel(mf).execute();
             //show filechooser dialog and choose file
             CommandOpenConfigFile c10 = new CommandOpenConfigFile(mf);
             c10.execute();
             //get chosen file
             File configFile = c10.getConfigFile();
 
-
             //file is null if user canceled filechooser dialog
             if (configFile != null)
             {
                 //reset simulator before loading new content
-                CommandResetSimulator cr = new CommandResetSimulator(mf);
-                cr.execute();
+                new CommandResetSimulator(mf).execute();
 
                 //initialize openDLX and create internal frames, set status to executing
-                CommandStartExecuting c7 = new CommandStartExecuting(mf, configFile);
-                c7.execute();
-
+                new CommandStartExecuting(mf, configFile).execute();
             }
-
         }
     }
 

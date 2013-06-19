@@ -31,7 +31,7 @@ public class CommandShowOptionDialog implements Command
     @Override
     public void execute()
     {
-        OptionDialog op = new OptionDialog(MainFrame.getInstance());
+        new OptionDialog(MainFrame.getInstance());
     }
 
 }

@@ -45,14 +45,11 @@ public class CommandResetCurrentProgram implements Command
         {
             File configFile = new File(mf.getConfigFile().getAbsolutePath());
             //save current window position
-            CommandSaveFrameConfigurationSysLevel c11 = new CommandSaveFrameConfigurationSysLevel(mf);
-            c11.execute();
+            new CommandSaveFrameConfigurationSysLevel(mf).execute();
             //delete old openDLX and clean/remove all frames
-            CommandResetSimulator c10 = new CommandResetSimulator(mf);
-            c10.execute();
+            new CommandResetSimulator(mf).execute();
             //initialize openDLX and create internal frames, set status to executing
-            CommandStartExecuting c7 = new CommandStartExecuting(mf, configFile);
-            c7.execute();
+            new CommandStartExecuting(mf, configFile).execute();
         }
     }
 

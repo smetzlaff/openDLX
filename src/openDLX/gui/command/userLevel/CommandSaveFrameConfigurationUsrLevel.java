@@ -22,6 +22,7 @@
 package openDLX.gui.command.userLevel;
 
 import javax.swing.JOptionPane;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandSaveFrameConfigurationSysLevel;
@@ -39,24 +40,21 @@ public class CommandSaveFrameConfigurationUsrLevel implements Command
     @Override
     public void execute()
     {
-        if (!mf.isRunning())
+        if (!mf.isRunning() && (JOptionPane.showConfirmDialog(mf,
+                "Saving current window configuration will overwrite old configuration. Proceed ?")) ==
+                JOptionPane.YES_OPTION)
         {
-            if ((JOptionPane.showConfirmDialog(mf, "Saving current window configuration will overwrite old configuration. Proceed ?")) == JOptionPane.YES_OPTION)
+            try
             {
-                try
-                {
-                    CommandSaveFrameConfigurationSysLevel c1 = new CommandSaveFrameConfigurationSysLevel(mf);
-                    c1.execute();
-                }
-                catch (Exception e)
-                {
-                    System.err.println(e.toString());
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(mf, "saving frame preferences failed");
-                }
+                new CommandSaveFrameConfigurationSysLevel(mf).execute();
+            }
+            catch (Exception e)
+            {
+                System.err.println(e.toString());
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(mf, "saving frame preferences failed");
             }
         }
-
     }
 
 }
