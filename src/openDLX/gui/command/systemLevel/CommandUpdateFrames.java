@@ -42,14 +42,12 @@ public class CommandUpdateFrames implements Command
     {
         try
         {
-            JInternalFrame jif[] = mf.getinternalFrames();
-
-            for (int i = 0; i < jif.length; ++i)
+            for (JInternalFrame internalFrame : mf.getinternalFrames())
             {
-                if (jif[i] instanceof OpenDLXSimInternalFrame)
+                if (internalFrame instanceof OpenDLXSimInternalFrame)
                 {
-                    ((OpenDLXSimInternalFrame) jif[i]).update();
-                    ((OpenDLXSimInternalFrame) jif[i]).repaint();
+                    ((OpenDLXSimInternalFrame) internalFrame).update();
+                    ((OpenDLXSimInternalFrame) internalFrame).repaint();
                 }
             }
         }

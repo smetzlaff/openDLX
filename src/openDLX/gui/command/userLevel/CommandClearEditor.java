@@ -22,6 +22,7 @@
 package openDLX.gui.command.userLevel;
 
 import javax.swing.JOptionPane;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 
@@ -31,15 +32,12 @@ public class CommandClearEditor implements Command
     @Override
     public void execute()
     {
-
-
         MainFrame mf = MainFrame.getInstance();
-        if (!mf.isRunning())
+        if (!mf.isRunning() && JOptionPane.showConfirmDialog(mf,
+                "Confirm to clear. All code in the editor will be deleted.") ==
+                JOptionPane.OK_OPTION)
         {
-            if (JOptionPane.showConfirmDialog(mf, "Confirm to clear. All written code will be deleted.") == JOptionPane.OK_OPTION)
-            {
-                mf.setEditorText("");
-            }
+            mf.setEditorText("");
         }
     }
 

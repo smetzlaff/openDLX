@@ -22,12 +22,13 @@
 package openDLX.gui.command.userLevel;
 
 import javax.swing.JOptionPane;
+
+import openDLX.OpenDLXSimulator;
 import openDLX.datatypes.uint32;
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandUpdateFrames;
 import openDLX.gui.internalframes.util.ValueInput;
-import openDLX.OpenDLXSimulator;
 
 public class CommandChangeMemory implements Command
 {
@@ -41,13 +42,12 @@ public class CommandChangeMemory implements Command
         this.address = address;
         this.mf = MainFrame.getInstance();
         openDLXSim = mf.getOpenDLXSim();
-
     }
 
     @Override
     public void execute()
     {
-        if (MainFrame.getInstance().isExecuting())
+        if (mf.isExecuting())
         {
             try
             {
@@ -55,8 +55,7 @@ public class CommandChangeMemory implements Command
                 if (value != null)
                 {
                     openDLXSim.getPipeline().getMainMemory().write_u32(address, new uint32(value));
-                    CommandUpdateFrames c = new CommandUpdateFrames(mf);
-                    c.execute();
+                    new CommandUpdateFrames(mf).execute();
                 }
             }
             catch (NumberFormatException e)

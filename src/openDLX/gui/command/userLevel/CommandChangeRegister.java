@@ -22,33 +22,33 @@
 package openDLX.gui.command.userLevel;
 
 import javax.swing.JOptionPane;
+
+import openDLX.OpenDLXSimulator;
 import openDLX.datatypes.uint32;
 import openDLX.datatypes.uint8;
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandUpdateFrames;
 import openDLX.gui.internalframes.util.ValueInput;
-import openDLX.OpenDLXSimulator;
 
 public class CommandChangeRegister implements Command
 {
 
-    int row; //in
-    MainFrame mf;
-    OpenDLXSimulator openDLXSim;
+    private int row; //in
+    private MainFrame mf;
+    private OpenDLXSimulator openDLXSim;
 
     public CommandChangeRegister(int row)
     {
         this.row = row;
         this.mf = MainFrame.getInstance();
         openDLXSim = mf.getOpenDLXSim();
-
     }
 
     @Override
     public void execute()
     {
-        if (MainFrame.getInstance().isExecuting())
+        if (mf.isExecuting())
         {
             try
             {
@@ -56,8 +56,7 @@ public class CommandChangeRegister implements Command
                 if (value != null)
                 {
                     openDLXSim.getPipeline().getRegisterSet().write(new uint8(row), new uint32(value));
-                    CommandUpdateFrames c = new CommandUpdateFrames(mf);
-                    c.execute();
+                    new CommandUpdateFrames(mf).execute();
                 }
             }
             catch (NumberFormatException e)

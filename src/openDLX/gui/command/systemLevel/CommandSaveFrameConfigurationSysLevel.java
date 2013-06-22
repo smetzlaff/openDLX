@@ -39,15 +39,8 @@ public class CommandSaveFrameConfigurationSysLevel implements Command
     @Override
     public void execute()
     {
-
-        JInternalFrame jif[] = mf.getinternalFrames();
-        for (int i = 0; i < jif.length; ++i)
-        {
-            FrameConfiguration fc = new FrameConfiguration(jif[i]);
-            fc.saveFrameConfiguration();
-        }
-
-
+        for (JInternalFrame internalFrame: mf.getinternalFrames())
+            new FrameConfiguration(internalFrame).saveFrameConfiguration();
     }
 
 }

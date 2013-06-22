@@ -23,6 +23,7 @@ package openDLX.gui.command.userLevel;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JInternalFrame;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 
@@ -41,23 +42,13 @@ public class CommandChangeWindowVisibility implements Command
     @Override
     public void execute()
     {
-        JInternalFrame jif[] = mf.getinternalFrames();
-        for (int i = 0; i < jif.length; ++i)
+        for (JInternalFrame internalFrame : mf.getinternalFrames())
         {
-            if (jif[i].getTitle().equals(box.getName()))
+            if (internalFrame.getTitle().equals(box.getName()))
             {
-                JInternalFrame f = jif[i];
-                if (!box.isSelected())
-                {
-                    f.setVisible(false);
-                }
-                if (box.isSelected())
-                {
-                    f.setVisible(true);
-                }
+                internalFrame.setVisible(box.isSelected());
                 /* // if users closes or opens frame - should it be a preference automatically ?
-                 FrameConfiguration fc = new FrameConfiguration(jif[i]);
-                 fc.saveFrameConfiguration();*/
+                 new FrameConfiguration(internalFrame).saveFrameConfiguration();*/
             }
         }
     }

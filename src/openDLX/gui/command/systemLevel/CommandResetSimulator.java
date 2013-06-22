@@ -47,21 +47,14 @@ public class CommandResetSimulator implements Command
             mf.setUpdateAllowed(true);
             mf.setConfigFile(null);
             mf.setPause(false);
-            mf.setRunSpeed(mf.RUN_SPEED_DEFAULT);
+            mf.setRunSpeed(MainFrame.RUN_SPEED_DEFAULT);
             mf.output.clear();
-            JInternalFrame jif[] = mf.getinternalFrames();
 
-            for (int i = 0; i < jif.length; ++i)
-            {
-                if (jif[i] instanceof OpenDLXSimInternalFrame)
-                {
-                    ((OpenDLXSimInternalFrame) jif[i]).clean();
-                }
-            }
-            
+            for (JInternalFrame jif : mf.getinternalFrames())
+                if (jif instanceof OpenDLXSimInternalFrame)
+                    ((OpenDLXSimInternalFrame) jif).clean();
+
             Statistics.getInstance().reset();
-
-
         }
         catch (Exception e)
         {

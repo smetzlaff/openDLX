@@ -22,6 +22,7 @@
 package openDLX.gui.command.userLevel;
 
 import javax.swing.JOptionPane;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandLoadFrameConfigurationSysLevel;
@@ -39,21 +40,19 @@ public class CommandLoadFrameConfigurationUsrLevel implements Command
     @Override
     public void execute()
     {
-        if (!mf.isRunning())
+        if (!mf.isRunning() && (JOptionPane.showConfirmDialog(mf,
+                "Current window configuration will be lost. Proceed?")) ==
+                JOptionPane.YES_OPTION)
         {
-            if ((JOptionPane.showConfirmDialog(mf, "Current window configuration will be lost. Proceed?")) == JOptionPane.YES_OPTION)
+            try
             {
-                try
-                {
-                    CommandLoadFrameConfigurationSysLevel c10 = new CommandLoadFrameConfigurationSysLevel(mf);
-                    c10.execute();
-                }
-                catch (Exception e)
-                {
-                    System.err.println(e.toString());
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(mf, "loading frame preferences failed");
-                }
+                new CommandLoadFrameConfigurationSysLevel(mf).execute();
+            }
+            catch (Exception e)
+            {
+                System.err.println(e.toString());
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(mf, "loading frame preferences failed");
             }
         }
 

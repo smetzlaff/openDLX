@@ -22,7 +22,9 @@
 package openDLX.gui.command.userLevel;
 
 import java.util.prefs.BackingStoreException;
+
 import javax.swing.JOptionPane;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
 import openDLX.gui.command.Command;
@@ -33,7 +35,9 @@ public class CommandClearAllPreferences implements Command
     @Override
     public void execute()
     {
-        if (JOptionPane.showConfirmDialog(MainFrame.getInstance(), "All preferences will be deleted - confirm ?") == JOptionPane.OK_OPTION)
+        if (JOptionPane.showConfirmDialog(MainFrame.getInstance(),
+                "All preferences will be deleted - confirm ?") ==
+                JOptionPane.OK_OPTION)
         {
             try
             {
@@ -41,7 +45,8 @@ public class CommandClearAllPreferences implements Command
             }
             catch (BackingStoreException ex)
             {
-                JOptionPane.showMessageDialog(MainFrame.getInstance(), "Clearing all preferences failed");
+                JOptionPane.showMessageDialog(MainFrame.getInstance(),
+                        "Clearing all preferences failed");
                 System.err.println(ex);
                 ex.printStackTrace();
             }
