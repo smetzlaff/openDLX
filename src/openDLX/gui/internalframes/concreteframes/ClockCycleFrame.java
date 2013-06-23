@@ -76,6 +76,7 @@ public final class ClockCycleFrame extends OpenDLXSimInternalFrame implements GU
     @Override
     public void initialize()
     {
+        super.initialize();
         setLayout(new BorderLayout());
 
         //Code Table 
