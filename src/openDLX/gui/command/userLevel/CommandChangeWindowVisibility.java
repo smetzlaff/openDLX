@@ -32,12 +32,12 @@ import openDLX.gui.menubar.OpenDLXSimMenuItem;
 public class CommandChangeWindowVisibility implements Command
 {
 
-    private OpenDLXSimMenuItem internal_frame_item;
+    private OpenDLXSimMenuItem internalFrameMenuItem;
     private MainFrame mf;
 
-    public CommandChangeWindowVisibility(OpenDLXSimMenuItem frame_item, MainFrame mf)
+    public CommandChangeWindowVisibility(OpenDLXSimMenuItem internalFrameMenuItem, MainFrame mf)
     {
-        this.internal_frame_item = frame_item;
+        this.internalFrameMenuItem = internalFrameMenuItem;
         this.mf = mf;
     }
 
@@ -46,32 +46,35 @@ public class CommandChangeWindowVisibility implements Command
     {
         for (JInternalFrame internalFrame : mf.getinternalFrames())
         {
-            if (internalFrame.getTitle().equals(internal_frame_item.getName()))
+            if (internalFrame.getTitle().equals(internalFrameMenuItem.getName()))
             {
-            	if(internalFrame.isIcon())
-				 {
-					try {
-						internalFrame.setIcon(false);
-					} catch (PropertyVetoException e) {
-						e.printStackTrace();
-					}
-				}
-            	if(internalFrame.isClosed() || !internalFrame.isVisible() || !internalFrame.isEnabled())
-            	{
-            		internalFrame.setVisible(true);
-            	}
-            	internalFrame.moveToFront();
+                if (internalFrame.isIcon())
+                {
+                    try {
+                        internalFrame.setIcon(false);
+                    } catch (PropertyVetoException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (internalFrame.isClosed() || !internalFrame.isVisible() ||
+                        !internalFrame.isEnabled())
+                {
+                    internalFrame.setVisible(true);
+                }
+                internalFrame.moveToFront();
+
                 try
                 {
                     internalFrame.setSelected(true);
-                } catch (PropertyVetoException e)
+                }
+                catch (PropertyVetoException e)
                 {
                     e.printStackTrace();
                 }
-            	
+
                 /* // if users closes or opens frame - should it be a preference automatically ?
                  new FrameConfiguration(internalFrame).saveFrameConfiguration();*/
-        		break;
+                break;
             }
         }
     }

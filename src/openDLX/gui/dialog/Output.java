@@ -26,8 +26,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -35,32 +37,43 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+
 import openDLX.util.TrapObserver;
 
 @SuppressWarnings("serial")
-public class Output extends JDialog implements ActionListener, TrapObserver, KeyListener
+public class Output extends JDialog implements TrapObserver
 {
+    private static Output instance;
 
     private JTextArea textArea;
     private JButton confirm;
     private JPanel emptyPanel;
-    private static Output instance;
 
     private Output(JFrame owner)
     {
         super(owner, true);
         setLayout(new BorderLayout());
         setTitle("Output");
+
         textArea = new JTextArea();
         textArea.setEditable(false);
         textArea.setFocusable(false);
+
         JScrollPane textScroller = new JScrollPane(textArea);
         textScroller.setFocusable(false);
         textScroller.setBackground(Color.WHITE);
+
         confirm = new JButton("Close");
-        confirm.addActionListener(this);
-        confirm.addKeyListener(this);
+        confirm.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                setVisible(false);
+            }
+        });
         confirm.setFocusable(true);
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.add(confirm);
@@ -70,7 +83,19 @@ public class Output extends JDialog implements ActionListener, TrapObserver, Key
         add(buttonPanel, BorderLayout.SOUTH);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(owner);
-        addKeyListener(this);
+
+        final KeyListener keylis = new KeyAdapter()
+        {
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                    confirm.doClick();
+            }
+        };
+        confirm.addKeyListener(keylis);
+        addKeyListener(keylis);
+
         pack();
         setMinimumSize(new Dimension(250, 250));
     }
@@ -78,29 +103,19 @@ public class Output extends JDialog implements ActionListener, TrapObserver, Key
     public static Output getInstance(JFrame f)
     {
         if (instance == null)
-        {
             instance = new Output(f);
-        }
         return instance;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        setVisible(false);
     }
 
     @Override
     public void update(String arg)
     {
         if (arg != null)
-        {
             addText(arg);
-        }
-        //pack(); // enables constantly growing output frame 
+
+        //pack(); // enables constantly growing output frame
         setVisible(true);
         textArea.setCaretPosition(textArea.getText().length());
-
     }
 
     @Override
@@ -113,34 +128,14 @@ public class Output extends JDialog implements ActionListener, TrapObserver, Key
     {
         textArea.setText(textArea.getText() + textToInsert);
     }
-    
+
     public void clear()
-    {	
-    	textArea.setText("");
+    {
+        textArea.setText("");
     }
 
     public String getText()
     {
         return textArea.getText();
     }
-
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e)
-    {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER)
-        {
-            confirm.doClick();
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e)
-    {
-    }
-
 }

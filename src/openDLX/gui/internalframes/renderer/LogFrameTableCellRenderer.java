@@ -23,11 +23,13 @@ package openDLX.gui.internalframes.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
+
 import openDLX.gui.internalframes.util.LogReader;
 
 public class LogFrameTableCellRenderer implements TableCellRenderer
@@ -37,13 +39,11 @@ public class LogFrameTableCellRenderer implements TableCellRenderer
     private final Color infoColor = Color.BLUE;
     private final Color warnColor = Color.ORANGE;
     private final Color errorColor = Color.RED;
-    
-    
+
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column)
     {
-
         //set defaults
         JLabel label = new JLabel(value.toString());
         label.setOpaque(true);
@@ -52,31 +52,23 @@ public class LogFrameTableCellRenderer implements TableCellRenderer
         label.setFont(table.getFont());
         label.setForeground(table.getForeground());
         label.setBackground(table.getBackground());
-        
-        String help = table.getModel().getValueAt(row, column).toString();       
-      
+
+        String help = table.getModel().getValueAt(row, column).toString();
+
             //DEBUG
             if (help.contains(LogReader.DEBUG_STRING))
-            {
                 label.setForeground(debugColor);
-            }
             //INFO
             else  if (help.contains(LogReader.INFO_STRING))
-            {
                 label.setForeground(infoColor);
-            }
             //WARN
             else  if (help.contains(LogReader.WARN_STRING))
-            {
                 label.setForeground(warnColor);
-            }
             //ERROR
             else  if (help.contains(LogReader.ERROR_STRING))
-            {
                 label.setForeground(errorColor);
-            }
-        
+
         return label;
     }
-    
+
 }

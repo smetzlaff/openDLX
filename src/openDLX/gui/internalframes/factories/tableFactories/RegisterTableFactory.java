@@ -24,8 +24,10 @@ package openDLX.gui.internalframes.factories.tableFactories;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
+
 import openDLX.RegisterSet;
 import openDLX.datatypes.ArchCfg;
 import openDLX.datatypes.uint8;
@@ -53,20 +55,20 @@ public class RegisterTableFactory extends TableFactory
         model.addColumn("Register");
         model.addColumn("Values");
 
-		for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
-		{
-			if (Preference.displayRegistersAsHex())
-			{
-				model.addRow(new Object[] { ArchCfg.getRegisterDescription(i),
-						rs.read(new uint8(i)) });
-			} else
-			{
-				model.addRow(new Object[] { ArchCfg.getRegisterDescription(i),
-						rs.read(new uint8(i)).getValue() });
-			}
+        for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
+        {
+            final Object secondItem;
+            if (Preference.displayRegistersAsHex())
+                secondItem = rs.read(new uint8(i));
+            else
+                secondItem = rs.read(new uint8(i)).getValue();
+
+            model.addRow(new Object[] {
+                    ArchCfg.getRegisterDescription(i), secondItem
+            });
         }
 
-        //default max width values change here 
+        //default max width values change here
         TableColumnModel tcm = table.getColumnModel();
         tcm.getColumn(0).setMaxWidth(60);
         tcm.getColumn(1).setMaxWidth(150);
@@ -77,20 +79,15 @@ public class RegisterTableFactory extends TableFactory
             @Override
             public void mouseClicked(MouseEvent e)
             {
-
                 Point p = e.getPoint();
                 int row = table.rowAtPoint(p);
-                if (e.getClickCount() == 2)
-                {
-                    CommandChangeRegister c = new CommandChangeRegister(row);
-                    c.execute();
-                }
-            }
 
+                if (e.getClickCount() == 2)
+                    new CommandChangeRegister(row).execute();
+            }
         });
 
         return table;
-
     }
 
 }

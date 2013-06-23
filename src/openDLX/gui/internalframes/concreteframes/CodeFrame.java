@@ -22,20 +22,23 @@
 package openDLX.gui.internalframes.concreteframes;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
-import openDLX.gui.MainFrame;
-import openDLX.gui.internalframes.factories.tableFactories.CodeTableFactory;
-import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
-import openDLX.gui.internalframes.util.TableSizeCalculator;
+
 import openDLX.OpenDLXSimulator;
+import openDLX.PipelineContainer;
+import openDLX.gui.MainFrame;
+import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
+import openDLX.gui.internalframes.factories.tableFactories.CodeTableFactory;
+import openDLX.gui.internalframes.util.TableSizeCalculator;
 
 @SuppressWarnings("serial")
 public final class CodeFrame extends OpenDLXSimInternalFrame
 {
 
-    private OpenDLXSimulator openDLXSim;
+    private final OpenDLXSimulator openDLXSim;
     private JTable codeTable;
     private String IFValue = "";
     private String IDValue = "";
@@ -46,55 +49,43 @@ public final class CodeFrame extends OpenDLXSimInternalFrame
     public CodeFrame(String title)
     {
         super(title, false);
-        this.openDLXSim = MainFrame.getInstance().getOpenDLXSim();
+        openDLXSim = MainFrame.getInstance().getOpenDLXSim();
         initialize();
     }
 
     @Override
     public void update()
     {
-        IFValue = openDLXSim.getPipeline().getFetchDecodeLatch().element().getPc().getHex();
-        IDValue = openDLXSim.getPipeline().getDecodeExecuteLatch().element().getPc().getHex();
-        EXValue = openDLXSim.getPipeline().getExecuteMemoryLatch().element().getPc().getHex();
-        MEMValue = openDLXSim.getPipeline().getMemoryWriteBackLatch().element().getPc().getHex();
-        WBValue = openDLXSim.getPipeline().getWriteBackLatch().element().getPc().getHex();
+        final PipelineContainer pipeline = openDLXSim.getPipeline();
+        IFValue = pipeline.getFetchDecodeLatch().element().getPc().getHex();
+        IDValue = pipeline.getDecodeExecuteLatch().element().getPc().getHex();
+        EXValue = pipeline.getExecuteMemoryLatch().element().getPc().getHex();
+        MEMValue = pipeline.getMemoryWriteBackLatch().element().getPc().getHex();
+        WBValue = pipeline.getWriteBackLatch().element().getPc().getHex();
 
         TableModel model = codeTable.getModel();
         for (int row = 0; row < model.getRowCount(); ++row)
         {
             String addr = model.getValueAt(row, 0).toString().substring(0, 10);
 
-
             if (addr.contains(IFValue))
             {
-                model.setValueAt(addr + "  " + "IF", row, 0);
-                if (codeTable.getParent() != null)
-                {
-                    // move IF row into focus - i.e. scroll to IF-row
-                    codeTable.scrollRectToVisible(codeTable.getCellRect(row, 0, true));
+                addr += "  " + "IF";
 
-                }
+                // move IF row into focus - i.e. scroll to IF-row
+                if (codeTable.getParent() != null)
+                    codeTable.scrollRectToVisible(codeTable.getCellRect(row, 0, true));
             }
             else if (addr.contains(IDValue))
-            {
-                model.setValueAt(addr + "  " + "ID", row, 0);
-            }
+                addr += "  " + "ID";
             else if (addr.contains(EXValue))
-            {
-                model.setValueAt(addr + "  " + "EX", row, 0);
-            }
+                addr += "  " + "EX";
             else if (addr.contains(MEMValue))
-            {
-                model.setValueAt(addr + "  " + "MEM", row, 0);
-            }
+                addr += "  " + "MEM";
             else if (addr.contains(WBValue))
-            {
-                model.setValueAt(addr + "  " + "WB", row, 0);
-            }
-            else
-            {
-                model.setValueAt(model.getValueAt(row, 0).toString().substring(0, 10), row, 0);
-            }
+                addr += "  " + "WB";
+
+            model.setValueAt(addr, row, 0);
         }
     }
 
@@ -102,12 +93,13 @@ public final class CodeFrame extends OpenDLXSimInternalFrame
     protected void initialize()
     {
         super.initialize();
-        //make the scrollpane 
+        //make the scrollpane
         codeTable = new CodeTableFactory(openDLXSim).createTable();
         JScrollPane scrollpane = new JScrollPane(codeTable);
         scrollpane.setFocusable(false);
         codeTable.setFillsViewportHeight(true);
-        TableSizeCalculator.setDefaultMaxTableSize(scrollpane, codeTable, TableSizeCalculator.SET_SIZE_WIDTH);
+        TableSizeCalculator.setDefaultMaxTableSize(scrollpane, codeTable,
+                TableSizeCalculator.SET_SIZE_WIDTH);
         //config internal frame
         setLayout(new BorderLayout());
         add(scrollpane, BorderLayout.CENTER);

@@ -23,14 +23,15 @@ package openDLX.gui.internalframes.concreteframes;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Iterator;
+
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import openDLX.gui.MainFrame;
+import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
 import openDLX.gui.internalframes.renderer.LogFrameTableCellRenderer;
 import openDLX.gui.internalframes.util.LogReader;
-import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
 import openDLX.gui.internalframes.util.NotSelectableTableModel;
 
 @SuppressWarnings("serial")
@@ -41,10 +42,8 @@ public final class LogFrame extends OpenDLXSimInternalFrame
     private JTable infoTable;
     private NotSelectableTableModel model;
     private JScrollPane scrollpane;
-    //default size values
-    private Dimension d = new Dimension(300, 200);
     //data
-    private MainFrame mf;
+    private final MainFrame mf;
     private LogReader logReader;
     private String logFileAddr;
 
@@ -62,7 +61,6 @@ public final class LogFrame extends OpenDLXSimInternalFrame
         {
             String err = "Reading log file failed -  " + e.toString();
             JOptionPane.showMessageDialog(mf, err);
-
         }
     }
 
@@ -71,27 +69,14 @@ public final class LogFrame extends OpenDLXSimInternalFrame
     {
         if (logFileAddr != null && logReader != null)
         {
-
             logReader.update();
-            Iterator<String> it = logReader.getLog().iterator();
-            while (it.hasNext())
-            {
-                String[] help =
-                {
-                    it.next().toString()
-                };
-                model.addRow(help);
-            }
-
+            model.addRow(logReader.getLog().toArray(new String[]{}));
 
             logReader.getLog().clear();
 
             if (scrollpane != null)
-            {
-
-                infoTable.scrollRectToVisible(infoTable.getCellRect(infoTable.getRowCount() - 1, 0, true));
-
-            }
+                infoTable.scrollRectToVisible(infoTable.getCellRect(
+                        infoTable.getRowCount() - 1, 0, true));
         }
     }
 
@@ -116,7 +101,7 @@ public final class LogFrame extends OpenDLXSimInternalFrame
         scrollpane = new JScrollPane(infoTable);
         scrollpane.setFocusable(false);
         add(scrollpane, BorderLayout.CENTER);
-        setSize(d);
+        setSize(new Dimension(300, 200));
         setVisible(true);
     }
 
