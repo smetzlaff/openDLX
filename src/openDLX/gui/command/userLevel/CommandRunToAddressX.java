@@ -21,9 +21,12 @@
  ******************************************************************************/
 package openDLX.gui.command.userLevel;
 
+import java.util.Queue;
+
 import javax.swing.JOptionPane;
 
 import openDLX.OpenDLXSimulator;
+import openDLX.datatypes.FetchDecodeData;
 import openDLX.datatypes.uint32;
 import openDLX.exception.PipelineException;
 import openDLX.gui.MainFrame;
@@ -63,8 +66,9 @@ public class CommandRunToAddressX implements Command
                 {
                     // if value is valid, save it as new preference
                     Preference.pref.put(preferenceKey, "0x" + Integer.toHexString(value));
-                    while (!openDLXSim.isFinished() && !openDLXSim.getPipeline().
-                            getFetchDecodeLatch().element().getPc().equals(new uint32(value)))
+                    uint32 target_address = new uint32(value);
+                    Queue<FetchDecodeData> fetch_decode_latch = openDLXSim.getPipeline().getFetchDecodeLatch();
+                    while (!fetch_decode_latch.element().getPc().equals(target_address) && !openDLXSim.isFinished())
                     {
                         try
                         {
