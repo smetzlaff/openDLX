@@ -65,7 +65,7 @@ public final class MemoryFrame extends OpenDLXSimInternalFrame implements Action
 
     public MemoryFrame(String name, MainFrame mf)
     {
-        super(name);
+        super(name, false);
         this.mf = mf;
         initialize();
 

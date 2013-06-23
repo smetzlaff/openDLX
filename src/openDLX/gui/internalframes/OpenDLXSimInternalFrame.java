@@ -30,13 +30,13 @@ public abstract class OpenDLXSimInternalFrame extends JInternalFrame implements 
 {
 
 
-    public OpenDLXSimInternalFrame(String name)
+    public OpenDLXSimInternalFrame(String name, boolean maximizable)
     {
         super(name,
                 true, //resizable
-                false, //closable
-                true, //maximizable
-                false //minimizable
+                true, //closable
+                maximizable, //maximizable
+                true //minimizable
                 );
     }
 

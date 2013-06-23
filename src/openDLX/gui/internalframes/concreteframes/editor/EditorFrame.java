@@ -65,7 +65,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
 
     private EditorFrame(String title, MainFrame mf)
     {
-        super(title);
+        super(title, true);
         initialize();
     }
 

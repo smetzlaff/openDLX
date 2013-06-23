@@ -50,7 +50,7 @@ public final class LogFrame extends OpenDLXSimInternalFrame
 
     public LogFrame(String title)
     {
-        super(title);
+        super(title, true);
         initialize();
         mf = MainFrame.getInstance();
         try

@@ -68,7 +68,7 @@ public final class ClockCycleFrame extends OpenDLXSimInternalFrame implements GU
 
     public ClockCycleFrame(String title)
     {
-        super(title);
+        super(title, true);
         this.openDLXSim = MainFrame.getInstance().getOpenDLXSim();
         initialize();
     }

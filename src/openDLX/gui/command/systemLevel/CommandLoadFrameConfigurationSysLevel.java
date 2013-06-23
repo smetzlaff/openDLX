@@ -21,11 +21,12 @@
  ******************************************************************************/
 package openDLX.gui.command.systemLevel;
 
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JInternalFrame;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.internalframes.FrameConfiguration;
+import openDLX.gui.menubar.OpenDLXSimMenuItem;
 
 public class CommandLoadFrameConfigurationSysLevel implements Command
 {
@@ -43,7 +44,7 @@ public class CommandLoadFrameConfigurationSysLevel implements Command
         for (JInternalFrame internalFrame : mf.getinternalFrames())
         {
             new FrameConfiguration(internalFrame).loadFrameConfiguration();
-            JCheckBoxMenuItem item = mf.boxes.get(internalFrame.getTitle());
+            OpenDLXSimMenuItem item = mf.internal_frames.get(internalFrame.getTitle());
             if (item != null)
                 item.setSelected(internalFrame.isVisible());
         }

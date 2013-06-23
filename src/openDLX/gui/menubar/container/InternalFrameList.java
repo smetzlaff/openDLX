@@ -23,38 +23,39 @@ package openDLX.gui.menubar.container;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.JCheckBoxMenuItem;
 
-public class CheckBoxList
+import openDLX.gui.menubar.OpenDLXSimMenuItem;
+
+public class InternalFrameList
 {
 
-    private static CheckBoxList instance;
-    private ArrayList<JCheckBoxMenuItem> boxes = new ArrayList<JCheckBoxMenuItem>();
+    private static InternalFrameList instance;
+    private ArrayList<OpenDLXSimMenuItem> boxes = new ArrayList<OpenDLXSimMenuItem>();
 
-    private CheckBoxList()
+    private InternalFrameList()
     {
     }
 
-    public static CheckBoxList getInstance()
+    public static InternalFrameList getInstance()
     {
         if (instance == null)
         {
-            instance = new CheckBoxList();
+            instance = new InternalFrameList();
         }
         return instance;
     }
 
-    public void add(JCheckBoxMenuItem item)
+    public void add(OpenDLXSimMenuItem item)
     {
         boxes.add(item);
     }
 
-    public JCheckBoxMenuItem get(String s)
+    public OpenDLXSimMenuItem get(String s)
     {
-        Iterator<JCheckBoxMenuItem> it = boxes.iterator();
+        Iterator<OpenDLXSimMenuItem> it = boxes.iterator();
         while (it.hasNext())
         {
-            JCheckBoxMenuItem tmp = it.next();
+            OpenDLXSimMenuItem tmp = it.next();
             if (tmp != null && tmp.getName() != null)
             {
                 if (tmp.getName().equals(s))

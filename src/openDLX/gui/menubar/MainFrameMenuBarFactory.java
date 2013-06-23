@@ -26,7 +26,13 @@ import java.awt.event.ItemListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+
 import openDLX.gui.LookAndFeel.LookAndFeelStrategyJava;
 import openDLX.gui.LookAndFeel.LookAndFeelStrategySystemMonoSpaced;
 import openDLX.gui.MainFrame;
@@ -267,47 +273,47 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     {
         //box name = frame title
         String name = InternalFrameFactory.getFrameName(EditorFrame.class);
-        JCheckBoxMenuItem box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_EDITOR, KEY_MENU_WINDOW_DISPLAY_EDITOR, StateValidator.allStates);
-        box.setName(name);
-        EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
-        mf.boxes.add(box);
+        OpenDLXSimMenuItem frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_EDITOR, KEY_MENU_WINDOW_DISPLAY_EDITOR, StateValidator.allStates);
+        frame_item.setName(name);
+        EventCommandLookUp.put(frame_item.hashCode(), new CommandChangeWindowVisibility(frame_item, mf));
+        mf.internal_frames.add(frame_item);
 
 
         name = InternalFrameFactory.getFrameName(LogFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_LOG, KEY_MENU_WINDOW_DISPLAY_LOG, StateValidator.executingOrRunningStates);
-        box.setName(name);
-        EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
-        mf.boxes.add(box);
+        frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_LOG, KEY_MENU_WINDOW_DISPLAY_LOG, StateValidator.executingOrRunningStates);
+        frame_item.setName(name);
+        EventCommandLookUp.put(frame_item.hashCode(), new CommandChangeWindowVisibility(frame_item, mf));
+        mf.internal_frames.add(frame_item);
 
         name = InternalFrameFactory.getFrameName(CodeFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_CODE, KEY_MENU_WINDOW_DISPLAY_CODE, StateValidator.executingOrRunningStates);
-        box.setName(name);
-        EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
-        mf.boxes.add(box);
+        frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_CODE, KEY_MENU_WINDOW_DISPLAY_CODE, StateValidator.executingOrRunningStates);
+        frame_item.setName(name);
+        EventCommandLookUp.put(frame_item.hashCode(), new CommandChangeWindowVisibility(frame_item, mf));
+        mf.internal_frames.add(frame_item);
 
         name = InternalFrameFactory.getFrameName(RegisterFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_RS, KEY_MENU_WINDOW_DISPLAY_RS, StateValidator.executingOrRunningStates);
-        box.setName(name);
-        EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
-        mf.boxes.add(box);
+        frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_RS, KEY_MENU_WINDOW_DISPLAY_RS, StateValidator.executingOrRunningStates);
+        frame_item.setName(name);
+        EventCommandLookUp.put(frame_item.hashCode(), new CommandChangeWindowVisibility(frame_item, mf));
+        mf.internal_frames.add(frame_item);
 
         name = InternalFrameFactory.getFrameName(ClockCycleFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_CC, KEY_MENU_WINDOW_DISPLAY_CC, StateValidator.executingOrRunningStates);
-        box.setName(name);
-        EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
-        mf.boxes.add(box);
+        frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_CC, KEY_MENU_WINDOW_DISPLAY_CC, StateValidator.executingOrRunningStates);
+        frame_item.setName(name);
+        EventCommandLookUp.put(frame_item.hashCode(), new CommandChangeWindowVisibility(frame_item, mf));
+        mf.internal_frames.add(frame_item);
 
         name = InternalFrameFactory.getFrameName(StatisticsFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_STATS, KEY_MENU_WINDOW_DISPLAY_STATS, StateValidator.executingOrRunningStates);
-        box.setName(name);
-        EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
-        mf.boxes.add(box);
+        frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_STATS, KEY_MENU_WINDOW_DISPLAY_STATS, StateValidator.executingOrRunningStates);
+        frame_item.setName(name);
+        EventCommandLookUp.put(frame_item.hashCode(), new CommandChangeWindowVisibility(frame_item, mf));
+        mf.internal_frames.add(frame_item);
 
         name = InternalFrameFactory.getFrameName(MemoryFrame.class);
-        box = addCheckBoxMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_MEM, KEY_MENU_WINDOW_DISPLAY_MEM, StateValidator.executingOrRunningStates);
-        box.setName(name);
-        EventCommandLookUp.put(box.hashCode(), new CommandChangeWindowVisibility(box, mf));
-        mf.boxes.add(box);
+        frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_MEM, KEY_MENU_WINDOW_DISPLAY_MEM, StateValidator.executingOrRunningStates);
+        frame_item.setName(name);
+        EventCommandLookUp.put(frame_item.hashCode(), new CommandChangeWindowVisibility(frame_item, mf));
+        mf.internal_frames.add(frame_item);
     }
 
 	public static Map<String, Integer> getMenuIDs() 

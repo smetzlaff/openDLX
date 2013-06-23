@@ -41,7 +41,7 @@ public final class RegisterFrame extends OpenDLXSimInternalFrame
 
     public RegisterFrame(String title)
     {
-        super(title);
+        super(title, false);
         this.rs = MainFrame.getInstance().getOpenDLXSim().getPipeline().getRegisterSet();
         initialize();
     }

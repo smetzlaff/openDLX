@@ -21,21 +21,23 @@
  ******************************************************************************/
 package openDLX.gui.command.userLevel;
 
-import javax.swing.JCheckBoxMenuItem;
+import java.beans.PropertyVetoException;
+
 import javax.swing.JInternalFrame;
 
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
+import openDLX.gui.menubar.OpenDLXSimMenuItem;
 
 public class CommandChangeWindowVisibility implements Command
 {
 
-    private JCheckBoxMenuItem box;
+    private OpenDLXSimMenuItem internal_frame_item;
     private MainFrame mf;
 
-    public CommandChangeWindowVisibility(JCheckBoxMenuItem box, MainFrame mf)
+    public CommandChangeWindowVisibility(OpenDLXSimMenuItem frame_item, MainFrame mf)
     {
-        this.box = box;
+        this.internal_frame_item = frame_item;
         this.mf = mf;
     }
 
@@ -44,9 +46,22 @@ public class CommandChangeWindowVisibility implements Command
     {
         for (JInternalFrame internalFrame : mf.getinternalFrames())
         {
-            if (internalFrame.getTitle().equals(box.getName()))
+            if (internalFrame.getTitle().equals(internal_frame_item.getName()))
             {
-                internalFrame.setVisible(box.isSelected());
+            	if(internalFrame.isIcon())
+				 {
+					try {
+						internalFrame.setIcon(false);
+					} catch (PropertyVetoException e) {
+						e.printStackTrace();
+					}
+				}
+            	if(internalFrame.isClosed() || !internalFrame.isVisible())
+            	{
+            		internalFrame.setVisible(true);
+            	}
+        		internalFrame.moveToFront();
+            	
                 /* // if users closes or opens frame - should it be a preference automatically ?
                  new FrameConfiguration(internalFrame).saveFrameConfiguration();*/
             }

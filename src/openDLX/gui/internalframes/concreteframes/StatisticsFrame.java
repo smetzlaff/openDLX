@@ -34,7 +34,7 @@ public final class StatisticsFrame extends OpenDLXSimInternalFrame
 
     public StatisticsFrame(String title)
     {
-        super(title);
+        super(title, false);
         super.initialize();
         statArea = new JTextArea();
         statArea.setEditable(false);

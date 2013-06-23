@@ -48,7 +48,7 @@ import openDLX.gui.internalframes.concreteframes.editor.EditorFrame;
 import openDLX.gui.internalframes.factories.InternalFrameFactory;
 import openDLX.gui.menubar.MainFrameMenuBarFactory;
 import openDLX.gui.menubar.StateValidator;
-import openDLX.gui.menubar.container.CheckBoxList;
+import openDLX.gui.menubar.container.InternalFrameList;
 import openDLX.gui.util.PipelineExceptionHandler;
 import openDLX.util.DLXTrapHandler;
 import openDLX.util.TrapObservableDefault;
@@ -64,7 +64,9 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
 
     public Output output;
     public Input input;
-    public CheckBoxList boxes = CheckBoxList.getInstance();
+    
+    /// FIXME this is a duplicate to getinternalFrames()
+    public InternalFrameList internal_frames = InternalFrameList.getInstance();
     private OpenDLXSimulator openDLXSim = null;
     private EditorFrame editor;
     private JDesktopPane desktop;
@@ -131,7 +133,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         desktop.add(editor);
         
         //set Editor checkbox in main menu selected as editor is visible
-        boxes.get(InternalFrameFactory.getFrameName(EditorFrame.class)).setSelected(true);
+        internal_frames.get(InternalFrameFactory.getFrameName(EditorFrame.class)).setSelected(true);
         
         output = Output.getInstance(mf);
         input = Input.getInstance(mf);
@@ -164,6 +166,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         return openDLXSim;
     }
 
+    /// FIXME this is a duplicate to internal_frames
     public JInternalFrame[] getinternalFrames()
     {
         return desktop.getAllFrames();

@@ -45,7 +45,7 @@ public final class CodeFrame extends OpenDLXSimInternalFrame
 
     public CodeFrame(String title)
     {
-        super(title);
+        super(title, false);
         this.openDLXSim = MainFrame.getInstance().getOpenDLXSim();
         initialize();
     }
