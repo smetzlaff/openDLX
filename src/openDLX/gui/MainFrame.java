@@ -30,6 +30,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -45,10 +46,8 @@ import openDLX.gui.dialog.Input;
 import openDLX.gui.dialog.Output;
 import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
 import openDLX.gui.internalframes.concreteframes.editor.EditorFrame;
-import openDLX.gui.internalframes.factories.InternalFrameFactory;
 import openDLX.gui.menubar.MainFrameMenuBarFactory;
 import openDLX.gui.menubar.StateValidator;
-import openDLX.gui.menubar.container.InternalFrameList;
 import openDLX.gui.util.PipelineExceptionHandler;
 import openDLX.util.DLXTrapHandler;
 import openDLX.util.TrapObservableDefault;
@@ -57,16 +56,14 @@ import openDLX.util.TrapObservableDefault;
 public class MainFrame extends JFrame implements ActionListener, ItemListener
 {
     public static final int RUN_SPEED_DEFAULT = 16;
-    
+
     // MainFrame is a Singleton.
-    // hence it has a private constructor    
+    // hence it has a private constructor
     private static final MainFrame mf = new MainFrame();
 
     public Output output;
     public Input input;
-    
-    /// FIXME this is a duplicate to getinternalFrames()
-    public InternalFrameList internal_frames = InternalFrameList.getInstance();
+
     private OpenDLXSimulator openDLXSim = null;
     private EditorFrame editor;
     private JDesktopPane desktop;
@@ -99,7 +96,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         DLXTrapHandler.getInstance().setInput(input);
     }
 
-    //thus it has a static access method 
+    //thus it has a static access method
     public static MainFrame getInstance()
     {
         return mf;
@@ -120,7 +117,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
 
     private void initialize()
     {
-        //uses a factory to outsource creation of the menuBar 
+        //uses a factory to outsource creation of the menuBar
         MainFrameMenuBarFactory menuBarFactory = new MainFrameMenuBarFactory(this, this, this);
         menuBar = menuBarFactory.createJMenuBar();
         setJMenuBar(menuBar);
@@ -128,13 +125,10 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         desktop = new JDesktopPane();
         desktop.setBackground(Color.WHITE);
         setContentPane(desktop);
-        
+
         editor = EditorFrame.getInstance(this);
         desktop.add(editor);
-        
-        //set Editor checkbox in main menu selected as editor is visible
-        internal_frames.get(InternalFrameFactory.getFrameName(EditorFrame.class)).setSelected(true);
-        
+
         output = Output.getInstance(mf);
         input = Input.getInstance(mf);
 
@@ -142,13 +136,14 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         setMinimumSize(new Dimension(200, 200));
         setExtendedState(MAXIMIZED_BOTH);
         setVisible(true);
-        
+
         setOpenDLXSimState(OpenDLXSimState.IDLE);
         pexHandler = new PipelineExceptionHandler(this);
-        
+
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener( new WindowAdapter()
         {
+            @Override
             public void windowClosing(WindowEvent e)
             {
                 MainFrame frame = (MainFrame)e.getSource();
@@ -157,7 +152,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });
-        
+
     }
 
     //INTERFACE
@@ -166,11 +161,9 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         return openDLXSim;
     }
 
-    /// FIXME this is a duplicate to internal_frames
     public JInternalFrame[] getinternalFrames()
     {
         return desktop.getAllFrames();
-
     }
 
     public void setOpenDLXSim(OpenDLXSimulator openDLXSim)

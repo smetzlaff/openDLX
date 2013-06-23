@@ -26,11 +26,9 @@ import javax.swing.JInternalFrame;
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.internalframes.FrameConfiguration;
-import openDLX.gui.menubar.OpenDLXSimMenuItem;
 
 public class CommandLoadFrameConfigurationSysLevel implements Command
 {
-
     private MainFrame mf;
 
     public CommandLoadFrameConfigurationSysLevel(MainFrame mf)
@@ -42,12 +40,6 @@ public class CommandLoadFrameConfigurationSysLevel implements Command
     public void execute()
     {
         for (JInternalFrame internalFrame : mf.getinternalFrames())
-        {
             new FrameConfiguration(internalFrame).loadFrameConfiguration();
-            OpenDLXSimMenuItem item = mf.internal_frames.get(internalFrame.getTitle());
-            if (item != null)
-                item.setSelected(internalFrame.isVisible());
-        }
     }
-
 }
