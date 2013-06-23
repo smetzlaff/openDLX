@@ -56,7 +56,7 @@ public class CommandChangeWindowVisibility implements Command
 						e.printStackTrace();
 					}
 				}
-            	if(internalFrame.isClosed() || !internalFrame.isVisible())
+            	if(internalFrame.isClosed() || !internalFrame.isVisible() || !internalFrame.isEnabled())
             	{
             		internalFrame.setVisible(true);
             	}
@@ -64,6 +64,7 @@ public class CommandChangeWindowVisibility implements Command
             	
                 /* // if users closes or opens frame - should it be a preference automatically ?
                  new FrameConfiguration(internalFrame).saveFrameConfiguration();*/
+        		break;
             }
         }
     }

@@ -47,7 +47,6 @@ public abstract class OpenDLXSimInternalFrame extends JInternalFrame implements 
             @Override
             public void internalFrameClosing(InternalFrameEvent e)
             {
-
                 setDefaultCloseOperation(HIDE_ON_CLOSE);
             }
 
