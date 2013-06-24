@@ -27,43 +27,34 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class LogReader
 {
     //4 log types, Strings, to be found within log lines
-
     public static final String DEBUG_STRING = "DEBUG";
     public static final String INFO_STRING = "INFO";
     public static final String WARN_STRING = "WARN";
     public static final String ERROR_STRING = "ERROR";
-    //data objects
+
+    //data objects:
     private File logFile;
-    private ArrayList<String> forbiddenKeys;
-    private ArrayList<String> rawLog;
-    private ArrayList<String> log;
-    int line;
+    private int lineNum = 0;
+    // contains forbidden keys - that means log sources that shouldnt be
+    // shown in the GUI
+    private ArrayList<String> forbiddenKeys = new ArrayList<>();
+    // contains the whole logFile
+    private ArrayList<String> rawLog = new ArrayList<>();
+    // contains the logFile without the forbidden key sources -
+    // e.g. the registerset is not represented by the gui logger
+    private ArrayList<String> log = new ArrayList<>();
 
     public LogReader(String filePath)
     {
-
+        // this is the file the logger writes in
         logFile = new File(filePath);
-        // this is the file the logger writes in  
-
-        rawLog = new ArrayList<String>();
-        // contains the whole logFile   
-
-        log = new ArrayList<String>();
-        /*contains the logFile without the forbidden key sources -
-         e.g. the registerset is not represented by the gui logger */
-
-        forbiddenKeys = new ArrayList<String>();
-        /*contains forbidden keys - that means log sources that shouldnt be
-         shown in the GUI*/
 
         //enter here any forbidden log sources
         forbiddenKeys.add("REGISTERSET");
-
     }
 
     public ArrayList<String> getLog()
@@ -75,37 +66,25 @@ public class LogReader
     {
         if (logFile.exists())
         {
-            int newLine = readFile(); // save the new logfile line
-            Iterator<String> it = rawLog.iterator(); // iterate through the whole logfile
-            String help;
-            int i = 0;
-            while (it.hasNext())
+            final int newLineNum = readFile(); // save the new logfile line
+            String currentLine;
+            for (int i = lineNum+1; i < rawLog.size(); ++i)
             {
-                help = it.next().toString();
-                ++i;
-                if (i > line) // dont show old lines again
+                currentLine = rawLog.get(i);
+
+                for (String key : forbiddenKeys)
                 {
-                    Iterator<String> it2 = forbiddenKeys.iterator();
-                    while (it2.hasNext())
+                    if (currentLine.contains(key))
                     {
-                        //check if line contains forbidden keys 
-                        // if true -> dont put line in log
-                        if (help.contains(it2.next().toString()))
-                        {
-                            help = null;
-                            break;
-                        }
-
-                        if (help != null)
-                        {
-                            log.add(help);
-                        }
-
+                        currentLine = null;
+                        break;
                     }
 
+                    if (currentLine != null)
+                        log.add(currentLine);
                 }
             }
-            line = newLine; // assign the new logfile line
+            lineNum = newLineNum; // assign the new logfile line
         }
     }
 
@@ -114,20 +93,16 @@ public class LogReader
         rawLog.clear();
         if (logFile.exists())
         {
-            int helpLine = 0;
             try
             {
-                FileInputStream fstream = new FileInputStream(logFile);
-                DataInputStream in = new DataInputStream(fstream);
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                BufferedReader br = new BufferedReader(new InputStreamReader(
+                        new DataInputStream(new FileInputStream(logFile))));
                 String strLine;
                 while ((strLine = br.readLine()) != null)
-                {
                     rawLog.add(strLine);
-                    ++helpLine;
-                }
-                in.close();
-                return helpLine;
+
+                br.close();
+                return rawLog.size();
             }
             catch (Exception e)
             {
