@@ -29,6 +29,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyVetoException;
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -136,6 +137,15 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         setMinimumSize(new Dimension(200, 200));
         setExtendedState(MAXIMIZED_BOTH);
         setVisible(true);
+        
+        /// select editor frame
+        try
+        {
+            editor.setSelected(true);
+        } catch (PropertyVetoException e1)
+        {
+            e1.printStackTrace();
+        }
 
         setOpenDLXSimState(OpenDLXSimState.IDLE);
         pexHandler = new PipelineExceptionHandler(this);

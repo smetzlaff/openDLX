@@ -60,7 +60,14 @@ public class CommandChangeWindowVisibility implements Command
             	{
             		internalFrame.setVisible(true);
             	}
-        		internalFrame.moveToFront();
+            	internalFrame.moveToFront();
+                try
+                {
+                    internalFrame.setSelected(true);
+                } catch (PropertyVetoException e)
+                {
+                    e.printStackTrace();
+                }
             	
                 /* // if users closes or opens frame - should it be a preference automatically ?
                  new FrameConfiguration(internalFrame).saveFrameConfiguration();*/
