@@ -28,14 +28,14 @@ public class EventCommandLookUp
 
     private static HashMap<Integer, Command> table = new HashMap<Integer, Command>();
 
-    public static Command get(Integer hashCode)
+    public static Command get(Object object)
     {
-        return table.get(hashCode);
+        return table.get(object.hashCode());
     }
-
-    public static void put(Integer hashCode, Command c)
+    
+    public static void put(Object object, Command c)
     {
-        table.put(hashCode, c);
+        table.put(object.hashCode(), c);
     }
 
 }

@@ -107,13 +107,13 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        EventCommandLookUp.get(e.getSource().hashCode()).execute();
+        EventCommandLookUp.get(e.getSource()).execute();
     }
 
     @Override
     public void itemStateChanged(ItemEvent e)
     {
-        EventCommandLookUp.get(e.getSource().hashCode()).execute();
+        EventCommandLookUp.get(e.getSource()).execute();
     }
 
     private void initialize()

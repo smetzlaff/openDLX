@@ -155,9 +155,9 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         clear.setMnemonic(KeyEvent.VK_C);
         //if  parameter command = null, command is not yet implemented and should be implemented soon   
 
-        EventCommandLookUp.put(run.hashCode(), new CommandRunFromEditor(this));
-        EventCommandLookUp.put(save.hashCode(), new CommandSave());
-        EventCommandLookUp.put(clear.hashCode(), new CommandClearEditor());
+        EventCommandLookUp.put(run, new CommandRunFromEditor(this));
+        EventCommandLookUp.put(save, new CommandSave());
+        EventCommandLookUp.put(clear, new CommandClearEditor());
         run.addActionListener(this);
         save.addActionListener(this);
         clear.addActionListener(this);
@@ -175,7 +175,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     public void actionPerformed(ActionEvent e)
     {
         clean();
-        EventCommandLookUp.get(e.getSource().hashCode()).execute();
+        EventCommandLookUp.get(e.getSource()).execute();
     }
 
     @Override
