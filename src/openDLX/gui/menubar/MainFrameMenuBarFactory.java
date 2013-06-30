@@ -49,6 +49,7 @@ import openDLX.gui.command.userLevel.CommandLoadAndRunFile;
 import openDLX.gui.command.userLevel.CommandLoadFile;
 import openDLX.gui.command.userLevel.CommandLoadFileBelow;
 import openDLX.gui.command.userLevel.CommandLoadFrameConfigurationUsrLevel;
+import openDLX.gui.command.userLevel.CommandNewFile;
 import openDLX.gui.command.userLevel.CommandResetCurrentProgram;
 import openDLX.gui.command.userLevel.CommandRun;
 import openDLX.gui.command.userLevel.CommandRunFromConfigurationFile;
@@ -78,6 +79,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final String STRING_MENU_WINDOW = "Window";
     private static final String STRING_MENU_HELP = "Help";
 
+    private static final String STRING_MENU_FILE_NEW = "New";
     private static final String STRING_MENU_FILE_OPEN = "Open";
     private static final String STRING_MENU_FILE_OPEN_AND_ASSEMBLE = "Open and assemble";
     private static final String STRING_MENU_FILE_ADD_CODE = "Add code";
@@ -85,6 +87,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final String STRING_MENU_FILE_RUN_FROM_CONF = "Run from configuration file";
     private static final String STRING_MENU_FILE_EXIT = "Exit program";
 
+    private static final KeyStroke KEY_MENU_FILE_NEW = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.Event.CTRL_MASK);
     private static final KeyStroke KEY_MENU_FILE_OPEN = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.Event.CTRL_MASK);
     private static final KeyStroke KEY_MENU_FILE_OPEN_AND_ASSEMBLE = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.Event.CTRL_MASK);
     private static final KeyStroke KEY_MENU_FILE_ADD_CODE = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.Event.CTRL_MASK);
@@ -186,6 +189,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         MENU_IDS.put(STRING_MENU_HELP, menu_id);
 
         //if  parameter command = null, command is not yet implemented and should be implemented soon
+        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_NEW, KEY_MENU_FILE_NEW, StateValidator.executingOrLazyStates).hashCode(), new CommandNewFile(mf));
         EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_OPEN, KEY_MENU_FILE_OPEN, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFile(mf));
         EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_OPEN_AND_ASSEMBLE, KEY_MENU_FILE_OPEN_AND_ASSEMBLE, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadAndRunFile(mf));
         EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_ADD_CODE, KEY_MENU_FILE_ADD_CODE, StateValidator.executingOrLazyStates).hashCode(), new CommandLoadFileBelow(mf));
