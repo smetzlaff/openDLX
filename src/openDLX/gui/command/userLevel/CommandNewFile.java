@@ -42,16 +42,29 @@ public class CommandNewFile implements Command
         {
             if (!mf.getEditorText().isEmpty())
             {
-                int result = JOptionPane.showConfirmDialog(mf,
-                        "Save current file?");
-                if (result == JOptionPane.OK_OPTION)
+                if (!mf.isEditorTextSaved())
                 {
-                    new CommandSave().execute();
-                    mf.setEditorText("");
+                    int result = JOptionPane.showConfirmDialog(mf,
+                            "Save current file?");
+                    if (result == JOptionPane.OK_OPTION)
+                    {
+                        new CommandSave().execute();
+                        mf.setEditorText("");
+                        mf.setEditorSavedState();
+                    }
+                    else if (result == JOptionPane.NO_OPTION)
+                    {
+                        mf.setEditorText("");
+                        mf.setEditorSavedState();
+                    }
                 }
-                else if (result == JOptionPane.NO_OPTION)
+                else
                 {
-                    mf.setEditorText("");
+                    if (JOptionPane.showConfirmDialog(mf, "Clear file?") == JOptionPane.OK_OPTION)
+                    {
+                        mf.setEditorText("");
+                        mf.setEditorSavedState();
+                    }
                 }
             }
         }

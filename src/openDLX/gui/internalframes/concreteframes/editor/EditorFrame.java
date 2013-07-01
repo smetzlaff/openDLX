@@ -62,6 +62,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     private JButton clear;
     private static EditorFrame instance = null;
     private JTextArea jta;
+    private int saved_state_hash;
 
     private EditorFrame(String title, MainFrame mf)
     {
@@ -90,7 +91,8 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         //JScrollPane scroll = new JScrollPane(input);
 
 
-       JTextPane jtp = new JTextPane();
+       new JTextPane();
+//       JTextPane jtp = new JTextPane();
         /*
          *  
          final JScrollPane jsp = new JScrollPane();
@@ -142,6 +144,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
 
 
         jta = new JTextArea();
+        setSavedState();
         JScrollPane scrollPane = new JScrollPane(jta);
         TextNumberingPanel tln = new TextNumberingPanel(jta);
         scrollPane.setRowHeaderView(tln);
@@ -239,6 +242,22 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
             clear.setEnabled(true);
             save.setEnabled(true);
         }
+    }
+    
+    public void setSavedState()
+    {
+        saved_state_hash = getTextHash();
+    }
+    
+    private int getTextHash()
+    {
+        // TODO hashCode() might not be the the most suitable function to safe the editor state
+        return getText().hashCode();
+    }
+
+    public boolean isTextSaved()
+    {
+        return (saved_state_hash == getTextHash());
     }
 
 }

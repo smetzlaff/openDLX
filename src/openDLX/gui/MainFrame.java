@@ -246,6 +246,16 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
 
     }
 
+    public void setEditorSavedState()
+    {
+        editor.setSavedState();
+    }
+    
+    public boolean isEditorTextSaved()
+    {
+        return editor.isTextSaved();
+    }
+
     public void setRunSpeed(int speed)
     {
         this.runSpeed = speed;

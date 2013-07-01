@@ -54,6 +54,7 @@ public class CommandSave implements Command
                     BufferedWriter out = new BufferedWriter(new FileWriter(saveFile.getAbsolutePath()));
                     out.write(mf.getEditorText());
                     out.close();
+                    mf.setEditorSavedState();
                 }
                 catch (IOException e)
                 {
