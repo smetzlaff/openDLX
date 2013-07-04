@@ -23,7 +23,6 @@ package openDLX.gui.command.userLevel;
 
 import openDLX.gui.OpenDLXSimGui;
 import openDLX.gui.Preference;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategyFlexible;
 import openDLX.gui.command.Command;
 
 public class CommandSetLaF implements Command
@@ -39,7 +38,7 @@ public class CommandSetLaF implements Command
     @Override
     public void execute()
     {
-        OpenDLXSimGui.setLookAndFeel(new LookAndFeelStrategyFlexible(lafClassName));
+        OpenDLXSimGui.setLookAndFeel(lafClassName);
         Preference.pref.put(OpenDLXSimGui.preferenceKey, lafClassName);
     }
 

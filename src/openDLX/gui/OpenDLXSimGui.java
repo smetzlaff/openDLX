@@ -21,11 +21,10 @@
  ******************************************************************************/
 package openDLX.gui;
 
+import java.awt.Font;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
-import openDLX.gui.LookAndFeel.LookAndFeelStrategy;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategyFlexible;
 
 public class OpenDLXSimGui
 {
@@ -38,15 +37,36 @@ public class OpenDLXSimGui
         //get user preference
         lafClassName = Preference.pref.get(preferenceKey, lafClassName);
         //set selected L&F
-        new LookAndFeelStrategyFlexible(lafClassName).setLookAndFeel();
+        setLookAndFeelWithoutTreeUpdate(lafClassName);
 
         MainFrame.getInstance();
     }
 
-    //set look and feel for the whole program
-    public static void setLookAndFeel(LookAndFeelStrategy laf)
+    //set look and feel, but do not update the Swing Component Tree
+    //  (this is for use when first initializing the UI)
+    private static void setLookAndFeelWithoutTreeUpdate(String lafClassName)
     {
-        laf.setLookAndFeel();
+        UIManager.put("TextArea.font", new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        UIManager.put("TextPane.font", new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        UIManager.put("TextField.font", new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        UIManager.put("Table.font", new Font(Font.MONOSPACED, Font.PLAIN, 12));
+
+        try
+        {   //sets the systems default LookAndFeel
+            UIManager.setLookAndFeel(lafClassName);
+        }
+        catch (Exception e)
+        {
+            System.err.println("Failed to set look and feel '" + lafClassName + "'");
+            e.printStackTrace();
+        }
+    }
+
+    //set the look at feel application-wide, save it to preferences, and update
+    //  the Swing Component Tree
+    public static void setLookAndFeel(String lafClassName)
+    {
+        setLookAndFeelWithoutTreeUpdate(lafClassName);
         SwingUtilities.updateComponentTreeUI(MainFrame.getInstance());
     }
 }
