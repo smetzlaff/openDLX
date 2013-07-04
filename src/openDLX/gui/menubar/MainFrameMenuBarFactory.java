@@ -23,12 +23,12 @@ package openDLX.gui.menubar;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -144,23 +144,16 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
 //    private static final KeyStroke KEY_MENU_HELP_TUTORIAL = null;
     private static final KeyStroke KEY_MENU_HELP_ABOUT = null;
 
-    private static Map<String,Integer> MENU_IDS;
-    private static Map<String,Integer> MENU_ITEM_IDS;
-
-    MainFrame mf;
+    private MainFrame mf;
 
     public MainFrameMenuBarFactory(ActionListener al, ItemListener il, MainFrame mf)
     {
         super(al, il);
         this.mf = mf;
-
-        // FIXME: very dirty implementation
-        MENU_IDS = new HashMap<String,Integer>();
-        MENU_ITEM_IDS = new HashMap<String,Integer>();
     }
 
     @Override
-    public JMenuBar createJMenuBar()
+    public JMenuBar createJMenuBar(Map<String, JMenuItem> importantItems)
     {
         JMenu fileMenu = new JMenu(STRING_MENU_FILE);
         JMenu simulatorMenu = new JMenu(STRING_MENU_SIMULATOR);
@@ -168,21 +161,13 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         JMenu lookAndFeelMenu = new JMenu(STRING_MENU_LAF);
         JMenu helpMenu = new JMenu(STRING_MENU_HELP);
 
-        int menu_id = 0;
         jmb.add(fileMenu);
-        MENU_IDS.put(STRING_MENU_FILE, menu_id);
 
-        menu_id++;
         jmb.add(simulatorMenu);
-        MENU_IDS.put(STRING_MENU_SIMULATOR, menu_id);
 
-        menu_id++;
         jmb.add(windowMenu);
-        MENU_IDS.put(STRING_MENU_WINDOW, menu_id);
 
-        menu_id++;
         jmb.add(helpMenu);
-        MENU_IDS.put(STRING_MENU_HELP, menu_id);
 
         //if  parameter command = null, command is not yet implemented and should be implemented soon
         EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_NEW, KEY_MENU_FILE_NEW, StateValidator.executingOrLazyStates), new CommandNewFile(mf));
@@ -193,53 +178,33 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_RUN_FROM_CONF, KEY_MENU_FILE_RUN_FROM_CONF, StateValidator.executingOrLazyStates), new CommandRunFromConfigurationFile(mf));
         EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_EXIT, KEY_MENU_FILE_EXIT, StateValidator.allStates), new CommandExitProgram(mf));
 
-        int item_id = 0;
-
         EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_PROGRAM, KEY_MENU_SIMULATOR_RUN_PROGRAM, StateValidator.executingStates), new CommandRun(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_RUN_PROGRAM, item_id);
 
-        item_id++;
         EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, KEY_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, StateValidator.executingStates), new CommandRunSlowly(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, item_id);
 
-        item_id++;
         EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_STOP_RUNNING, KEY_MENU_SIMULATOR_STOP_RUNNING, StateValidator.RunningStates), new CommandStopRunning(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_STOP_RUNNING, item_id);
 
-        item_id++;
         simulatorMenu.addSeparator();
 
-        item_id++;
         EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_DO_CYCLE, KEY_MENU_SIMULATOR_DO_CYCLE, StateValidator.executingStates), new CommandDoCycle(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_DO_CYCLE, item_id);
 
-        item_id++;
         EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_DO_X_CYCLES, KEY_MENU_SIMULATOR_DO_X_CYCLES, StateValidator.executingStates), new CommandDoXCycles(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_DO_X_CYCLES, item_id);
 
-        item_id++;
         EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_TO, KEY_MENU_SIMULATOR_RUN_TO, StateValidator.executingStates), new CommandRunToAddressX(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_RUN_TO, item_id);
 
-        item_id++;
         EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RESTART, KEY_MENU_SIMULATOR_RESTART, StateValidator.executingStates), new CommandResetCurrentProgram(mf));
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_RESTART, item_id);
 
-        item_id++;
         simulatorMenu.addSeparator();
 
-        item_id++;
         EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_OPTIONS, KEY_MENU_SIMULATOR_OPTIONS, StateValidator.executingOrLazyStates), new CommandShowOptionDialog());
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_OPTIONS, item_id);
 
-        item_id++;
         {
             // TODO: update the menu entry for forwarding after changing it in the options dialog
             OpenDLXSimCheckBoxMenuItem fw_checkitem = addCheckBoxMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_FORWARDING, KEY_MENU_SIMULATOR_FORWARDING, StateValidator.executingOrLazyStates);
             EventCommandLookUp.put(fw_checkitem, new CommandForwarding(fw_checkitem));
             fw_checkitem.setSelected(Preference.pref.getBoolean(Preference.forwardingPreferenceKey, true));
+            importantItems.put(STRING_MENU_SIMULATOR_FORWARDING, fw_checkitem);
         }
-        MENU_ITEM_IDS.put(STRING_MENU_SIMULATOR_FORWARDING, item_id);
 
         EventCommandLookUp.put(addMenuItem(windowMenu, STRING_MENU_WINDOW_SAVE, KEY_MENU_WINDOW_SAVE, StateValidator.executingOrLazyStates), new CommandSaveFrameConfigurationUsrLevel(mf));
         EventCommandLookUp.put(addMenuItem(windowMenu, STRING_MENU_WINDOW_LOAD, KEY_MENU_WINDOW_LOAD, StateValidator.executingOrLazyStates), new CommandLoadFrameConfigurationUsrLevel(mf));
@@ -259,9 +224,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         windowMenu.addSeparator();
 
         // add submenu for Look&Feels
-        menu_id++;
         windowMenu.add(lookAndFeelMenu);
-        MENU_IDS.put(STRING_MENU_LAF, menu_id);
 
         // a group of radio buttons so only one L&F item can be selected
         ButtonGroup lookAndFeelOptionsGroup = new ButtonGroup();
@@ -326,16 +289,6 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_MEM, KEY_MENU_WINDOW_DISPLAY_MEM, StateValidator.executingOrRunningStates);
         frame_item.setName(name);
         EventCommandLookUp.put(frame_item, new CommandChangeWindowVisibility(frame_item, mf));
-    }
-
-    public static Map<String, Integer> getMenuIDs()
-    {
-        return MENU_IDS;
-    }
-
-    public static Map<String, Integer> getMenuItemIDs()
-    {
-        return MENU_ITEM_IDS;
     }
 
 }

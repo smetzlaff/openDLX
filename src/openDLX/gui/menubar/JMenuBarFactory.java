@@ -23,11 +23,14 @@ package openDLX.gui.menubar;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.util.Map;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+
 import openDLX.gui.GUI_CONST.OpenDLXSimState;
 
 public abstract class JMenuBarFactory
@@ -44,7 +47,7 @@ public abstract class JMenuBarFactory
         this.il = il;
     }
 
-    public abstract JMenuBar createJMenuBar();
+    public abstract JMenuBar createJMenuBar(Map<String, JMenuItem> importantItems);
 
     protected OpenDLXSimMenuItem addMenuItem(JMenu father, String name, KeyStroke accelerator, OpenDLXSimState state [])
     {

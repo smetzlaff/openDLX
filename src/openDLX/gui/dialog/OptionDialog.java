@@ -26,6 +26,7 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -41,7 +42,6 @@ import openDLX.datatypes.BranchPredictorState;
 import openDLX.datatypes.BranchPredictorType;
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
-import openDLX.gui.menubar.MainFrameMenuBarFactory;
 
 @SuppressWarnings("serial")
 public class OptionDialog extends JDialog implements ActionListener
@@ -50,23 +50,23 @@ public class OptionDialog extends JDialog implements ActionListener
 
     private JButton confirm;
     private JButton cancel;
-    
+
     // checkBoxes
     private JCheckBox forwardingCheckBox;
     private JCheckBox mipsCompatibilityCheckBox;
-    
+
     /*Combo Box
-     * 
+     *
      *  JComboBox may be represented by Vectors or Arrays of Objects ( Object [])
-     * we have chosen "Object[]" to be the representation (in fact - String) for 
+     * we have chosen "Object[]" to be the representation (in fact - String) for
      * the data within AsmFileLoader-class , but Vector is appropriate as well.
-     * (sorry,  JComboBox is not made for Enumeration, i made a final Object[] array, 
+     * (sorry,  JComboBox is not made for Enumeration, i made a final Object[] array,
      * but Preference doesn't accept Object, just String)
      */
     private JComboBox bpTypeComboBox;
     private JComboBox bpInitialStateComboBox;
     private JTextField btbSizeTextField;
-    
+
     //input text fields
     private JTextField maxCyclesTextField;
 
@@ -87,11 +87,11 @@ public class OptionDialog extends JDialog implements ActionListener
         buttonPanel.add(cancel);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        /*instantiate all the components that you'd like to use as input, 
+        /*instantiate all the components that you'd like to use as input,
          * as well as any labels describing them, HERE: */
 
         /*create a checkboxes
-         * 
+         *
          * checkboxes don't need a label -> the name is part of the constructor
          *-> its a single element, hence it doesn't need a JPanel  */
         forwardingCheckBox = new JCheckBox("Use Forwarding");
@@ -99,7 +99,7 @@ public class OptionDialog extends JDialog implements ActionListener
 
         mipsCompatibilityCheckBox = new JCheckBox("MIPS compatibility mode (requires forwarding)");
         mipsCompatibilityCheckBox.setSelected(Preference.pref.getBoolean(Preference.mipsCompatibilityPreferenceKey, true)); // load current value
-        
+
         // disable MIPS compatibility if no forwading is active
         if(!forwardingCheckBox.isSelected())
         {
@@ -107,9 +107,9 @@ public class OptionDialog extends JDialog implements ActionListener
         }
 
         /*create a JComboBoxes
-         * 
-         * JComboBox need a Object[] or Vector as data representation 
-         Furthermore the  JComboBox gets a JLabel, describing it, 
+         *
+         * JComboBox need a Object[] or Vector as data representation
+         Furthermore the  JComboBox gets a JLabel, describing it,
          * -> put both components into a JPanel*/
 
         // bpType:
@@ -122,7 +122,7 @@ public class OptionDialog extends JDialog implements ActionListener
         bpTypeListPanel.add(bpTypeComboBoxDescriptionLabel);
         //add the box itself
         bpTypeListPanel.add(bpTypeComboBox);
-        
+
         // bpInitialState:
         JLabel bpInitialStateComboBoxDescriptionLabel = new JLabel("Initial Predictor State: ");
         bpInitialStateComboBox = new JComboBox(ArchCfg.possibleBpInitialStateComboBoxValues);
@@ -137,7 +137,7 @@ public class OptionDialog extends JDialog implements ActionListener
         /*create a  JTextFields
          * the field and a JLabel description
          */
-        
+
         // Max Cycles
         JLabel maxCyclesTextFieldDescription = new JLabel("Maximum Cycles: ");
         // the number in constructor means the number of lines in textfield
@@ -150,7 +150,7 @@ public class OptionDialog extends JDialog implements ActionListener
         maxCyclesTextFieldPanel.add(maxCyclesTextFieldDescription);
         //add the field itself
         maxCyclesTextFieldPanel.add(maxCyclesTextField);
-        
+
         // BTB Size
         JLabel btbSizeTextFieldDescription = new JLabel("BTB Size: ");
         // the number in constructor means the number of lines in textfield
@@ -176,11 +176,11 @@ public class OptionDialog extends JDialog implements ActionListener
         optionPanel.add(bpInitialStateListPanel);
         optionPanel.add(btbSizeTextFieldPanel);
         optionPanel.add(maxCyclesTextFieldPanel);
-        
+
         //adds the top-level-panel to the Dialog frame
         add(optionPanel, BorderLayout.CENTER);
 
-        //dialog appears in the middle of the MainFrame 
+        //dialog appears in the middle of the MainFrame
         setLocationRelativeTo(owner);
         pack();
         setResizable(false);
@@ -198,7 +198,7 @@ public class OptionDialog extends JDialog implements ActionListener
             dispose();
         }
 
-        /* get all the values, assign them to data within ArchCfg 
+        /* get all the values, assign them to data within ArchCfg
          * and save them as preference for future use
          */
         if (e.getSource().equals(confirm))
@@ -216,30 +216,30 @@ public class OptionDialog extends JDialog implements ActionListener
             	{
             		ArchCfg.use_load_stall_bubble = false;
             	}
-            		
+
             }
             else
             {
             	ArchCfg.use_forwarding = false;
             	ArchCfg.use_load_stall_bubble = false;
-            	
+
             	if(mipsCompatibilityCheckBox.isSelected())
             	{
             		// reset the MIPS compatibility
             		mipsCompatibilityCheckBox.setSelected(false);
             		Preference.pref.putBoolean(Preference.mipsCompatibilityPreferenceKey, false);
-            		
+
             		JOptionPane.showMessageDialog(MainFrame.getInstance(), "Reset \"MIPS compatibility mode\", since it requires activated forwarding.", "Info", JOptionPane.INFORMATION_MESSAGE);
             	}
             }
-            
+
             // propagate forwarding to menu
             propagateFWToMenu(forwardingCheckBox.isSelected());
-            
 
-            // TODO also add a field for disabling the branch prediction 
+
+            // TODO also add a field for disabling the branch prediction
             // TODO do some checks for the setting of the BP initial state and sizes
-            
+
             ArchCfg.branch_predictor_type = BranchPredictionModule.getBranchPredictorTypeFromGuiString(bpTypeComboBox.getSelectedItem().toString());
             Preference.pref.put(Preference.bpTypePreferenceKey, ArchCfg.branch_predictor_type.toString());
 
@@ -248,7 +248,7 @@ public class OptionDialog extends JDialog implements ActionListener
 
             ArchCfg.branch_predictor_table_size = Integer.parseInt(btbSizeTextField.getText());
             Preference.pref.put(Preference.btbSizePreferenceKey, btbSizeTextField.getText());
-            
+
             // correct user input
             switch(ArchCfg.branch_predictor_type)
             {
@@ -310,7 +310,7 @@ public class OptionDialog extends JDialog implements ActionListener
             	}
             	break;
             }
-            
+
             // the btb has to be a power of two
             if(ArchCfg.branch_predictor_table_size == 0)
             {
@@ -322,23 +322,16 @@ public class OptionDialog extends JDialog implements ActionListener
             ArchCfg.max_cycles = Integer.parseInt(maxCyclesTextField.getText());
             Preference.pref.put(Preference.maxCyclesPreferenceKey, maxCyclesTextField.getText());
 
-            
+
 
             setVisible(false);
             dispose();
         }
     }
-    
+
     private void propagateFWToMenu(boolean forwarding_enabled)
     {
-        // FIXME: very dirty implementation
-    	int menu_id = MainFrameMenuBarFactory.getMenuIDs().get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR);
-    	int item_id = MainFrameMenuBarFactory.getMenuItemIDs().get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR_FORWARDING);
-
-//    	System.out.println("Menu:" + MainFrame.getInstance().getJMenuBar().getMenu(menu_id));
-//    	System.out.println("Item:" + MainFrame.getInstance().getJMenuBar().getMenu(menu_id).getItem(item_id));
-
-    	MainFrame.getInstance().getJMenuBar().getMenu(menu_id).getItem(item_id).setSelected(forwarding_enabled);
+        MainFrame.getInstance().getForwardingMenuItem().setSelected(forwarding_enabled);
     }
 
 
