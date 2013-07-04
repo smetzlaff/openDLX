@@ -23,11 +23,12 @@ package openDLX.config;
 
 public interface GlobalConfig {
 	static final String PREFERENCES_DIR = "/openDLX";
-	static final String VERSION = "1.0-5";
+	static final String VERSION = "1.0-6";
 	static final String ABOUT = 
 			"openDLX v"+VERSION+" - A DLX/MIPS processor simulator.\n"
-					+"Copyright (C) 2013 The openDLX project, University of Augsburg\n"
-					+"Stefan Metzlaff (Simulator)\nAlexander Vogelgsang (Assembler)\nNico Krezic-Luger (GUI)\n"
+					+"Copyright (C) 2013 The openDLX project, University of Augsburg\n\n"
+					+"Core contributors: Stefan Metzlaff, Alexander Vogelgsang,\nand Nico Krezic-Luger\n"
+					+"Contributors: Patrick Lehner\n"
 					+"\n"
 					+"Project URL: <https://sourceforge.net/projects/opendlx>\n"
 					+"Development branch: <https://github.com/smetzlaff/openDLX>\n"
