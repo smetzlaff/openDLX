@@ -29,14 +29,12 @@ import java.util.Map;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategyJava;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategySystemMonoSpaced;
 import openDLX.gui.command.EventCommandLookUp;
 import openDLX.gui.command.userLevel.CommandChangeWindowVisibility;
 import openDLX.gui.command.userLevel.CommandClearAllPreferences;
@@ -57,8 +55,7 @@ import openDLX.gui.command.userLevel.CommandRunSlowly;
 import openDLX.gui.command.userLevel.CommandRunToAddressX;
 import openDLX.gui.command.userLevel.CommandSave;
 import openDLX.gui.command.userLevel.CommandSaveFrameConfigurationUsrLevel;
-import openDLX.gui.command.userLevel.CommandSetLaFJava;
-import openDLX.gui.command.userLevel.CommandSetLaFSystem;
+import openDLX.gui.command.userLevel.CommandSetLaF;
 import openDLX.gui.command.userLevel.CommandShowAbout;
 import openDLX.gui.command.userLevel.CommandShowOptionDialog;
 import openDLX.gui.command.userLevel.CommandStopRunning;
@@ -77,6 +74,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final String STRING_MENU_FILE = "File";
     public static final String STRING_MENU_SIMULATOR = "Simulator";
     private static final String STRING_MENU_WINDOW = "Window";
+    private static final String STRING_MENU_LAF = "Look & Feels";
     private static final String STRING_MENU_HELP = "Help";
 
     private static final String STRING_MENU_FILE_NEW = "New";
@@ -118,8 +116,6 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final String STRING_MENU_WINDOW_SAVE = "Save current window configuration";
     private static final String STRING_MENU_WINDOW_LOAD = "Load saved window configuration";
     private static final String STRING_MENU_WINDOW_CLEAR = "Clear all preferences";
-    private static final String STRING_MENU_WINDOW_LF_SYSTEM = "System Look and Feel enabled (" + System.getProperty("os.name") + ")";
-    private static final String STRING_MENU_WINDOW_LF_JAVA = "Java Look and Feel enabled";
     private static final String STRING_MENU_WINDOW_DISPLAY_EDITOR = "Display Editor";
     private static final String STRING_MENU_WINDOW_DISPLAY_LOG = "Display Log";
     private static final String STRING_MENU_WINDOW_DISPLAY_CODE = "Display Code";
@@ -131,8 +127,6 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final KeyStroke KEY_MENU_WINDOW_SAVE = null;
     private static final KeyStroke KEY_MENU_WINDOW_LOAD = null;
     private static final KeyStroke KEY_MENU_WINDOW_CLEAR = null;
-    private static final KeyStroke KEY_MENU_WINDOW_LF_SYSTEM = null;
-    private static final KeyStroke KEY_MENU_WINDOW_LF_JAVA = null;
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_EDITOR = null;
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_LOG = null;
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_CODE = null;
@@ -170,6 +164,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         JMenu fileMenu = new JMenu(STRING_MENU_FILE);
         JMenu simulatorMenu = new JMenu(STRING_MENU_SIMULATOR);
         JMenu windowMenu = new JMenu(STRING_MENU_WINDOW);
+        JMenu lookAndFeelMenu = new JMenu(STRING_MENU_LAF);
         JMenu helpMenu = new JMenu(STRING_MENU_HELP);
 
         int menu_id = 0;
@@ -261,31 +256,27 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         createWindowCheckboxes(windowMenu); //see below
 
         windowMenu.addSeparator();
-        // a group of radio buttons
+
+        // add submenu for Look&Feels
+        menu_id++;
+        windowMenu.add(lookAndFeelMenu);
+        MENU_IDS.put(STRING_MENU_LAF, menu_id);
+
+        // a group of radio buttons so only one L&F item can be selected
         ButtonGroup lookAndFeelOptionsGroup = new ButtonGroup();
-        //add here new LookAndFeel options
-        JRadioButtonMenuItem item = addRadioButtonMenuItem(windowMenu, STRING_MENU_WINDOW_LF_SYSTEM, KEY_MENU_WINDOW_LF_SYSTEM, lookAndFeelOptionsGroup, StateValidator.allStates);
-        item.setName(LookAndFeelStrategySystemMonoSpaced.getLookAndFeelName());
-        String laf = UIManager.getLookAndFeel().getClass().toString();
 
-        /*quite dirty code follows here now, breaking every known code convention :-) - luckily its just a small piece of
-         * code in a huge program so we can afford to leave it like it its- so better dont try to change it*/
-        if (laf.substring(laf.length() - 17).equals(item.getName().substring(item.getName().length() - 17)))
+        // get current L&F class name
+        final String currentLaF = UIManager.getLookAndFeel().getClass().getCanonicalName();
+
+        // add selector items for all available L&Fs
+        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
         {
-            item.setSelected(true);
+            OpenDLXSimRadioButtonMenuItem item = addRadioButtonMenuItem(lookAndFeelMenu, info.getName(), null, lookAndFeelOptionsGroup, StateValidator.allStates);
+            if (currentLaF.equals(info.getClassName()))
+                item.setSelected(true);
+            EventCommandLookUp.put(item, new CommandSetLaF(info.getClassName()));
         }
-        EventCommandLookUp.put(item, new CommandSetLaFSystem(item));
 
-        item = addRadioButtonMenuItem(windowMenu, STRING_MENU_WINDOW_LF_JAVA, KEY_MENU_WINDOW_LF_JAVA, lookAndFeelOptionsGroup, StateValidator.allStates);
-        item.setName(LookAndFeelStrategyJava.getLookAndFeelName());
-
-        if (laf.substring(laf.length() - 17).equals(item.getName().substring(item.getName().length() - 17)))
-        {
-            item.setSelected(true);
-        }
-        EventCommandLookUp.put(item, new CommandSetLaFJava(item));
-
-        /*end of dirty code*/
         //help
         OpenDLXSimCheckBoxMenuItem checkitem = addCheckBoxMenuItem(helpMenu, STRING_MENU_HELP_TOOLTIPS, KEY_MENU_HELP_TOOLTIPS, StateValidator.executingOrLazyStates);
         EventCommandLookUp.put(checkitem, new CommandDisplayTooltips(checkitem));

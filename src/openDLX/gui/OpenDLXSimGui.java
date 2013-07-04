@@ -21,37 +21,52 @@
  ******************************************************************************/
 package openDLX.gui;
 
+import java.awt.Font;
+
 import javax.swing.SwingUtilities;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategy;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategyJava;
-import openDLX.gui.LookAndFeel.LookAndFeelStrategySystemMonoSpaced;
+import javax.swing.UIManager;
 
 public class OpenDLXSimGui
 {
-
     public static final String preferenceKey = "lookandfeel";
 
     public static void openDLXGui_main()
     {
         //set default
-        String lookAndFeel = LookAndFeelStrategySystemMonoSpaced.class.toString();
+        String lafClassName = UIManager.getLookAndFeel().getClass().getCanonicalName();
         //get user preference
-        lookAndFeel = Preference.pref.get(preferenceKey, lookAndFeel);
-
-        //find and set selected LaF
-        if (LookAndFeelStrategySystemMonoSpaced.class.toString().equals(lookAndFeel))
-            new LookAndFeelStrategySystemMonoSpaced().setLookAndFeel();
-        else if (LookAndFeelStrategyJava.class.toString().equals(lookAndFeel))
-            new LookAndFeelStrategyJava().setLookAndFeel();
+        lafClassName = Preference.pref.get(preferenceKey, lafClassName);
+        //set selected L&F
+        setLookAndFeelWithoutTreeUpdate(lafClassName);
 
         MainFrame.getInstance();
     }
 
-    //set look and feel for the whole program
-    public static void setLookAndFeel(LookAndFeelStrategy laf)
+    //set look and feel, but do not update the Swing Component Tree
+    //  (this is for use when first initializing the UI)
+    private static void setLookAndFeelWithoutTreeUpdate(String lafClassName)
     {
-        laf.setLookAndFeel();
-        SwingUtilities.updateComponentTreeUI(MainFrame.getInstance());
+        UIManager.put("TextArea.font", new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        UIManager.put("TextPane.font", new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        UIManager.put("TextField.font", new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        UIManager.put("Table.font", new Font(Font.MONOSPACED, Font.PLAIN, 12));
+
+        try
+        {   //sets the systems default LookAndFeel
+            UIManager.setLookAndFeel(lafClassName);
+        }
+        catch (Exception e)
+        {
+            System.err.println("Failed to set look and feel '" + lafClassName + "'");
+            e.printStackTrace();
+        }
     }
 
+    //set the look at feel application-wide, save it to preferences, and update
+    //  the Swing Component Tree
+    public static void setLookAndFeel(String lafClassName)
+    {
+        setLookAndFeelWithoutTreeUpdate(lafClassName);
+        SwingUtilities.updateComponentTreeUI(MainFrame.getInstance());
+    }
 }

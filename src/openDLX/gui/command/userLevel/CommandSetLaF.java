@@ -19,34 +19,27 @@
  * along with this program, see <LICENSE>. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package openDLX.gui.LookAndFeel;
+package openDLX.gui.command.userLevel;
 
-import javax.swing.UIManager;
+import openDLX.gui.OpenDLXSimGui;
+import openDLX.gui.Preference;
+import openDLX.gui.command.Command;
 
-public class LookAndFeelStrategySystemMonoSpaced extends LookAndFeelStrategyMonoSpaced
+public class CommandSetLaF implements Command
 {
 
-    @Override
-    public void setLookAndFeel()
+    final String lafClassName;
+
+    public CommandSetLaF(final String lafClassName)
     {
-        //sets monospaced font in tables and editable components
-        super.setLookAndFeel();
-        try
-        {   //sets the systems default LookAndFeel
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        }
-        catch (Exception e)
-        {
-            System.err.println("Failed to set System look and Feel");
-            e.printStackTrace();
-        }
-
+        this.lafClassName = lafClassName;
     }
 
-    public static String getLookAndFeelName()
+    @Override
+    public void execute()
     {
-        return UIManager.getSystemLookAndFeelClassName();
+        OpenDLXSimGui.setLookAndFeel(lafClassName);
+        Preference.pref.put(OpenDLXSimGui.preferenceKey, lafClassName);
     }
 
 }
