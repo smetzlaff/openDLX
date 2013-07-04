@@ -59,7 +59,6 @@ import openDLX.gui.command.userLevel.CommandSetLaF;
 import openDLX.gui.command.userLevel.CommandShowAbout;
 import openDLX.gui.command.userLevel.CommandShowOptionDialog;
 import openDLX.gui.command.userLevel.CommandStopRunning;
-import openDLX.gui.command.userLevel.CommandTutorial;
 import openDLX.gui.internalframes.concreteframes.ClockCycleFrame;
 import openDLX.gui.internalframes.concreteframes.CodeFrame;
 import openDLX.gui.internalframes.concreteframes.LogFrame;
@@ -136,11 +135,13 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_MEM = null;
 
     private static final String STRING_MENU_HELP_TOOLTIPS = "Display tooltips";
-    private static final String STRING_MENU_HELP_TUTORIAL = "Tutorial";
+    // currently unused:
+//    private static final String STRING_MENU_HELP_TUTORIAL = "Tutorial";
     private static final String STRING_MENU_HELP_ABOUT = "About";
 
     private static final KeyStroke KEY_MENU_HELP_TOOLTIPS = null;
-    private static final KeyStroke KEY_MENU_HELP_TUTORIAL = null;
+    // currently unused:
+//    private static final KeyStroke KEY_MENU_HELP_TUTORIAL = null;
     private static final KeyStroke KEY_MENU_HELP_ABOUT = null;
 
     private static Map<String,Integer> MENU_IDS;
@@ -282,7 +283,8 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         EventCommandLookUp.put(checkitem, new CommandDisplayTooltips(checkitem));
         // get preference and set selected if tooltips are enabled
         checkitem.setSelected(Preference.pref.getBoolean(CommandDisplayTooltips.preferenceKey, true));
-        EventCommandLookUp.put(addMenuItem(helpMenu, STRING_MENU_HELP_TUTORIAL, KEY_MENU_HELP_TUTORIAL, StateValidator.executingOrLazyStates), new CommandTutorial());
+        // currently unused:
+//        EventCommandLookUp.put(addMenuItem(helpMenu, STRING_MENU_HELP_TUTORIAL, KEY_MENU_HELP_TUTORIAL, StateValidator.executingOrLazyStates), new CommandTutorial());
         EventCommandLookUp.put(addMenuItem(helpMenu, STRING_MENU_HELP_ABOUT, KEY_MENU_HELP_ABOUT, StateValidator.executingOrLazyStates), new CommandShowAbout());
         return jmb;
     }
