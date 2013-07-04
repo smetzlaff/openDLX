@@ -116,8 +116,6 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final String STRING_MENU_WINDOW_SAVE = "Save current window configuration";
     private static final String STRING_MENU_WINDOW_LOAD = "Load saved window configuration";
     private static final String STRING_MENU_WINDOW_CLEAR = "Clear all preferences";
-    private static final String STRING_MENU_WINDOW_LF_SYSTEM = "System Look and Feel enabled (" + System.getProperty("os.name") + ")";
-    private static final String STRING_MENU_WINDOW_LF_JAVA = "Java Look and Feel enabled";
     private static final String STRING_MENU_WINDOW_DISPLAY_EDITOR = "Display Editor";
     private static final String STRING_MENU_WINDOW_DISPLAY_LOG = "Display Log";
     private static final String STRING_MENU_WINDOW_DISPLAY_CODE = "Display Code";
@@ -129,8 +127,6 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final KeyStroke KEY_MENU_WINDOW_SAVE = null;
     private static final KeyStroke KEY_MENU_WINDOW_LOAD = null;
     private static final KeyStroke KEY_MENU_WINDOW_CLEAR = null;
-    private static final KeyStroke KEY_MENU_WINDOW_LF_SYSTEM = null;
-    private static final KeyStroke KEY_MENU_WINDOW_LF_JAVA = null;
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_EDITOR = null;
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_LOG = null;
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_CODE = null;
@@ -269,12 +265,13 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         // a group of radio buttons so only one L&F item can be selected
         ButtonGroup lookAndFeelOptionsGroup = new ButtonGroup();
 
-        //add here new LookAndFeel options
+        // get current L&F class name
         final String currentLaF = UIManager.getLookAndFeel().getClass().getCanonicalName();
 
+        // add selector items for all available L&Fs
         for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
         {
-            OpenDLXSimRadioButtonMenuItem item = addRadioButtonMenuItem(lookAndFeelMenu, info.getName(), KEY_MENU_WINDOW_LF_SYSTEM, lookAndFeelOptionsGroup, StateValidator.allStates);
+            OpenDLXSimRadioButtonMenuItem item = addRadioButtonMenuItem(lookAndFeelMenu, info.getName(), null, lookAndFeelOptionsGroup, StateValidator.allStates);
             if (currentLaF.equals(info.getClassName()))
                 item.setSelected(true);
             EventCommandLookUp.put(item, new CommandSetLaF(info.getClassName()));
