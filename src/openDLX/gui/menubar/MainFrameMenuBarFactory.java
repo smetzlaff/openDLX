@@ -29,7 +29,6 @@ import java.util.Map;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -75,6 +74,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final String STRING_MENU_FILE = "File";
     public static final String STRING_MENU_SIMULATOR = "Simulator";
     private static final String STRING_MENU_WINDOW = "Window";
+    private static final String STRING_MENU_LAF = "Look & Feels";
     private static final String STRING_MENU_HELP = "Help";
 
     private static final String STRING_MENU_FILE_NEW = "New";
@@ -168,6 +168,7 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         JMenu fileMenu = new JMenu(STRING_MENU_FILE);
         JMenu simulatorMenu = new JMenu(STRING_MENU_SIMULATOR);
         JMenu windowMenu = new JMenu(STRING_MENU_WINDOW);
+        JMenu lookAndFeelMenu = new JMenu(STRING_MENU_LAF);
         JMenu helpMenu = new JMenu(STRING_MENU_HELP);
 
         int menu_id = 0;
@@ -259,20 +260,24 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         createWindowCheckboxes(windowMenu); //see below
 
         windowMenu.addSeparator();
-        // a group of radio buttons
+
+        // add submenu for Look&Feels
+        menu_id++;
+        windowMenu.add(lookAndFeelMenu);
+        MENU_IDS.put(STRING_MENU_LAF, menu_id);
+
+        // a group of radio buttons so only one L&F item can be selected
         ButtonGroup lookAndFeelOptionsGroup = new ButtonGroup();
 
         //add here new LookAndFeel options
-        LookAndFeelInfo lafInfo[] = UIManager.getInstalledLookAndFeels();
-        JRadioButtonMenuItem rbtns[] = new JRadioButtonMenuItem[lafInfo.length];
         final String currentLaF = UIManager.getLookAndFeel().getClass().getCanonicalName();
 
-        for (int i = 0; i < lafInfo.length; ++i)
+        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
         {
-            rbtns[i] = addRadioButtonMenuItem(windowMenu, "Look&Feel: " + lafInfo[i].getName(), KEY_MENU_WINDOW_LF_SYSTEM, lookAndFeelOptionsGroup, StateValidator.allStates);
-            if (currentLaF.equals(lafInfo[i].getClassName()))
-                rbtns[i].setSelected(true);
-            EventCommandLookUp.put(rbtns[i].hashCode(), new CommandSetLaF(lafInfo[i].getClassName()));
+            OpenDLXSimRadioButtonMenuItem item = addRadioButtonMenuItem(lookAndFeelMenu, info.getName(), KEY_MENU_WINDOW_LF_SYSTEM, lookAndFeelOptionsGroup, StateValidator.allStates);
+            if (currentLaF.equals(info.getClassName()))
+                item.setSelected(true);
+            EventCommandLookUp.put(item, new CommandSetLaF(info.getClassName()));
         }
 
         //help
