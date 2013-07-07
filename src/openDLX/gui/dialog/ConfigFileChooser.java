@@ -21,28 +21,22 @@
  ******************************************************************************/
 package openDLX.gui.dialog;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-import openDLX.gui.Preference;
-
-public class ConfigFileChooser
+public class ConfigFileChooser extends CommonFileChooser
 {
-
-    private String path = "/home";
-    private String preferenceKey = "configfilechooserpath";
-
-    public File chooseFile()
+    public ConfigFileChooser()
     {
-        final JFileChooser chooser = new JFileChooser("Choose file");
-        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        super();
+        preferenceKey = "configfilechooserpath";
+    }
 
-        chooser.setFileFilter(new FileFilter()
+    @Override
+    protected FileFilter getFileFilter()
+    {
+        return new FileFilter()
         {
             @Override
             public boolean accept(File f)
@@ -53,38 +47,8 @@ public class ConfigFileChooser
             @Override
             public String getDescription()
             {
-                return "Configuration Files(*.cfg)";
+                return "Configuration Files (*.cfg)";
             }
-        });
-
-        path = Preference.pref.get(preferenceKey, path);
-        chooser.setCurrentDirectory(new File(path));
-        chooser.addPropertyChangeListener(new PropertyChangeListener()
-        {
-            @Override
-            public void propertyChange(PropertyChangeEvent e)
-            {
-                if (e.getPropertyName().equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)
-                        || e.getPropertyName().equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY))
-                {
-                    e.getNewValue();
-                }
-            }
-
-        });
-
-        chooser.setVisible(true);
-
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-        {
-            path = chooser.getSelectedFile().getParent();
-            Preference.pref.put(preferenceKey, path);
-            return chooser.getSelectedFile();
-        }
-        else
-        {
-            return null;
-        }
+        };
     }
-
 }

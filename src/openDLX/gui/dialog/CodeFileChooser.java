@@ -21,30 +21,22 @@
  ******************************************************************************/
 package openDLX.gui.dialog;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.Serializable;
 
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-import openDLX.gui.Preference;
-
-@SuppressWarnings("serial")
-public class CodeFileChooser implements Serializable
+public class CodeFileChooser extends CommonFileChooser
 {
-
-    private String path = "/home";
-    private String preferenceKey = "codefilechooserpath";
-
-    public File chooseFile()
+    public CodeFileChooser()
     {
-        final JFileChooser chooser = new JFileChooser("Choose file");
-        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        super();
+        preferenceKey = "codefilechooserpath";
+    }
 
-        chooser.setFileFilter(new FileFilter()
+    @Override
+    protected FileFilter getFileFilter()
+    {
+        return new FileFilter()
         {
             @Override
             public boolean accept(File f)
@@ -55,39 +47,8 @@ public class CodeFileChooser implements Serializable
             @Override
             public String getDescription()
             {
-                return "Assembler Files(*.s)";
+                return "Assembler Files (*.s)";
             }
-
-        });
-
-        path = Preference.pref.get(preferenceKey, path);
-
-        chooser.setCurrentDirectory(new File(path));
-        chooser.addPropertyChangeListener(new PropertyChangeListener()
-        {
-            @Override
-            public void propertyChange(PropertyChangeEvent e)
-            {
-                if (e.getPropertyName().equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)
-                        || e.getPropertyName().equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY))
-                {
-                    e.getNewValue();
-                }
-            }
-
-        });
-
-        chooser.setVisible(true);
-
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-        {
-            path = chooser.getSelectedFile().getParent();
-            Preference.pref.put(preferenceKey, path);
-            return chooser.getSelectedFile();
-        } else
-        {
-            return null;
-        }
+        };
     }
-
 }
