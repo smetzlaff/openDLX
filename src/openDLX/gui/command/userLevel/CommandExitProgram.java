@@ -54,6 +54,14 @@ public class CommandExitProgram implements Command
 
     public boolean close()
     {
+        if (!mf.isEditorTextSaved())
+        {
+            if (JOptionPane.showConfirmDialog(mf, "Discard unsaved editor changes?") != JOptionPane.OK_OPTION)
+            {
+                return false;
+            }
+        }
+        
         if (Preference.pref.getBoolean(Preference.showExitMessage, true))
         {
             final String exit_message = "Are you sure you want to exit?";

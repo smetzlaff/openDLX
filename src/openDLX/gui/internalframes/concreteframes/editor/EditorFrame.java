@@ -27,6 +27,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,7 +49,7 @@ import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
 import openDLX.gui.internalframes.factories.InternalFrameFactory;
 
 @SuppressWarnings("serial")
-public final class EditorFrame extends OpenDLXSimInternalFrame implements ActionListener
+public final class EditorFrame extends OpenDLXSimInternalFrame implements ActionListener, KeyListener
 {
     //the editor frame is a singleton 
     //default size values
@@ -63,10 +65,12 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     private static EditorFrame instance = null;
     private JTextArea jta;
     private int saved_state_hash;
+    private String editor_frame_title;
 
     private EditorFrame(String title, MainFrame mf)
     {
         super(title, true);
+        editor_frame_title = title;
         initialize();
     }
 
@@ -147,6 +151,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         setSavedState();
         JScrollPane scrollPane = new JScrollPane(jta);
         TextNumberingPanel tln = new TextNumberingPanel(jta);
+        jta.addKeyListener(this);
         scrollPane.setRowHeaderView(tln);
         add(scrollPane, BorderLayout.CENTER);
         JPanel down = new JPanel();
@@ -247,6 +252,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     public void setSavedState()
     {
         saved_state_hash = getTextHash();
+        updateTitle();
     }
     
     private int getTextHash()
@@ -258,6 +264,37 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     public boolean isTextSaved()
     {
         return (saved_state_hash == getTextHash());
+    }
+
+
+    @Override
+    public void keyReleased(KeyEvent arg0)
+    {
+        updateTitle();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent arg0)
+    {
+        // Unused
+    }
+    
+    @Override
+    public void keyPressed(KeyEvent arg0)
+    {
+        // Unused
+    }
+    
+    private void updateTitle()
+    {
+        if(!isTextSaved())
+        {
+            setTitle("*"+editor_frame_title);
+        }
+        else
+        {
+            setTitle(editor_frame_title);
+        }
     }
 
 }

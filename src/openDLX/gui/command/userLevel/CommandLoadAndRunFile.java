@@ -23,6 +23,8 @@ package openDLX.gui.command.userLevel;
 
 import java.io.File;
 
+import javax.swing.JOptionPane;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.gui.command.systemLevel.CommandCompileCode;
@@ -47,6 +49,13 @@ public class CommandLoadAndRunFile implements Command
     {
         if (!mf.isRunning())
         {
+            if (!mf.isEditorTextSaved())
+            {
+                if (JOptionPane.showConfirmDialog(mf, "Discard unsaved editor changes?") != JOptionPane.OK_OPTION)
+                {
+                    return;
+                }
+            }
             //save current window position
             new CommandSaveFrameConfigurationSysLevel(mf).execute();
             //show filechooser dialog and choose file

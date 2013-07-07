@@ -38,6 +38,7 @@ public class CommandClearEditor implements Command
                 JOptionPane.OK_OPTION)
         {
             mf.setEditorText("");
+            mf.setEditorSavedState();
         }
     }
 

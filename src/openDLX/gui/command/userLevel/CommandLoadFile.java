@@ -43,6 +43,14 @@ public class CommandLoadFile implements Command
     {
         if (!mf.isRunning())
         {
+            if (!mf.isEditorTextSaved())
+            {
+                if (JOptionPane.showConfirmDialog(mf, "Discard unsaved editor changes?") != JOptionPane.OK_OPTION)
+                {
+                    return;
+                }
+            }
+            
             CommandOpenCodeFile c10 = new CommandOpenCodeFile(mf);
             c10.execute();
             File f = c10.getCodeFile();

@@ -65,7 +65,6 @@ public class CommandLoadCodeFileToEditor implements Command
             text += CodeLoader.loadCode(help);
             mf.setEditorText(text);
             mf.setEditorSavedState();
-
         }
         catch (Exception e)
         {
