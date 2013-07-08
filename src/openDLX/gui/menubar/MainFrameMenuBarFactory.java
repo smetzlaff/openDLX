@@ -36,6 +36,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import openDLX.gui.GUI_CONST.OpenDLXSimState;
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
+import openDLX.gui.command.Command;
 import openDLX.gui.command.EventCommandLookUp;
 import openDLX.gui.command.userLevel.CommandChangeWindowVisibility;
 import openDLX.gui.command.userLevel.CommandClearAllPreferences;
@@ -167,61 +168,53 @@ public class MainFrameMenuBarFactory
         JMenu helpMenu = new JMenu(STRING_MENU_HELP);
 
         jmb.add(fileMenu);
-
         jmb.add(simulatorMenu);
-
         jmb.add(windowMenu);
-
         jmb.add(helpMenu);
 
         //if  parameter command = null, command is not yet implemented and should be implemented soon
-        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_NEW, KEY_MENU_FILE_NEW, StateValidator.executingOrLazyStates), new CommandNewFile(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_OPEN, KEY_MENU_FILE_OPEN, StateValidator.executingOrLazyStates), new CommandLoadFile(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_OPEN_AND_ASSEMBLE, KEY_MENU_FILE_OPEN_AND_ASSEMBLE, StateValidator.executingOrLazyStates), new CommandLoadAndRunFile(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_ADD_CODE, KEY_MENU_FILE_ADD_CODE, StateValidator.executingOrLazyStates), new CommandLoadFileBelow(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_SAVE, KEY_MENU_FILE_SAVE, StateValidator.executingOrLazyStates), new CommandSave());
-        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_RUN_FROM_CONF, KEY_MENU_FILE_RUN_FROM_CONF, StateValidator.executingOrLazyStates), new CommandRunFromConfigurationFile(mf));
-        EventCommandLookUp.put(addMenuItem(fileMenu, STRING_MENU_FILE_EXIT, KEY_MENU_FILE_EXIT, StateValidator.allStates), new CommandExitProgram(mf));
+        addMenuItem(fileMenu, STRING_MENU_FILE_NEW, KEY_MENU_FILE_NEW, StateValidator.executingOrLazyStates, new CommandNewFile(mf));
+        addMenuItem(fileMenu, STRING_MENU_FILE_OPEN, KEY_MENU_FILE_OPEN, StateValidator.executingOrLazyStates, new CommandLoadFile(mf));
+        addMenuItem(fileMenu, STRING_MENU_FILE_OPEN_AND_ASSEMBLE, KEY_MENU_FILE_OPEN_AND_ASSEMBLE, StateValidator.executingOrLazyStates, new CommandLoadAndRunFile(mf));
+        addMenuItem(fileMenu, STRING_MENU_FILE_ADD_CODE, KEY_MENU_FILE_ADD_CODE, StateValidator.executingOrLazyStates, new CommandLoadFileBelow(mf));
+        addMenuItem(fileMenu, STRING_MENU_FILE_SAVE, KEY_MENU_FILE_SAVE, StateValidator.executingOrLazyStates, new CommandSave());
+        addMenuItem(fileMenu, STRING_MENU_FILE_RUN_FROM_CONF, KEY_MENU_FILE_RUN_FROM_CONF, StateValidator.executingOrLazyStates, new CommandRunFromConfigurationFile(mf));
+        addMenuItem(fileMenu, STRING_MENU_FILE_EXIT, KEY_MENU_FILE_EXIT, StateValidator.allStates, new CommandExitProgram(mf));
 
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_PROGRAM, KEY_MENU_SIMULATOR_RUN_PROGRAM, StateValidator.executingStates), new CommandRun(mf));
-
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, KEY_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, StateValidator.executingStates), new CommandRunSlowly(mf));
-
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_STOP_RUNNING, KEY_MENU_SIMULATOR_STOP_RUNNING, StateValidator.RunningStates), new CommandStopRunning(mf));
+        addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_PROGRAM, KEY_MENU_SIMULATOR_RUN_PROGRAM, StateValidator.executingStates, new CommandRun(mf));
+        addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, KEY_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY, StateValidator.executingStates, new CommandRunSlowly(mf));
+        addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_STOP_RUNNING, KEY_MENU_SIMULATOR_STOP_RUNNING, StateValidator.RunningStates, new CommandStopRunning(mf));
 
         simulatorMenu.addSeparator();
 
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_DO_CYCLE, KEY_MENU_SIMULATOR_DO_CYCLE, StateValidator.executingStates), new CommandDoCycle(mf));
-
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_DO_X_CYCLES, KEY_MENU_SIMULATOR_DO_X_CYCLES, StateValidator.executingStates), new CommandDoXCycles(mf));
-
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_TO, KEY_MENU_SIMULATOR_RUN_TO, StateValidator.executingStates), new CommandRunToAddressX(mf));
-
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RESTART, KEY_MENU_SIMULATOR_RESTART, StateValidator.executingStates), new CommandResetCurrentProgram(mf));
+        addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_DO_CYCLE, KEY_MENU_SIMULATOR_DO_CYCLE, StateValidator.executingStates, new CommandDoCycle(mf));
+        addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_DO_X_CYCLES, KEY_MENU_SIMULATOR_DO_X_CYCLES, StateValidator.executingStates, new CommandDoXCycles(mf));
+        addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RUN_TO, KEY_MENU_SIMULATOR_RUN_TO, StateValidator.executingStates, new CommandRunToAddressX(mf));
+        addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_RESTART, KEY_MENU_SIMULATOR_RESTART, StateValidator.executingStates, new CommandResetCurrentProgram(mf));
 
         simulatorMenu.addSeparator();
 
-        EventCommandLookUp.put(addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_OPTIONS, KEY_MENU_SIMULATOR_OPTIONS, StateValidator.executingOrLazyStates), new CommandShowOptionDialog());
+        addMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_OPTIONS, KEY_MENU_SIMULATOR_OPTIONS, StateValidator.executingOrLazyStates, new CommandShowOptionDialog());
 
         {
-            // TODO: update the menu entry for forwarding after changing it in the options dialog
-            OpenDLXSimCheckBoxMenuItem fw_checkitem = addCheckBoxMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_FORWARDING, KEY_MENU_SIMULATOR_FORWARDING, StateValidator.executingOrLazyStates);
+            // update the menu entry for forwarding after changing it in the options dialog
+            final OpenDLXSimCheckBoxMenuItem fw_checkitem = addCheckBoxMenuItem(simulatorMenu, STRING_MENU_SIMULATOR_FORWARDING, KEY_MENU_SIMULATOR_FORWARDING, StateValidator.executingOrLazyStates);
             EventCommandLookUp.put(fw_checkitem, new CommandForwarding(fw_checkitem));
             fw_checkitem.setSelected(Preference.pref.getBoolean(Preference.forwardingPreferenceKey, true));
             importantItems.put(STRING_MENU_SIMULATOR_FORWARDING, fw_checkitem);
         }
 
-        EventCommandLookUp.put(addMenuItem(windowMenu, STRING_MENU_WINDOW_SAVE, KEY_MENU_WINDOW_SAVE, StateValidator.executingOrLazyStates), new CommandSaveFrameConfigurationUsrLevel(mf));
-        EventCommandLookUp.put(addMenuItem(windowMenu, STRING_MENU_WINDOW_LOAD, KEY_MENU_WINDOW_LOAD, StateValidator.executingOrLazyStates), new CommandLoadFrameConfigurationUsrLevel(mf));
-        EventCommandLookUp.put(addMenuItem(windowMenu, STRING_MENU_WINDOW_CLEAR, KEY_MENU_WINDOW_CLEAR, StateValidator.executingOrLazyStates), new CommandClearAllPreferences());
+        addMenuItem(windowMenu, STRING_MENU_WINDOW_SAVE, KEY_MENU_WINDOW_SAVE, StateValidator.executingOrLazyStates, new CommandSaveFrameConfigurationUsrLevel(mf));
+        addMenuItem(windowMenu, STRING_MENU_WINDOW_LOAD, KEY_MENU_WINDOW_LOAD, StateValidator.executingOrLazyStates, new CommandLoadFrameConfigurationUsrLevel(mf));
+        addMenuItem(windowMenu, STRING_MENU_WINDOW_CLEAR, KEY_MENU_WINDOW_CLEAR, StateValidator.executingOrLazyStates, new CommandClearAllPreferences());
 
 
         /*this is a submenu of windowMenu
          JMenu defaultWindowConfigurationMenu = new JMenu("Load default window configuration");
          windowMenu.add(defaultWindowConfigurationMenu);
-         EventCommandLookUp.put(addMenuItem(defaultWindowConfigurationMenu, "standard", null).hashCode(), null);
-         EventCommandLookUp.put(addMenuItem(defaultWindowConfigurationMenu, "full", null).hashCode(), null);
-         EventCommandLookUp.put(addMenuItem(defaultWindowConfigurationMenu, "edit only", null).hashCode(), null);*/
+         addMenuItem(defaultWindowConfigurationMenu, "standard", null, null);
+         addMenuItem(defaultWindowConfigurationMenu, "full", null, null);
+         addMenuItem(defaultWindowConfigurationMenu, "edit only", null, null);*/
         windowMenu.addSeparator();
 
         createWindowCheckboxes(windowMenu); //see below
@@ -252,8 +245,8 @@ public class MainFrameMenuBarFactory
         // get preference and set selected if tooltips are enabled
         checkitem.setSelected(Preference.pref.getBoolean(CommandDisplayTooltips.preferenceKey, true));
         // currently unused:
-//        EventCommandLookUp.put(addMenuItem(helpMenu, STRING_MENU_HELP_TUTORIAL, KEY_MENU_HELP_TUTORIAL, StateValidator.executingOrLazyStates), new CommandTutorial());
-        EventCommandLookUp.put(addMenuItem(helpMenu, STRING_MENU_HELP_ABOUT, KEY_MENU_HELP_ABOUT, StateValidator.executingOrLazyStates), new CommandShowAbout());
+        //addMenuItem(helpMenu, STRING_MENU_HELP_TUTORIAL, KEY_MENU_HELP_TUTORIAL, StateValidator.executingOrLazyStates, new CommandTutorial());
+        addMenuItem(helpMenu, STRING_MENU_HELP_ABOUT, KEY_MENU_HELP_ABOUT, StateValidator.executingOrLazyStates, new CommandShowAbout());
         return jmb;
     }
 
@@ -296,16 +289,26 @@ public class MainFrameMenuBarFactory
         EventCommandLookUp.put(frame_item, new CommandChangeWindowVisibility(frame_item, mf));
     }
 
-    protected OpenDLXSimMenuItem addMenuItem(JMenu father, String name, KeyStroke accelerator,
-            OpenDLXSimState state []) {
-        OpenDLXSimMenuItem openDLXSimMenuItem = new OpenDLXSimMenuItem(state,name);
-        initializeMenuItem(openDLXSimMenuItem, father, name, accelerator);
-        openDLXSimMenuItem.addActionListener(al);
-        return openDLXSimMenuItem;
+    protected OpenDLXSimMenuItem addMenuItem(final JMenu parent, String name, KeyStroke accelerator,
+            OpenDLXSimState state [])
+    {
+        final OpenDLXSimMenuItem item = new OpenDLXSimMenuItem(state,name);
+        initializeMenuItem(item, parent, name, accelerator);
+        item.addActionListener(al);
+        return item;
+    }
+
+    protected OpenDLXSimMenuItem addMenuItem(final JMenu parent, String name, KeyStroke accelerator,
+            OpenDLXSimState state [], Command eventCommand)
+    {
+        final OpenDLXSimMenuItem item = addMenuItem(parent, name, accelerator, state);
+        EventCommandLookUp.put(item, eventCommand);
+        return item;
     }
 
     protected OpenDLXSimCheckBoxMenuItem addCheckBoxMenuItem(JMenu father, String name,
-            KeyStroke accelerator, OpenDLXSimState state []) {
+            KeyStroke accelerator, OpenDLXSimState state [])
+    {
         OpenDLXSimCheckBoxMenuItem jMenuItem = new OpenDLXSimCheckBoxMenuItem(state,name);
         jMenuItem.setState(false);
         initializeMenuItem(jMenuItem, father, name, accelerator);
@@ -315,7 +318,8 @@ public class MainFrameMenuBarFactory
     }
 
     protected OpenDLXSimRadioButtonMenuItem addRadioButtonMenuItem(JMenu father, String name,
-            KeyStroke accelerator, ButtonGroup group, OpenDLXSimState state []) {
+            KeyStroke accelerator, ButtonGroup group, OpenDLXSimState state [])
+    {
         OpenDLXSimRadioButtonMenuItem jRadioButtonItem = new OpenDLXSimRadioButtonMenuItem(state,name);
         jRadioButtonItem.setSelected(true);
         jRadioButtonItem.addActionListener(al);
@@ -326,7 +330,8 @@ public class MainFrameMenuBarFactory
     }
 
     protected void initializeMenuItem(JMenuItem jMenuItem, JMenu father, String name,
-            KeyStroke accelerator) {
+            KeyStroke accelerator)
+    {
         jMenuItem.setAccelerator(accelerator);
         father.add(jMenuItem);
     }
