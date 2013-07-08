@@ -33,6 +33,7 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import openDLX.gui.GUI_CONST.OpenDLXSimState;
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
 import openDLX.gui.command.EventCommandLookUp;
@@ -68,7 +69,7 @@ import openDLX.gui.internalframes.concreteframes.StatisticsFrame;
 import openDLX.gui.internalframes.concreteframes.editor.EditorFrame;
 import openDLX.gui.internalframes.factories.InternalFrameFactory;
 
-public class MainFrameMenuBarFactory extends JMenuBarFactory
+public class MainFrameMenuBarFactory
 {
     private static final String STRING_MENU_FILE = "File";
     public static final String STRING_MENU_SIMULATOR = "Simulator";
@@ -145,14 +146,18 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
     private static final KeyStroke KEY_MENU_HELP_ABOUT = null;
 
     private MainFrame mf;
+    private ActionListener al = null;
+    private ItemListener il = null;
+    protected JMenuBar jmb = new JMenuBar();
 
     public MainFrameMenuBarFactory(ActionListener al, ItemListener il, MainFrame mf)
     {
-        super(al, il);
+        assert al != null && il != null;
+        this.al = al;
+        this.il = il;
         this.mf = mf;
     }
 
-    @Override
     public JMenuBar createJMenuBar(Map<String, JMenuItem> importantItems)
     {
         JMenu fileMenu = new JMenu(STRING_MENU_FILE);
@@ -289,6 +294,41 @@ public class MainFrameMenuBarFactory extends JMenuBarFactory
         frame_item = addMenuItem(windowMenu, STRING_MENU_WINDOW_DISPLAY_MEM, KEY_MENU_WINDOW_DISPLAY_MEM, StateValidator.executingOrRunningStates);
         frame_item.setName(name);
         EventCommandLookUp.put(frame_item, new CommandChangeWindowVisibility(frame_item, mf));
+    }
+
+    protected OpenDLXSimMenuItem addMenuItem(JMenu father, String name, KeyStroke accelerator,
+            OpenDLXSimState state []) {
+        OpenDLXSimMenuItem openDLXSimMenuItem = new OpenDLXSimMenuItem(state,name);
+        initializeMenuItem(openDLXSimMenuItem, father, name, accelerator);
+        openDLXSimMenuItem.addActionListener(al);
+        return openDLXSimMenuItem;
+    }
+
+    protected OpenDLXSimCheckBoxMenuItem addCheckBoxMenuItem(JMenu father, String name,
+            KeyStroke accelerator, OpenDLXSimState state []) {
+        OpenDLXSimCheckBoxMenuItem jMenuItem = new OpenDLXSimCheckBoxMenuItem(state,name);
+        jMenuItem.setState(false);
+        initializeMenuItem(jMenuItem, father, name, accelerator);
+        jMenuItem.addItemListener(il);
+        return jMenuItem;
+
+    }
+
+    protected OpenDLXSimRadioButtonMenuItem addRadioButtonMenuItem(JMenu father, String name,
+            KeyStroke accelerator, ButtonGroup group, OpenDLXSimState state []) {
+        OpenDLXSimRadioButtonMenuItem jRadioButtonItem = new OpenDLXSimRadioButtonMenuItem(state,name);
+        jRadioButtonItem.setSelected(true);
+        jRadioButtonItem.addActionListener(al);
+        group.add(jRadioButtonItem);
+        initializeMenuItem(jRadioButtonItem, father, name, accelerator);
+        return jRadioButtonItem;
+
+    }
+
+    protected void initializeMenuItem(JMenuItem jMenuItem, JMenu father, String name,
+            KeyStroke accelerator) {
+        jMenuItem.setAccelerator(accelerator);
+        father.add(jMenuItem);
     }
 
 }
