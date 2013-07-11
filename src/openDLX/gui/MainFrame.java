@@ -31,12 +31,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.io.File;
+import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import openDLX.OpenDLXSimulator;
 import openDLX.config.GlobalConfig;
@@ -74,6 +76,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     private OpenDLXSimState state = OpenDLXSimState.IDLE;
     private File configFile;
     private JMenuBar menuBar;
+    private JMenuItem forwardingMenuItem;
     private PipelineExceptionHandler pexHandler = null;
     private String loadedCodeFilePath="code.s";//default
 
@@ -120,8 +123,11 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     {
         //uses a factory to outsource creation of the menuBar
         MainFrameMenuBarFactory menuBarFactory = new MainFrameMenuBarFactory(this, this, this);
-        menuBar = menuBarFactory.createJMenuBar();
+        Hashtable<String, JMenuItem> importantItems = new Hashtable<>();
+        menuBar = menuBarFactory.createJMenuBar(importantItems);
         setJMenuBar(menuBar);
+        forwardingMenuItem = importantItems.get(MainFrameMenuBarFactory.STRING_MENU_SIMULATOR_FORWARDING);
+
         setMinimumSize(new Dimension(200, 200));
         desktop = new JDesktopPane();
         desktop.setBackground(Color.WHITE);
@@ -137,7 +143,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         setMinimumSize(new Dimension(200, 200));
         setExtendedState(MAXIMIZED_BOTH);
         setVisible(true);
-        
+
         /// select editor frame
         try
         {
@@ -250,7 +256,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     {
         editor.setSavedState();
     }
-    
+
     public boolean isEditorTextSaved()
     {
         return editor.isTextSaved();
@@ -299,6 +305,11 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     public void setLoadedCodeFilePath(String loadedCodeFilePath)
     {
         this.loadedCodeFilePath = loadedCodeFilePath;
+    }
+
+    public JMenuItem getForwardingMenuItem()
+    {
+        return forwardingMenuItem;
     }
 
 }
