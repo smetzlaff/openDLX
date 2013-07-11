@@ -22,49 +22,42 @@
 package openDLX.gui.internalframes.util;
 
 import java.awt.Dimension;
-import javax.swing.*;
-import javax.swing.table.*;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
 
 public class TableSizeCalculator
 {
-
-    static final public int SET_SIZE_HEIGHT = 0;
-    static final public int SET_SIZE_WIDTH = 1;
-    static final public int SET_SIZE_BOTH = 2;
+    public static final int SET_SIZE_HEIGHT = 0;
+    public static final int SET_SIZE_WIDTH = 1;
+    public static final int SET_SIZE_BOTH = 2;
 
     public static void setDefaultMaxTableSize(JScrollPane scrollpane, JTable table, int type)
     {
-
         int width = 0;
-        int height = 0;
-        TableModel tm = table.getModel();
-        TableColumnModel cm = table.getColumnModel();
+        final int height = (table.getRowCount() + 2) * table.getRowHeight();
 
-        for (int i = 0; i < tm.getColumnCount(); ++i)
+        final int colCount = table.getModel().getColumnCount();
+        final TableColumnModel cm = table.getColumnModel();
+
+        for (int i = 0; i < colCount; ++i)
         {
             width += cm.getColumn(i).getMaxWidth();
         }
 
-        height = (table.getRowCount() + 2) * table.getRowHeight();
-
         switch (type)
         {
             case SET_SIZE_HEIGHT:
-                scrollpane.setPreferredSize(new Dimension(scrollpane.getPreferredSize().width, height));
+                scrollpane.setPreferredSize(new Dimension(
+                        scrollpane.getPreferredSize().width, height));
                 break;
             case SET_SIZE_WIDTH:
-                scrollpane.setPreferredSize(new Dimension(width, scrollpane.getPreferredSize().height));
+                scrollpane.setPreferredSize(new Dimension(width,
+                        scrollpane.getPreferredSize().height));
                 break;
             default:
                 scrollpane.setPreferredSize(new Dimension(width, height));
-
-
-
-
         }
-
-
-
     }
-
 }

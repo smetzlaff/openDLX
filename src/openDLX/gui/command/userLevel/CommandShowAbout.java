@@ -30,13 +30,16 @@ import openDLX.gui.command.Command;
 
 public class CommandShowAbout implements Command
 {
-
     @Override
     public void execute()
     {
-    	final ImageIcon icon = new ImageIcon(getClass().getResource("/img/openDLX_small.png"), "openDLX logo");    	    	
-    	JOptionPane.showMessageDialog(MainFrame.getInstance(), GlobalConfig.ABOUT, "About", JOptionPane.INFORMATION_MESSAGE, icon);
+        final ImageIcon icon = new ImageIcon(
+                getClass().getResource("/img/openDLX_small.png"),
+                "openDLX logo");
+        JOptionPane.showMessageDialog(MainFrame.getInstance(),
+                GlobalConfig.ABOUT,
+                "About",
+                JOptionPane.INFORMATION_MESSAGE,
+                icon);
     }
-
 }
-

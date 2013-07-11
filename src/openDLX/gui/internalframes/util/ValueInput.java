@@ -28,34 +28,17 @@ public class ValueInput
 
     public static Integer getValue(String message, Object defaultValue) throws NumberFormatException
     {
-
         String valueString = JOptionPane.showInputDialog(message, defaultValue);
         return getValueSilent(valueString);
-
     }
 
     public static Integer getValueSilent(String valueString)
     {
-
-        if (valueString != null)
-        {
-
-            if (valueString.contains("0x"))
-            {
-                StringBuilder sb = new StringBuilder(valueString);
-
-                return Integer.parseInt(sb.substring(2), 16);
-
-
-            }
-            else
-            {
-                return Integer.parseInt(valueString);
-            }
-
-
-        }
-        return null;
+        if (valueString == null)
+            return null;
+        else if (valueString.contains("0x"))
+            return Integer.parseInt(valueString.substring(2), 16);
+        else
+            return Integer.parseInt(valueString);
     }
-
 }

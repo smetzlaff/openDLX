@@ -29,14 +29,43 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Queue;
-import org.apache.log4j.*;
-import openDLX.datatypes.*;
+
+import openDLX.datatypes.ArchCfg;
+import openDLX.datatypes.BranchPredictionModuleExecuteData;
+import openDLX.datatypes.BranchPredictionModuleFetchData;
+import openDLX.datatypes.BranchPredictionModuleOutputData;
+import openDLX.datatypes.DecodeExecuteData;
+import openDLX.datatypes.DecodeOutputData;
+import openDLX.datatypes.ExecuteBranchPredictionData;
+import openDLX.datatypes.ExecuteFetchData;
+import openDLX.datatypes.ExecuteMemoryData;
+import openDLX.datatypes.ExecuteOutputData;
+import openDLX.datatypes.FetchDecodeData;
+import openDLX.datatypes.FetchOutputData;
+import openDLX.datatypes.ISAType;
+import openDLX.datatypes.Instruction;
+import openDLX.datatypes.MemoryOutputData;
+import openDLX.datatypes.MemoryWritebackData;
+import openDLX.datatypes.SpecialRegisters;
+import openDLX.datatypes.WriteBackData;
+import openDLX.datatypes.WritebackOutputData;
+import openDLX.datatypes.uint32;
+import openDLX.datatypes.uint8;
 import openDLX.exception.DecodeStageException;
 import openDLX.exception.MemoryException;
 import openDLX.exception.PipelineException;
 import openDLX.gui.GUI_CONST;
-import openDLX.memory.*;
-import openDLX.util.*;
+import openDLX.memory.DataMemory;
+import openDLX.memory.InstructionMemory;
+import openDLX.memory.MainMemory;
+import openDLX.util.ClockCycleLog;
+import openDLX.util.DLXTrapHandler;
+import openDLX.util.LoggerConfigurator;
+import openDLX.util.PrintHandler;
+import openDLX.util.Statistics;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 public class OpenDLXSimulator
 {
@@ -165,7 +194,7 @@ public class OpenDLXSimulator
 
         sim_cycles = new Integer(config.getProperty("cycles"));
         caught_break = false;
-        ClockCycleLog.log.clear();        
+        ClockCycleLog.log.clear();
         ClockCycleLog.code.clear();
     }
 
@@ -279,7 +308,7 @@ public class OpenDLXSimulator
             logger.debug("-------------------");
             stat.countCycle();
 
-            HashMap h = new HashMap();
+            HashMap<uint32, String> h = new HashMap<>();
             h.put(getPipeline().getFetchDecodeLatch().element().getPc(), GUI_CONST.FETCH);
             h.put(getPipeline().getDecodeExecuteLatch().element().getPc(), GUI_CONST.DECODE);
             h.put(getPipeline().getExecuteMemoryLatch().element().getPc(), GUI_CONST.EXECUTE);
@@ -294,8 +323,8 @@ public class OpenDLXSimulator
 
             logger.info("Caught break instruction - stopping simulation.");
             System.out.println("Caught break instruction after " + stat.getCycles() + " cycles. Stopped simulation.");
-            
-            // -print out selected memory 
+
+            // -print out selected memory
             // -check assumptions of configuration file
             finalizeSimulation(config, stat);
             finished = true;
@@ -442,9 +471,9 @@ public class OpenDLXSimulator
 
         // LATCH
 
-        // BRANCH PREDICTOR MODULE: lookup for jump target and update prediction tables 
+        // BRANCH PREDICTOR MODULE: lookup for jump target and update prediction tables
         bpmod = pipeline.getBranchPredictionModule().doCycle();
-        // BRANCH PREDICTOR MODULE: lookup for jump target and update prediction tables 
+        // BRANCH PREDICTOR MODULE: lookup for jump target and update prediction tables
 
         // MEMORY STAGE
         mod = pipeline.getMemoryStage().doCycle();
@@ -473,12 +502,12 @@ public class OpenDLXSimulator
                 memory_writeback_latch.add(mod.getMwd());
                 writeback_latch.add(wod.getWbd());
 
-                // kick out the memory load instruction (since it was executed)					
+                // kick out the memory load instruction (since it was executed)
                 execute_memory_latch.element().flush();
             }
             else
             {
-                // remove input from latches 
+                // remove input from latches
                 fetch_decode_latch.remove();
                 decode_execute_latch.remove();
                 branchprediction_fetch_latch.remove();

@@ -22,7 +22,10 @@
 package openDLX.gui.internalframes.concreteframes;
 
 import java.awt.BorderLayout;
-import javax.swing.*;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import openDLX.RegisterSet;
 import openDLX.datatypes.ArchCfg;
 import openDLX.datatypes.uint8;
@@ -49,29 +52,28 @@ public final class RegisterFrame extends OpenDLXSimInternalFrame
     @Override
     public void update()
     {
-    	for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
-    	{
-    		if (Preference.displayRegistersAsHex())
-    		{
-    			registerTable.getModel().setValueAt(rs.read(new uint8(i)), i, 1);
-    		}
-    		else
-    		{
-    			registerTable.getModel().setValueAt(rs.read(new uint8(i)).getValue(), i, 1);
-    		}
-    	}
+        for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
+        {
+            final Object value;
+            if (Preference.displayRegistersAsHex())
+                value = rs.read(new uint8(i));
+            else
+                value = rs.read(new uint8(i)).getValue();
+            registerTable.getModel().setValueAt(value, i, 1);
+        }
     }
 
     @Override
     protected void initialize()
     {
         super.initialize();
-        //make the scrollpane 
+        //make the scrollpane
         registerTable = new RegisterTableFactory(rs).createTable();
         JScrollPane scrollpane = new JScrollPane(registerTable);
         scrollpane.setFocusable(false);
         registerTable.setFillsViewportHeight(true);
-        TableSizeCalculator.setDefaultMaxTableSize(scrollpane, registerTable, TableSizeCalculator.SET_SIZE_BOTH);
+        TableSizeCalculator.setDefaultMaxTableSize(scrollpane, registerTable,
+                TableSizeCalculator.SET_SIZE_BOTH);
         //config internal frame
         setLayout(new BorderLayout());
         add(scrollpane, BorderLayout.CENTER);

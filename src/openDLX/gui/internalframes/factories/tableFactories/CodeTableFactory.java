@@ -21,15 +21,16 @@
  ******************************************************************************/
 package openDLX.gui.internalframes.factories.tableFactories;
 
-import openDLX.gui.MainFrame;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
+
+import openDLX.OpenDLXSimulator;
 import openDLX.asm.DLXAssembler;
 import openDLX.datatypes.uint32;
 import openDLX.exception.MemoryException;
+import openDLX.gui.MainFrame;
 import openDLX.gui.internalframes.renderer.CodeFrameTableCellRenderer;
 import openDLX.gui.internalframes.util.NotSelectableTableModel;
-import openDLX.OpenDLXSimulator;
 
 public class CodeTableFactory extends TableFactory
 {
@@ -55,45 +56,37 @@ public class CodeTableFactory extends TableFactory
 
         //default max width values change here
         TableColumnModel tcm = table.getColumnModel();
-        int defaultWidht = 150;
-        tcm.getColumn(0).setMaxWidth(defaultWidht);
-        tcm.getColumn(1).setMaxWidth(defaultWidht);
-        tcm.getColumn(2).setMaxWidth(defaultWidht);
+        final int defaultWidth = 150;
+        tcm.getColumn(0).setMaxWidth(defaultWidth);
+        tcm.getColumn(1).setMaxWidth(defaultWidth);
+        tcm.getColumn(2).setMaxWidth(defaultWidth);
         table.setDefaultRenderer(Object.class, new CodeFrameTableCellRenderer());
 
-        //insert code 
+        //insert code
         int start;
         if (!openDLXSim.getConfig().containsKey("text_begin"))
-        {
             start = openDLXSim.getPipeline().getFetchStage().getPc().getValue();
-        }
         else
-        {
             start = stringToInt(openDLXSim.getConfig().getProperty("text_begin"));
-        }
 
         int end = openDLXSim.getSimCycles();
         if (!openDLXSim.getConfig().containsKey("text_end"))
-        {
             end = start + 4 * openDLXSim.getSimCycles();
-        }
         else
-        {
             end = stringToInt(openDLXSim.getConfig().getProperty("text_end"));
-        }
 
         DLXAssembler asm = new DLXAssembler();
         try
         {
             for (int i = start; i < end; i += 4)
             {
-                uint32 addr = new uint32(i);
-                uint32 inst = openDLXSim.getPipeline().getInstructionMemory().read_u32(new uint32(i));
-                String instStr = asm.Instr2Str(inst.getValue());
+                final uint32 inst = openDLXSim.getPipeline().getInstructionMemory().read_u32(new uint32(i));
 
                 model.addRow(new Object[]
                         {
-                            addr, inst, instStr
+                            new uint32(i),
+                            inst,
+                            asm.Instr2Str(inst.getValue())
                         });
             }
         }

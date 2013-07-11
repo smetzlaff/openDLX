@@ -22,11 +22,13 @@
 package openDLX.gui.internalframes.renderer;
 
 import java.awt.Component;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
+
 import openDLX.gui.GUI_CONST;
 import openDLX.gui.command.userLevel.CommandDisplayTooltips;
 
@@ -37,7 +39,6 @@ public class ChangeableFrameTableCellRenderer implements TableCellRenderer, GUI_
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column)
     {
-
         //set defaults
         JLabel label = new JLabel(value.toString());
         label.setOpaque(true);
@@ -46,16 +47,10 @@ public class ChangeableFrameTableCellRenderer implements TableCellRenderer, GUI_
         label.setFont(table.getFont());
         label.setForeground(table.getForeground());
         label.setBackground(table.getBackground());
-        
-        if (CommandDisplayTooltips.isTooltipsEnabled())
-        {
-            label.setToolTipText("double click to change");
-        }
 
-    
+        if (CommandDisplayTooltips.isTooltipsEnabled())
+            label.setToolTipText("double click to change");
 
         return label;
-
     }
-
 }

@@ -24,16 +24,17 @@ package openDLX.gui.dialog;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+
 import openDLX.gui.GUI_CONST.OpenDLXSimState;
 import openDLX.gui.MainFrame;
 
 @SuppressWarnings("serial")
 public class Player extends JDialog implements ActionListener
 {
-
     private JButton play, pause, stop, times1, times2, times4, times8, times16;
 
     public Player(JFrame f)
@@ -41,6 +42,7 @@ public class Player extends JDialog implements ActionListener
         super(f, false);
         setLayout(new FlowLayout());
         setTitle("OpenDLXSimulator run");
+
         play = new JButton("Run");
         play.addActionListener(this);
         add(play);
@@ -66,60 +68,59 @@ public class Player extends JDialog implements ActionListener
         times16 = new JButton("16x");
         times16.addActionListener(this);
         add(times16);
+
         setResizable(false);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(f);
+
         pack();
         setVisible(true);
-
-       
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
         MainFrame mf = MainFrame.getInstance();
-        if (e.getSource().equals(play))
+        if (e.getSource() == play)
         {
             pause.setEnabled(true);
             play.setEnabled(false);
             mf.setPause(false);
-            mf.setRunSpeed(mf.RUN_SPEED_DEFAULT);
+            mf.setRunSpeed(MainFrame.RUN_SPEED_DEFAULT);
         }
-        if (e.getSource().equals(pause))
+        else if (e.getSource() == pause)
         {
             play.setEnabled(true);
             mf.setPause(true);
             pause.setEnabled(false);
         }
-        if (e.getSource().equals(stop))
+        else if (e.getSource() == stop)
         {
             mf.setOpenDLXSimState(OpenDLXSimState.EXECUTING);
             mf.setPause(false);
-            setVisible(false);            
-            mf.setRunSpeed(mf.RUN_SPEED_DEFAULT);
+            setVisible(false);
+            mf.setRunSpeed(MainFrame.RUN_SPEED_DEFAULT);
             dispose();
         }
-        if (e.getSource().equals(times1))
+        else if (e.getSource() == times1)
         {
-            mf.setRunSpeed(mf.RUN_SPEED_DEFAULT);
+            mf.setRunSpeed(MainFrame.RUN_SPEED_DEFAULT);
         }
-        if (e.getSource().equals(times2))
+        else if (e.getSource() == times2)
         {
-            mf.setRunSpeed(mf.RUN_SPEED_DEFAULT / 2);
+            mf.setRunSpeed(MainFrame.RUN_SPEED_DEFAULT / 2);
         }
-        if (e.getSource().equals(times4))
+        else if (e.getSource() == times4)
         {
-            mf.setRunSpeed(mf.RUN_SPEED_DEFAULT / 4);
+            mf.setRunSpeed(MainFrame.RUN_SPEED_DEFAULT / 4);
         }
-        if (e.getSource().equals(times8))
+        else if (e.getSource() == times8)
         {
-            mf.setRunSpeed(mf.RUN_SPEED_DEFAULT / 8);
+            mf.setRunSpeed(MainFrame.RUN_SPEED_DEFAULT / 8);
         }
-        if (e.getSource().equals(times16))
+        else if (e.getSource() == times16)
         {
-            mf.setRunSpeed(mf.RUN_SPEED_DEFAULT / 16);
+            mf.setRunSpeed(MainFrame.RUN_SPEED_DEFAULT / 16);
         }
     }
-
 }

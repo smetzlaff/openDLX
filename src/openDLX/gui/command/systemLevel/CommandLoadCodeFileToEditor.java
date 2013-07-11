@@ -23,7 +23,9 @@ package openDLX.gui.command.systemLevel;
 
 import java.awt.Cursor;
 import java.io.File;
+
 import javax.swing.JOptionPane;
+
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.Command;
 import openDLX.util.CodeLoader;
@@ -45,7 +47,6 @@ public class CommandLoadCodeFileToEditor implements Command
     @Override
     public void execute()
     {
-
         try
         {
             mf.getContentPane().setCursor(
@@ -54,21 +55,15 @@ public class CommandLoadCodeFileToEditor implements Command
             String help = codeFile.getAbsolutePath().replace("\\", "/");
             String text;
             if (clean == true)
-            {
                 text = "";
-            }
             else
-            {
-                text = mf.getEditorText();
-                text += "\n";
-            }
+                text = mf.getEditorText() + "\n";
             text += CodeLoader.loadCode(help);
             mf.setEditorText(text);
             mf.setEditorSavedState();
         }
         catch (Exception e)
         {
-
             System.err.println(e.toString());
             e.printStackTrace();
             JOptionPane.showMessageDialog(mf, "Loading File into editor failed");
@@ -79,5 +74,4 @@ public class CommandLoadCodeFileToEditor implements Command
                     Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
-
 }

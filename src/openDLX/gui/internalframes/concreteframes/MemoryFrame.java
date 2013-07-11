@@ -37,6 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
+
 import openDLX.asm.Labels;
 import openDLX.datatypes.uint32;
 import openDLX.exception.MemoryException;
@@ -68,14 +69,13 @@ public final class MemoryFrame extends OpenDLXSimInternalFrame implements Action
         super(name, false);
         this.mf = mf;
         initialize();
-
     }
 
     @Override
     public void update()
     {
         TableModel model = memoryTable.getModel();
-        //get start-addr = first address in the memory table 
+        //get start-addr = first address in the memory table
         if (model.getColumnCount() > 0)
         {
             String startAddrString = model.getValueAt(0, 0).toString();
@@ -84,14 +84,13 @@ public final class MemoryFrame extends OpenDLXSimInternalFrame implements Action
             {
                 for (int i = 0; i < model.getRowCount(); ++i)
                 {
-                	if(Preference.displayMemoryAsHex())
-                	{
-                		model.setValueAt(MainFrame.getInstance().getOpenDLXSim().getPipeline().getMainMemory().read_u32(new uint32(Integer.parseInt(startAddrString.substring(2), 16) + i * 4)).getHex(), i, 1);
-                	}
-                	else
-                	{
-                		model.setValueAt(MainFrame.getInstance().getOpenDLXSim().getPipeline().getMainMemory().read_u32(new uint32(Integer.parseInt(startAddrString.substring(2), 16) + i * 4)).getValue(), i, 1);
-                	}
+                    final uint32 uint_val = MainFrame.getInstance().getOpenDLXSim().getPipeline().getMainMemory().read_u32(new uint32(Integer.parseInt(startAddrString.substring(2), 16) + i * 4));
+                    final Object value;
+                    if (Preference.displayMemoryAsHex())
+                        value = uint_val.getHex();
+                    else
+                        value = uint_val.getValue();
+                    model.setValueAt(value, i, 1);
                 }
             }
             catch (MemoryException e)
@@ -113,7 +112,7 @@ public final class MemoryFrame extends OpenDLXSimInternalFrame implements Action
         TableSizeCalculator.setDefaultMaxTableSize(scrollpane, memoryTable, TableSizeCalculator.SET_SIZE_WIDTH);
         add(scrollpane, BorderLayout.CENTER);
 
-        //input 
+        //input
         JPanel inputPanel = new JPanel();
         addrLabel = new JLabel("start addr");
         inputPanel.add(addrLabel);
@@ -150,24 +149,19 @@ public final class MemoryFrame extends OpenDLXSimInternalFrame implements Action
     @Override
     public void actionPerformed(ActionEvent e)
     {
-
-
         try
         {
             Integer value = ValueInput.getValueSilent(addrInput.getText());
             if (value != null)
-            {
                 startAddr = value;
-            }
+
             value = ValueInput.getValueSilent(rowInput.getText());
             if (value != null)
-            {
                 rows = value;
-            }
+
             clean();
             InternalFrameFactory.getInstance().createMemoryFrame(mf);
-            CommandLoadFrameConfigurationSysLevel c10 = new CommandLoadFrameConfigurationSysLevel(mf);
-            c10.execute();
+            new CommandLoadFrameConfigurationSysLevel(mf).execute();
         }
         catch (Exception ex)
         {
@@ -179,36 +173,29 @@ public final class MemoryFrame extends OpenDLXSimInternalFrame implements Action
                     startAddr = (Integer) Labels.labels.get(addrInput.getText());
                     clean();
                     InternalFrameFactory.getInstance().createMemoryFrame(mf);
-                    CommandLoadFrameConfigurationSysLevel c10 = new CommandLoadFrameConfigurationSysLevel(mf);
-                    c10.execute();
+                    new CommandLoadFrameConfigurationSysLevel(mf).execute();
                     error = false;
                 }
             }
+
             if (error)
-            {
-                JOptionPane.showMessageDialog(this, "for input only hex (0x..) address, decimal address or label (e.g. \"main\") allowed");
-            }
-
+                JOptionPane.showMessageDialog(this, "for input only hex (0x..) " +
+                        "address, decimal address or label (e.g. \"main\") allowed");
         }
-
     }
 
     @Override
     public void keyTyped(KeyEvent e)
     {
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
-        {
             reload.doClick();
-        }
     }
 
     @Override
     public void keyPressed(KeyEvent e)
     {
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
-        {
             reload.doClick();
-        }
     }
 
     @Override

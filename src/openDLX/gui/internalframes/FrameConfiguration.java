@@ -21,8 +21,9 @@
  ******************************************************************************/
 package openDLX.gui.internalframes;
 
+import static openDLX.gui.Preference.pref;
+
 import javax.swing.JInternalFrame;
-import static openDLX.gui.Preference.*;
 
 public class FrameConfiguration
 {
@@ -51,12 +52,14 @@ public class FrameConfiguration
 
     public void loadFrameConfiguration()
     {
-        jif.setBounds(pref.getInt(jif.getTitle() + posXPreferenceKey, jif.getX()), pref.getInt(jif.getTitle() + posYPreferenceKey, jif.getY()), pref.getInt(jif.getTitle() + sizeXPreferenceKey, jif.getWidth()), pref.getInt(jif.getTitle() + sizeYPreferenceKey, jif.getHeight()));
+        jif.setBounds(pref.getInt(jif.getTitle() + posXPreferenceKey, jif.getX()),
+                pref.getInt(jif.getTitle() + posYPreferenceKey, jif.getY()),
+                pref.getInt(jif.getTitle() + sizeXPreferenceKey, jif.getWidth()),
+                pref.getInt(jif.getTitle() + sizeYPreferenceKey, jif.getHeight()));
 
         try
         {
             jif.setVisible(pref.getBoolean(jif.getTitle() + isVisiblePreferenceKey, true));
-            
         }
         catch (Exception e)
         {
@@ -64,5 +67,4 @@ public class FrameConfiguration
             e.printStackTrace();
         }
     }
-
 }

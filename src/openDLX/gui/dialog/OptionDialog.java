@@ -47,7 +47,6 @@ import openDLX.gui.Preference;
 public class OptionDialog extends JDialog implements ActionListener
 {
     // two control buttons, press confirm to save selected options
-
     private JButton confirm;
     private JButton cancel;
 
@@ -55,16 +54,13 @@ public class OptionDialog extends JDialog implements ActionListener
     private JCheckBox forwardingCheckBox;
     private JCheckBox mipsCompatibilityCheckBox;
 
-    /*Combo Box
-     *
-     *  JComboBox may be represented by Vectors or Arrays of Objects ( Object [])
-     * we have chosen "Object[]" to be the representation (in fact - String) for
+    /*
+     * JComboBox may be represented by Vectors or Arrays of Objects (Object [])
+     * we have chosen "String[]" to be the representation (in fact - String) for
      * the data within AsmFileLoader-class , but Vector is appropriate as well.
-     * (sorry,  JComboBox is not made for Enumeration, i made a final Object[] array,
-     * but Preference doesn't accept Object, just String)
      */
-    private JComboBox bpTypeComboBox;
-    private JComboBox bpInitialStateComboBox;
+    private JComboBox<String> bpTypeComboBox;
+    private JComboBox<String> bpInitialStateComboBox;
     private JTextField btbSizeTextField;
 
     //input text fields
@@ -101,9 +97,9 @@ public class OptionDialog extends JDialog implements ActionListener
         mipsCompatibilityCheckBox.setSelected(Preference.pref.getBoolean(Preference.mipsCompatibilityPreferenceKey, true)); // load current value
 
         // disable MIPS compatibility if no forwading is active
-        if(!forwardingCheckBox.isSelected())
+        if (!forwardingCheckBox.isSelected())
         {
-        	mipsCompatibilityCheckBox.setSelected(false);
+            mipsCompatibilityCheckBox.setSelected(false);
         }
 
         /*create a JComboBoxes
@@ -114,8 +110,9 @@ public class OptionDialog extends JDialog implements ActionListener
 
         // bpType:
         JLabel bpTypeComboBoxDescriptionLabel = new JLabel("Branch Predictor: ");
-        bpTypeComboBox = new JComboBox(ArchCfg.possibleBpTypeComboBoxValues);
-        bpTypeComboBox.setSelectedItem(BranchPredictionModule.getBranchPredictorTypeFromString(Preference.pref.get(Preference.bpTypePreferenceKey, BranchPredictorType.UNKNOWN.toString())).toGuiString()); // load current value
+        bpTypeComboBox = new JComboBox<String>(ArchCfg.possibleBpTypeComboBoxValues);
+        bpTypeComboBox.setSelectedItem(BranchPredictionModule.getBranchPredictorTypeFromString(
+                Preference.pref.get(Preference.bpTypePreferenceKey, BranchPredictorType.UNKNOWN.toString())).toGuiString()); // load current value
         //surrounding panel
         JPanel bpTypeListPanel = new JPanel();
         //add the label
@@ -125,8 +122,9 @@ public class OptionDialog extends JDialog implements ActionListener
 
         // bpInitialState:
         JLabel bpInitialStateComboBoxDescriptionLabel = new JLabel("Initial Predictor State: ");
-        bpInitialStateComboBox = new JComboBox(ArchCfg.possibleBpInitialStateComboBoxValues);
-        bpInitialStateComboBox.setSelectedItem(BranchPredictionModule.getBranchPredictorInitialStateFromString(Preference.pref.get(Preference.bpInitialStatePreferenceKey, BranchPredictorState.UNKNOWN.toString())).toGuiString()); // load current value
+        bpInitialStateComboBox = new JComboBox<String>(ArchCfg.possibleBpInitialStateComboBoxValues);
+        bpInitialStateComboBox.setSelectedItem(BranchPredictionModule.getBranchPredictorInitialStateFromString(
+                Preference.pref.get(Preference.bpInitialStatePreferenceKey, BranchPredictorState.UNKNOWN.toString())).toGuiString()); // load current value
         //surrounding panel
         JPanel bpInitialStateListPanel = new JPanel();
         //add the label
@@ -185,7 +183,6 @@ public class OptionDialog extends JDialog implements ActionListener
         pack();
         setResizable(false);
         setVisible(true);
-
     }
 
     @Override
@@ -203,39 +200,40 @@ public class OptionDialog extends JDialog implements ActionListener
          */
         if (e.getSource().equals(confirm))
         {
-            Preference.pref.putBoolean(Preference.forwardingPreferenceKey, forwardingCheckBox.isSelected());
-            Preference.pref.putBoolean(Preference.mipsCompatibilityPreferenceKey, mipsCompatibilityCheckBox.isSelected());
+            Preference.pref.putBoolean(Preference.forwardingPreferenceKey,
+                    forwardingCheckBox.isSelected());
+            Preference.pref.putBoolean(Preference.mipsCompatibilityPreferenceKey,
+                    mipsCompatibilityCheckBox.isSelected());
             if (forwardingCheckBox.isSelected())
             {
-            	ArchCfg.use_forwarding = true;
-            	if(mipsCompatibilityCheckBox.isSelected())
-            	{
-            		ArchCfg.use_load_stall_bubble = true;
-            	}
-            	else
-            	{
-            		ArchCfg.use_load_stall_bubble = false;
-            	}
+                ArchCfg.use_forwarding = true;
+                if(mipsCompatibilityCheckBox.isSelected())
+                {
+                    ArchCfg.use_load_stall_bubble = true;
+                }
+                else
+                {
+                    ArchCfg.use_load_stall_bubble = false;
+                }
 
             }
             else
             {
-            	ArchCfg.use_forwarding = false;
-            	ArchCfg.use_load_stall_bubble = false;
+                ArchCfg.use_forwarding = false;
+                ArchCfg.use_load_stall_bubble = false;
 
-            	if(mipsCompatibilityCheckBox.isSelected())
-            	{
-            		// reset the MIPS compatibility
-            		mipsCompatibilityCheckBox.setSelected(false);
-            		Preference.pref.putBoolean(Preference.mipsCompatibilityPreferenceKey, false);
+                if(mipsCompatibilityCheckBox.isSelected())
+                {
+                    // reset the MIPS compatibility
+                    mipsCompatibilityCheckBox.setSelected(false);
+                    Preference.pref.putBoolean(Preference.mipsCompatibilityPreferenceKey, false);
 
-            		JOptionPane.showMessageDialog(MainFrame.getInstance(), "Reset \"MIPS compatibility mode\", since it requires activated forwarding.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            	}
+                    JOptionPane.showMessageDialog(MainFrame.getInstance(), "Reset \"MIPS compatibility mode\", since it requires activated forwarding.", "Info", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
 
             // propagate forwarding to menu
             propagateFWToMenu(forwardingCheckBox.isSelected());
-
 
             // TODO also add a field for disabling the branch prediction
             // TODO do some checks for the setting of the BP initial state and sizes
@@ -243,8 +241,11 @@ public class OptionDialog extends JDialog implements ActionListener
             ArchCfg.branch_predictor_type = BranchPredictionModule.getBranchPredictorTypeFromGuiString(bpTypeComboBox.getSelectedItem().toString());
             Preference.pref.put(Preference.bpTypePreferenceKey, ArchCfg.branch_predictor_type.toString());
 
-            ArchCfg.branch_predictor_initial_state = BranchPredictionModule.getBranchPredictorInitialStateFromGuiString(bpInitialStateComboBox.getSelectedItem().toString());
-            Preference.pref.put(Preference.bpInitialStatePreferenceKey, ArchCfg.branch_predictor_initial_state.toString());
+            ArchCfg.branch_predictor_initial_state = BranchPredictionModule.
+                    getBranchPredictorInitialStateFromGuiString(
+                            bpInitialStateComboBox.getSelectedItem().toString());
+            Preference.pref.put(Preference.bpInitialStatePreferenceKey,
+                    ArchCfg.branch_predictor_initial_state.toString());
 
             ArchCfg.branch_predictor_table_size = Integer.parseInt(btbSizeTextField.getText());
             Preference.pref.put(Preference.btbSizePreferenceKey, btbSizeTextField.getText());
@@ -256,73 +257,79 @@ public class OptionDialog extends JDialog implements ActionListener
             case S_ALWAYS_TAKEN:
             case S_ALWAYS_NOT_TAKEN:
             case S_BACKWARD_TAKEN:
-            	// unknown and static predictors have no initial state and no branch predictor table size
-            	ArchCfg.branch_predictor_initial_state = BranchPredictorState.UNKNOWN;
-            	Preference.pref.put(Preference.bpInitialStatePreferenceKey, BranchPredictorState.UNKNOWN.toString());
+                // unknown and static predictors have no initial state and no branch predictor table size
+                ArchCfg.branch_predictor_initial_state = BranchPredictorState.UNKNOWN;
+                Preference.pref.put(Preference.bpInitialStatePreferenceKey,
+                        BranchPredictorState.UNKNOWN.toString());
 
-            	ArchCfg.branch_predictor_table_size = 1;
-            	Preference.pref.put(Preference.btbSizePreferenceKey, (new Integer(ArchCfg.branch_predictor_table_size)).toString());
-            	break;
+                ArchCfg.branch_predictor_table_size = 1;
+                Preference.pref.put(Preference.btbSizePreferenceKey,
+                        new Integer(ArchCfg.branch_predictor_table_size).toString());
+                break;
             case D_1BIT:
-            	switch(ArchCfg.branch_predictor_initial_state)
-            	{
-            	case PREDICT_STRONGLY_NOT_TAKEN:
-            	case PREDICT_WEAKLY_NOT_TAKEN:
-            		// correct 2bit states to 1 bit state
-            		ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_NOT_TAKEN;
-            		Preference.pref.put(Preference.bpInitialStatePreferenceKey, ArchCfg.branch_predictor_initial_state.toString());
-            		break;
-            	case PREDICT_STRONGLY_TAKEN:
-            	case PREDICT_WEAKLY_TAKEN:
-            		// correct 2bit states to 1 bit state
-            		ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_TAKEN;
-            		Preference.pref.put(Preference.bpInitialStatePreferenceKey, ArchCfg.branch_predictor_initial_state.toString());
-            		break;
-            	case UNKNOWN:
-            	default:
-            		ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_NOT_TAKEN;
-            		Preference.pref.put(Preference.bpInitialStatePreferenceKey, ArchCfg.branch_predictor_initial_state.toString());
-            		// TODO Throw exception
-            		break;
-            	}
-            	break;
+                switch(ArchCfg.branch_predictor_initial_state)
+                {
+                case PREDICT_STRONGLY_NOT_TAKEN:
+                case PREDICT_WEAKLY_NOT_TAKEN:
+                    // correct 2bit states to 1 bit state
+                    ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_NOT_TAKEN;
+                    Preference.pref.put(Preference.bpInitialStatePreferenceKey,
+                            ArchCfg.branch_predictor_initial_state.toString());
+                    break;
+                case PREDICT_STRONGLY_TAKEN:
+                case PREDICT_WEAKLY_TAKEN:
+                    // correct 2bit states to 1 bit state
+                    ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_TAKEN;
+                    Preference.pref.put(Preference.bpInitialStatePreferenceKey,
+                            ArchCfg.branch_predictor_initial_state.toString());
+                    break;
+                case UNKNOWN:
+                default:
+                    ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_NOT_TAKEN;
+                    Preference.pref.put(Preference.bpInitialStatePreferenceKey,
+                            ArchCfg.branch_predictor_initial_state.toString());
+                    // TODO Throw exception
+                    break;
+                }
+                break;
 
             case D_2BIT_SATURATION:
             case D_2BIT_HYSTERESIS:
-            	switch(ArchCfg.branch_predictor_initial_state)
-            	{
-            	case PREDICT_NOT_TAKEN:
-            		// correct 1bit states to 2 bit state
-            		ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_WEAKLY_NOT_TAKEN;
-            		Preference.pref.put(Preference.bpInitialStatePreferenceKey, ArchCfg.branch_predictor_initial_state.toString());
-            		break;
-            	case PREDICT_TAKEN:
-            		// correct 1bit states to 2 bit state
-            		ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_WEAKLY_TAKEN;
-            		Preference.pref.put(Preference.bpInitialStatePreferenceKey, ArchCfg.branch_predictor_initial_state.toString());
-            		break;
-            	case UNKNOWN:
-            	default:
-            		ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_WEAKLY_NOT_TAKEN;
-            		Preference.pref.put(Preference.bpInitialStatePreferenceKey, ArchCfg.branch_predictor_initial_state.toString());
-            		// TODO Throw exception
-            		break;
-            	}
-            	break;
+                switch(ArchCfg.branch_predictor_initial_state)
+                {
+                case PREDICT_NOT_TAKEN:
+                    // correct 1bit states to 2 bit state
+                    ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_WEAKLY_NOT_TAKEN;
+                    Preference.pref.put(Preference.bpInitialStatePreferenceKey,
+                            ArchCfg.branch_predictor_initial_state.toString());
+                    break;
+                case PREDICT_TAKEN:
+                    // correct 1bit states to 2 bit state
+                    ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_WEAKLY_TAKEN;
+                    Preference.pref.put(Preference.bpInitialStatePreferenceKey,
+                            ArchCfg.branch_predictor_initial_state.toString());
+                    break;
+                case UNKNOWN:
+                default:
+                    ArchCfg.branch_predictor_initial_state = BranchPredictorState.PREDICT_WEAKLY_NOT_TAKEN;
+                    Preference.pref.put(Preference.bpInitialStatePreferenceKey,
+                            ArchCfg.branch_predictor_initial_state.toString());
+                    // TODO Throw exception
+                    break;
+                }
+                break;
             }
 
             // the btb has to be a power of two
-            if(ArchCfg.branch_predictor_table_size == 0)
+            if (ArchCfg.branch_predictor_table_size == 0)
             {
-            	ArchCfg.branch_predictor_table_size = 1;
-            	Preference.pref.put(Preference.btbSizePreferenceKey, (new Integer(ArchCfg.branch_predictor_table_size)).toString());
-            	// TODO Throw exception
+                ArchCfg.branch_predictor_table_size = 1;
+                Preference.pref.put(Preference.btbSizePreferenceKey, (new Integer(ArchCfg.branch_predictor_table_size)).toString());
+                // TODO Throw exception
             }
 
             ArchCfg.max_cycles = Integer.parseInt(maxCyclesTextField.getText());
             Preference.pref.put(Preference.maxCyclesPreferenceKey, maxCyclesTextField.getText());
-
-
 
             setVisible(false);
             dispose();
@@ -333,6 +340,5 @@ public class OptionDialog extends JDialog implements ActionListener
     {
         MainFrame.getInstance().getForwardingMenuItem().setSelected(forwarding_enabled);
     }
-
 
 }

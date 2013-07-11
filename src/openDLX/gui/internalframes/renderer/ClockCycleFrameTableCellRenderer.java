@@ -22,18 +22,21 @@
 package openDLX.gui.internalframes.renderer;
 
 import java.awt.Component;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
+
 import openDLX.gui.GUI_CONST;
 
 public class ClockCycleFrameTableCellRenderer implements TableCellRenderer
 {
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column)
     {
         //set defaults
         JLabel label = new JLabel((String) value);
@@ -44,51 +47,25 @@ public class ClockCycleFrameTableCellRenderer implements TableCellRenderer
         label.setForeground(table.getForeground());
         label.setBackground(table.getBackground());
 
-        //FETCH
         if (label.getText() != null)
         {
+            //FETCH
             if (label.getText().contains(GUI_CONST.FETCH))
-            {
                 label.setBackground(GUI_CONST.IF_COLOR);
-            }
-        }
-        //DECODE 
-        if (label.getText() != null)
-        {
-            if (label.getText().contains(GUI_CONST.DECODE))
-            {
+            //DECODE
+            else if (label.getText().contains(GUI_CONST.DECODE))
                 label.setBackground(GUI_CONST.ID_COLOR);
-            }
-        }
-        //EXECUTE
-        if (label.getText() != null)
-        {
-            if (label.getText().contains(GUI_CONST.EXECUTE))
-            {
+            //EXECUTE
+            else if (label.getText().contains(GUI_CONST.EXECUTE))
                 label.setBackground(GUI_CONST.EX_COLOR);
-            }
-        }
-        //MEMORY
-        if (label.getText() != null)
-        {
-            if (label.getText().contains(GUI_CONST.MEMORY))
-            {
+            //MEMORY
+            else if (label.getText().contains(GUI_CONST.MEMORY))
                 label.setBackground(GUI_CONST.MEM_COLOR);
-            }
-        }
-        //WRITEBACK
-        if (label.getText() != null)
-        {
-            if (label.getText().contains(GUI_CONST.WRITEBACK))
-            {
+            //WRITEBACK
+            else if (label.getText().contains(GUI_CONST.WRITEBACK))
                 label.setBackground(GUI_CONST.WB_COLOR);
-            }
         }
-
-
 
         return label;
-
     }
-
 }

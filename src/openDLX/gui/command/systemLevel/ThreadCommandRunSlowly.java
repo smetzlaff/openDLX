@@ -23,10 +23,10 @@ package openDLX.gui.command.systemLevel;
 
 import java.awt.EventQueue;
 
+import openDLX.OpenDLXSimulator;
 import openDLX.exception.PipelineException;
 import openDLX.gui.GUI_CONST;
 import openDLX.gui.MainFrame;
-import openDLX.OpenDLXSimulator;
 
 public class ThreadCommandRunSlowly implements Runnable
 {
@@ -75,8 +75,7 @@ public class ThreadCommandRunSlowly implements Runnable
                     public void run()
                     {
                         //update frames
-                        CommandUpdateFrames c10 = new CommandUpdateFrames(mf);
-                        c10.execute();
+                        new CommandUpdateFrames(mf).execute();
                     }
 
                 });
@@ -92,15 +91,12 @@ public class ThreadCommandRunSlowly implements Runnable
         }
         // when running stops or openDLX has finished, set state back to executing, as executing means a openDLX is loaded but not running through
         mf.setOpenDLXSimState(GUI_CONST.OpenDLXSimState.EXECUTING);
-        // if the current openDLX has finished, dont allow any gui updates any more 
+        // if the current openDLX has finished, dont allow any gui updates any more
         if (openDLXSim.isFinished())
         {
             mf.setUpdateAllowed(false);
-            CommandSimulatorFinishedInfo c3 = new CommandSimulatorFinishedInfo();
-            c3.execute();
+            new CommandSimulatorFinishedInfo().execute();
         }
-
-
     }
 
 }
