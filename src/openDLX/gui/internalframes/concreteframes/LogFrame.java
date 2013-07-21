@@ -70,7 +70,11 @@ public final class LogFrame extends OpenDLXSimInternalFrame
         if (logFileAddr != null && logReader != null)
         {
             logReader.update();
-            model.addRow(logReader.getLog().toArray(new String[]{}));
+            
+            for(String s : logReader.getLog())
+            {
+                model.addRow(new String[]{s});
+            }
 
             logReader.getLog().clear();
 
