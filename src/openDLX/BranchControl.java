@@ -78,7 +78,7 @@ public class BranchControl
 		}
 		if(inst.getBranch())
 		{
-			logger.debug("A: " + A.getHex() + " " + inst.getBranchCondition() + " B: " + B.getHex() + " jump: " + jump);
+			logger.debug("A: " + A.getValueAsHexString() + " " + inst.getBranchCondition() + " B: " + B.getValueAsHexString() + " jump: " + jump);
 		}
 		return jump;
 	}

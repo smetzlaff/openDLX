@@ -296,7 +296,7 @@ public class BranchPredictionModule
 		
 		if(inst.getBranch())
 		{
-			logger.info("Jump from " + branch_pc.getHex() + " to " + branch_tgt.getHex() + " that is |" + ((jump)?("taken"):("not taken")) + "| was predicted: |" + ((btb.checkPrediction(branch_pc, branch_tgt, jump)?("correctly"):("not correctly"))) + "| BTB said: |" + btb.lookupBranch(branch_pc) + "| BTB entry: |" + btb.getIndexForBranchPc(branch_pc) + "| predictor state: |" + btb.getPredictorState(branch_pc) + "|");
+			logger.info("Jump from " + branch_pc.getValueAsHexString() + " to " + branch_tgt.getValueAsHexString() + " that is |" + ((jump)?("taken"):("not taken")) + "| was predicted: |" + ((btb.checkPrediction(branch_pc, branch_tgt, jump)?("correctly"):("not correctly"))) + "| BTB said: |" + btb.lookupBranch(branch_pc) + "| BTB entry: |" + btb.getIndexForBranchPc(branch_pc) + "| predictor state: |" + btb.getPredictorState(branch_pc) + "|");
 			stat.countBranchInformation(branch_pc, btb.getIndexForBranchPc(branch_pc), branch_tgt, jump, btb.lookupBranch(branch_pc), btb.checkPrediction(branch_pc, branch_tgt, jump));
 			stat.countPredictions(btb.checkPrediction(branch_pc, branch_tgt, jump));
 			stat.countBTBAccesses(btb.lookupBranch(branch_pc));
@@ -322,11 +322,11 @@ public class BranchPredictionModule
 		
 		if((result == BranchTargetBufferLookupResult.HIT_PREDICT_NOT_TAKEN) || (result == BranchTargetBufferLookupResult.HIT_PREDICT_TAKEN))
 		{
-			logger.debug("instruction at: " + pc.getHex() + " found in BTB and is predicted as " + ((do_speculative_jump)?("taken to addr: " + branch_tgt.getHex()):("not taken")));
+			logger.debug("instruction at: " + pc.getValueAsHexString() + " found in BTB and is predicted as " + ((do_speculative_jump)?("taken to addr: " + branch_tgt.getValueAsHexString()):("not taken")));
 		}
 		else if(result == BranchTargetBufferLookupResult.MISS)
 		{
-			logger.debug("instruction at: " + pc.getHex() + " was not found in BTB");
+			logger.debug("instruction at: " + pc.getValueAsHexString() + " was not found in BTB");
 		}
 		
 		BranchPredictionModuleFetchData bpmfd = new BranchPredictionModuleFetchData(do_speculative_jump, pc, branch_tgt);

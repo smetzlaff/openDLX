@@ -63,7 +63,7 @@ public class CacheLine {
 	{
 		if(!valid)
 		{
-			throw new CacheException("Cannot read from cache line, it is not valid. tag: " + tag.getHex());
+			throw new CacheException("Cannot read from cache line, it is not valid. tag: " + tag.getValueAsHexString());
 		}
 		if(block_offset % PipelineConstants.WORD_SIZE != 0)
 		{
@@ -81,7 +81,7 @@ public class CacheLine {
 	{
 		if(!valid)
 		{
-			throw new CacheException("Cannot write to cache line, it is not valid. tag: " + tag.getHex());
+			throw new CacheException("Cannot write to cache line, it is not valid. tag: " + tag.getValueAsHexString());
 		}
 		if(block_offset % PipelineConstants.WORD_SIZE != 0)
 		{
@@ -103,7 +103,7 @@ public class CacheLine {
 	{
 		if(!valid)
 		{
-			throw new CacheException("Cannot read from cache line, it is not valid. tag: " + tag.getHex());
+			throw new CacheException("Cannot read from cache line, it is not valid. tag: " + tag.getValueAsHexString());
 		}
 		if(block_offset >= bytes_per_line)
 		{
@@ -117,7 +117,7 @@ public class CacheLine {
 	{
 		if(!valid)
 		{
-			throw new CacheException("Cannot write to cache line, it is not valid. tag: " + tag.getHex());
+			throw new CacheException("Cannot write to cache line, it is not valid. tag: " + tag.getValueAsHexString());
 		}
 		if(block_offset >= bytes_per_line)
 		{
@@ -153,7 +153,7 @@ public class CacheLine {
 	public String dumpLine() 
 	{
 		String s;
-		s = tag.getHex() + " ";
+		s = tag.getValueAsHexString() + " ";
 		for(int i = 0; i < bytes_per_line; i++)
 		{
 			s += "0x" + Integer.toHexString(line[i]) + " "; 

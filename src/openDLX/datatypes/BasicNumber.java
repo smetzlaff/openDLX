@@ -23,14 +23,16 @@ package openDLX.datatypes;
 
 public abstract class BasicNumber
 {
-	public abstract String getHex();
-	
-	public String toString()
-	{
-		return getHex();
-	}
-	
-	public abstract int hashCode();
-	
-	public abstract boolean equals(Object o);
+    public abstract String getValueAsDecimalString();
+
+    public abstract String getValueAsHexString();
+
+    public String toString()
+    {
+        return getValueAsHexString();
+    }
+
+    public abstract int hashCode();
+
+    public abstract boolean equals(Object o);
 }

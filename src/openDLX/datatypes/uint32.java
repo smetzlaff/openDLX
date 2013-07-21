@@ -21,68 +21,81 @@
  ******************************************************************************/
 package openDLX.datatypes;
 
-public class uint32 extends BasicNumber {
-	private int value;
-	
-	public uint32(int value) {
-		this.value = value;
-	}
+public class uint32 extends BasicNumber
+{
+    private int value;
 
-	public uint32(short value) {
-		this.value = (int) value;
-	}
+    public uint32(int value)
+    {
+        this.value = value;
+    }
 
-	public uint32(byte value) {
-		this.value = (int) value;
-	}
-	
-	public uint32(uint32 value) {
-		this.value = (int) value.getValue();
-	}
+    public uint32(short value)
+    {
+        this.value = (int) value;
+    }
 
-	public uint32()
-	{
-	}
+    public uint32(byte value)
+    {
+        this.value = (int) value;
+    }
 
-	public int getValue() {
-		return value;
-	}
+    public uint32(uint32 value)
+    {
+        this.value = (int) value.getValue();
+    }
 
-	public void setValue(int value) {
-		this.value = value;
-	}
-	
-	public String getHex() {
-		String s = Integer.toHexString(value);
-		int diff = 8 - s.length();
-		
-		for(;diff > 0; diff--)
-			s = "0"+s;
-		
-		return "0x"+s;
-	}
+    public uint32()
+    {
+    }
 
-	public void setValue(uint32 value)
-	{
-		this.value = value.getValue();
-	}
-	
-	public int hashCode()
-	{
-		return getValue();
-	}
-	
-	public boolean equals(Object o)
-	{
-		if(o.getClass() == this.getClass())
-		{
-			return equals((uint32)o);
-		}
-		return false;
-	}
-	
-	public boolean equals(uint32 other)
-	{
-		return (getValue() == other.getValue());
-	}
+    public int getValue()
+    {
+        return value;
+    }
+
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
+
+    public String getValueAsHexString()
+    {
+        String s = Integer.toHexString(value);
+        int diff = 8 - s.length();
+
+        for (; diff > 0; diff--)
+            s = "0" + s;
+
+        return "0x" + s;
+    }
+
+    public void setValue(uint32 value)
+    {
+        this.value = value.getValue();
+    }
+
+    public int hashCode()
+    {
+        return getValue();
+    }
+
+    public boolean equals(Object o)
+    {
+        if (o.getClass() == this.getClass())
+        {
+            return equals((uint32) o);
+        }
+        return false;
+    }
+
+    public boolean equals(uint32 other)
+    {
+        return (getValue() == other.getValue());
+    }
+
+    public String getValueAsDecimalString()
+    {
+        return Integer.toString(getValue());
+    }
 }

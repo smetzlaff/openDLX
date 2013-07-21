@@ -57,11 +57,11 @@ public final class CodeFrame extends OpenDLXSimInternalFrame
     public void update()
     {
         final PipelineContainer pipeline = openDLXSim.getPipeline();
-        IFValue = pipeline.getFetchDecodeLatch().element().getPc().getHex();
-        IDValue = pipeline.getDecodeExecuteLatch().element().getPc().getHex();
-        EXValue = pipeline.getExecuteMemoryLatch().element().getPc().getHex();
-        MEMValue = pipeline.getMemoryWriteBackLatch().element().getPc().getHex();
-        WBValue = pipeline.getWriteBackLatch().element().getPc().getHex();
+        IFValue = pipeline.getFetchDecodeLatch().element().getPc().getValueAsHexString();
+        IDValue = pipeline.getDecodeExecuteLatch().element().getPc().getValueAsHexString();
+        EXValue = pipeline.getExecuteMemoryLatch().element().getPc().getValueAsHexString();
+        MEMValue = pipeline.getMemoryWriteBackLatch().element().getPc().getValueAsHexString();
+        WBValue = pipeline.getWriteBackLatch().element().getPc().getValueAsHexString();
 
         TableModel model = codeTable.getModel();
         for (int row = 0; row < model.getRowCount(); ++row)

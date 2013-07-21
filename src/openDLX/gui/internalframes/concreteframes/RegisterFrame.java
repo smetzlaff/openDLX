@@ -28,6 +28,7 @@ import javax.swing.JTable;
 
 import openDLX.RegisterSet;
 import openDLX.datatypes.ArchCfg;
+import openDLX.datatypes.uint32;
 import openDLX.datatypes.uint8;
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
@@ -54,11 +55,13 @@ public final class RegisterFrame extends OpenDLXSimInternalFrame
     {
         for (int i = 0; i < ArchCfg.getRegisterCount(); ++i)
         {
-            final Object value;
+            final String value;
+            final uint32 register_value = rs.read(new uint8(i));
             if (Preference.displayRegistersAsHex())
-                value = rs.read(new uint8(i));
+                value = register_value.getValueAsHexString();
             else
-                value = rs.read(new uint8(i)).getValue();
+                value = register_value.getValueAsDecimalString();
+            
             registerTable.getModel().setValueAt(value, i, 1);
         }
     }

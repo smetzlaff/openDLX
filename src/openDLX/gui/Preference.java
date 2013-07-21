@@ -27,34 +27,35 @@ import openDLX.config.GlobalConfig;
 
 public class Preference
 {
-    public static Preferences pref = Preferences.userRoot().node(GlobalConfig.PREFERENCES_DIR);
+    public static Preferences pref = Preferences.userRoot().node(
+            GlobalConfig.PREFERENCES_DIR);
 
     // global definitions of the different preference keys
-    public static final String forwardingPreferenceKey = "forwadingenabled"; 
-	public static final String mipsCompatibilityPreferenceKey = "mipscompatibilityenabled";
-    public static final String isaTypePreferenceKey = "isatype"; 
-	public static final String bpTypePreferenceKey = "bptype";
-	public static final String bpInitialStatePreferenceKey = "bbinitialstate";
-	public static final String btbSizePreferenceKey = "btbsize";
-	public static final String maxCyclesPreferenceKey = "maxcycles";
-	public static final String displayMemoryAsHex = "displayMemoryAsHex";
-	public static final String showExitMessage = "showexitmessage";
-	// TODO implement option
-	public static final String displayRegistersAsHex = "displayRegistersAsHex";
-	
-	public static boolean displayMemoryAsHex()
-	{
-		// TODO: Add GUI switch
+    public static final String forwardingPreferenceKey = "forwadingenabled";
+    public static final String mipsCompatibilityPreferenceKey = "mipscompatibilityenabled";
+    public static final String isaTypePreferenceKey = "isatype";
+    public static final String bpTypePreferenceKey = "bptype";
+    public static final String bpInitialStatePreferenceKey = "bbinitialstate";
+    public static final String btbSizePreferenceKey = "btbsize";
+    public static final String maxCyclesPreferenceKey = "maxcycles";
+    public static final String displayMemoryAsHex = "displayMemoryAsHex";
+    public static final String showExitMessage = "showexitmessage";
+    // TODO implement option
+    public static final String displayRegistersAsHex = "displayRegistersAsHex";
+
+    public static boolean displayMemoryAsHex()
+    {
+        // TODO: Add GUI switch
         // boolean isHex = pref.getBoolean(displayMemoryAsHex, true);
-		return true;
-	}
-	
-	public static boolean displayRegistersAsHex()
-	{
-		// TODO: Add GUI switch
-		// boolean isHex = pref.getBoolean(displayRegistersAsHex, true);
-		return true;
-	}
-	
-	// TODO: Also move all configuration stuff into this file.
+        return true;
+    }
+
+    public static boolean displayRegistersAsHex()
+    {
+        // TODO: Add GUI switch
+        // boolean isHex = pref.getBoolean(displayRegistersAsHex, true);
+        return true;
+    }
+
+    // TODO: Also move all configuration stuff into this file.
 }

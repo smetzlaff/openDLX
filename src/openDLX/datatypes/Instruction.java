@@ -630,7 +630,7 @@ public class Instruction
 				+ ((getUseImmediate()) ? (" (" + offset.getValue() + ")")
 						: (""))
 				+ " uSA:" + getUseShiftAmount() + ((getUseShiftAmount())?(" (" + sa.getValue() + ")"):(""))
-				+ " uIDX:" + getUseInstrIndex() + ((getUseInstrIndex())?(" (" + instr_index.getHex() + ")"):(""))
+				+ " uIDX:" + getUseInstrIndex() + ((getUseInstrIndex())?(" (" + instr_index.getValueAsHexString() + ")"):(""))
 				+ " LD:" + getLoad() + " ST:" + getStore() + " BR:" + getBranch();
 
 		return s;

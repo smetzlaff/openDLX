@@ -94,8 +94,8 @@ public class MainMemory implements MemoryInterface
 	{
 		if((address.getValue()&0x3) != 0)
 		{
-			logger.error("Read u32 from unaligned addr: " + address.getHex());
-			throw new MemoryException("Read u32 from unaligned addr: " + address.getHex());
+			logger.error("Read u32 from unaligned addr: " + address.getValueAsHexString());
+			throw new MemoryException("Read u32 from unaligned addr: " + address.getValueAsHexString());
 		}
 		
 		uint32 value = new uint32((memory.readByte(address.getValue()) & 0xFF) + ((memory.readByte(address.getValue() + 1) & 0xFF) << 8) + ((memory.readByte(address.getValue() + 2) & 0xFF) << 16) + ((memory.readByte(address.getValue() + 3) & 0xFF) << 24));
@@ -127,8 +127,8 @@ public class MainMemory implements MemoryInterface
 	{
 		if((address.getValue()&0x1 ) != 0)
 		{
-			logger.error("Read u16 from unaligned addr: " + address.getHex());
-			throw new MemoryException("Read u16 from unaligned addr: " + address.getHex());
+			logger.error("Read u16 from unaligned addr: " + address.getValueAsHexString());
+			throw new MemoryException("Read u16 from unaligned addr: " + address.getValueAsHexString());
 		}
 		
 		uint16 value = new uint16((memory.readByte(address.getValue()) & 0xFF) + ((memory.readByte(address.getValue() + 1) & 0xFF) << 8));
@@ -148,18 +148,18 @@ public class MainMemory implements MemoryInterface
 	{
 		if((address.getValue()&0x3 ) != 0)
 		{
-			logger.error("Write u32 to unaligned addr: " + address.getHex());
-			throw new MemoryException("Write u32 to unaligned addr: " + address.getHex());
+			logger.error("Write u32 to unaligned addr: " + address.getValueAsHexString());
+			throw new MemoryException("Write u32 to unaligned addr: " + address.getValueAsHexString());
 		}
 		
-		logger.debug("Write u32 to addr: " + address.getHex() + " value: " + value.getHex());
+		logger.debug("Write u32 to addr: " + address.getValueAsHexString() + " value: " + value.getValueAsHexString());
 
 		memory.writeByte(address.getValue(), (byte) (value.getValue() & 0xFF));
 		memory.writeByte(address.getValue() + 1, (byte) ((value.getValue() >> 8) & 0xFF));
 		memory.writeByte(address.getValue() + 2, (byte) ((value.getValue() >> 16) & 0xFF));
 		memory.writeByte(address.getValue() + 3, (byte) ((value.getValue() >> 24) & 0xFF));
 
-		logger.debug("Written: " + value.getHex() + " -> " + memory.readByteAsString(address.getValue() + 3) + " " + memory.readByteAsString(address.getValue() + 2) + " "
+		logger.debug("Written: " + value.getValueAsHexString() + " -> " + memory.readByteAsString(address.getValue() + 3) + " " + memory.readByteAsString(address.getValue() + 2) + " "
 				+ memory.readByteAsString(address.getValue() + 1) + " " + memory.readByteAsString(address.getValue() + 0));
 		dumpMemory(new uint32(address.getValue() - 4), new uint32(address.getValue() + 4));
 	}
@@ -172,11 +172,11 @@ public class MainMemory implements MemoryInterface
 	
 	public void write_u8(uint32 address, uint8 value) throws MemoryException
 	{
-		logger.debug("Write u8 to addr: " + address.getHex() + " value: " + value.getHex());
+		logger.debug("Write u8 to addr: " + address.getValueAsHexString() + " value: " + value.getValueAsHexString());
 
 		memory.writeByte(address.getValue(), value.getValue());
 
-		logger.debug("Written: " + value.getHex() + " -> " + memory.readByteAsString(address.getValue()));
+		logger.debug("Written: " + value.getValueAsHexString() + " -> " + memory.readByteAsString(address.getValue()));
 		dumpMemory(new uint32(address.getValue() - 4), new uint32(address.getValue() + 4));
 	}
 	
@@ -189,11 +189,11 @@ public class MainMemory implements MemoryInterface
 
 		for (uint32 addr = start_aligned; addr.getValue() <= end.getValue(); addr.setValue(addr.getValue() + 32))
 		{
-			String s = " " + addr.getHex() + "  | ";
+			String s = " " + addr.getValueAsHexString() + "  | ";
 
 			for (int i = 0; i <= 28; i += 4)
 			{
-				s = s + read_u32_dump(new uint32(addr.getValue() + i)).getHex() + " ";
+				s = s + read_u32_dump(new uint32(addr.getValue() + i)).getValueAsHexString() + " ";
 			}
 			s = s + "|";
 

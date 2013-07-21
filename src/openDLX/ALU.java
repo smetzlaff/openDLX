@@ -54,26 +54,26 @@ public class ALU
 			// TODO missing trap on overflow
 		case ADDU:
 			resultLO.setValue(A.getValue() + B.getValue());
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " + " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " + " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
 		case AND:
 			resultLO.setValue(A.getValue() & B.getValue());
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " & " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " & " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
 		case BA:
 			resultLO.setValue((A.getValue()&0xF0000000)|((int)B.getValue()<<2));
-			logger.debug("(" + B.getValue() + "(" + B.getHex() + ")" + " << 2) + " + (A.getValue()&0xF0000000) + "(" + Integer.toHexString(A.getValue()&0xF0000000) + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug("(" + B.getValue() + "(" + B.getValueAsHexString() + ")" + " << 2) + " + (A.getValue()&0xF0000000) + "(" + Integer.toHexString(A.getValue()&0xF0000000) + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
 		case BR:
 			short tgt_offset = (short)B.getValue();
 			resultLO.setValue(A.getValue()+(int)(tgt_offset << 2));
-			logger.debug("(" + B.getValue() + "(" + B.getHex() + ")" + " << 2) + " + A.getValue() + "(" + A.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug("(" + B.getValue() + "(" + B.getValueAsHexString() + ")" + " << 2) + " + A.getValue() + "(" + A.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -88,7 +88,7 @@ public class ALU
 			int r = A.getValue() % B.getValue();
 			resultLO.setValue(q);
 			resultHI.setValue(r);
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " / " + B.getValue() + "(" + B.getHex() + ")" + " =  LO (q): " + resultLO.getValue() + "(" + resultLO.getHex() + ")" + " HI (r): " + resultHI.getValue() + "(" + resultHI.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " / " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " =  LO (q): " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")" + " HI (r): " + resultHI.getValue() + "(" + resultHI.getValueAsHexString() + ")");
 			break;
 		}
 		case DIVU:
@@ -103,12 +103,12 @@ public class ALU
 			int r = (A.getValue()&0x7FFFFFFF) % (B.getValue()&0x7FFFFFFF);
 			resultLO.setValue(q);
 			resultHI.setValue(r);
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " / " + B.getValue() + "(" + B.getHex() + ")" + " =  LO (q): " + resultLO.getValue() + "(" + resultLO.getHex() + ")" + " HI (r): " + resultHI.getValue() + "(" + resultHI.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " / " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " =  LO (q): " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")" + " HI (r): " + resultHI.getValue() + "(" + resultHI.getValueAsHexString() + ")");
 			break;
 		}
 		case LUI:
 			resultLO.setValue(((int)B.getValue() << 16));
-			logger.debug(B.getValue() + "(" + B.getHex() + ")" + " << " + 16 + "(0x10)" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(B.getValue() + "(" + B.getValueAsHexString() + ")" + " << " + 16 + "(0x10)" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -118,7 +118,7 @@ public class ALU
 			long mult = (long)A.getValue() * (long)B.getValue();
 			resultLO.setValue((int)(mult & 0xFFFFFFFF));
 			resultHI.setValue((int)((mult >>> 32) & 0xFFFFFFFF));
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " * " + B.getValue() + "(" + B.getHex() + ")" + " = " + mult + " HI: " + resultHI.getValue() + "(" + resultHI.getHex() + ")" + " LO: " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " * " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + mult + " HI: " + resultHI.getValue() + "(" + resultHI.getValueAsHexString() + ")" + " LO: " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			break;
 		}
 		case MULTU:
@@ -128,18 +128,18 @@ public class ALU
 			long mult = (long)(A.getValue()&0x7FFFFFFF) * ((long)B.getValue()&0x7FFFFFFF);
 			resultLO.setValue((int)(mult & 0xFFFFFFFF));
 			resultHI.setValue((int)((mult >>> 32) & 0xFFFFFFFF));
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " * " + B.getValue() + "(" + B.getHex() + ")" + " = " + mult + " HI: " + resultHI.getValue() + "(" + resultHI.getHex() + ")" + " LO: " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " * " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + mult + " HI: " + resultHI.getValue() + "(" + resultHI.getValueAsHexString() + ")" + " LO: " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			break;
 		}
 		case OR:
 			resultLO.setValue(A.getValue() | B.getValue());
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " | " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " | " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
 		case NOR:
 			resultLO.setValue(~(A.getValue() | B.getValue()));
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " NOR " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " NOR " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -147,7 +147,7 @@ public class ALU
 		{
 			short s = (short) (B.getValue() & 0x1F);
 			resultLO.setValue(A.getValue() << s);
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " << " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " << " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -156,7 +156,7 @@ public class ALU
 		{
 			short s = (short) (A.getValue() & 0x1F);
 			resultLO.setValue(B.getValue() << s);
-			logger.debug(B.getValue() + "(" + B.getHex() + ")" + " << " + A.getValue() + "(" + A.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(B.getValue() + "(" + B.getValueAsHexString() + ")" + " << " + A.getValue() + "(" + A.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -171,7 +171,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SEQ " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SEQ " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -186,7 +186,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SEQU " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SEQU " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -200,7 +200,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SNE " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SNE " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -215,7 +215,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SNEU " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SNEU " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -229,7 +229,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SGE " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SGE " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -244,7 +244,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SGEU " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SGEU " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -258,7 +258,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SGT " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SGT " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -273,7 +273,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SGT " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SGT " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -287,7 +287,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SLE " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SLE " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -302,7 +302,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SLEU " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SLEU " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -315,7 +315,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SLT " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SLT " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -329,7 +329,7 @@ public class ALU
 			{
 				resultLO.setValue(0);
 			}
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " SLT " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " SLT " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -337,7 +337,7 @@ public class ALU
 		{
 			short s = (short) (B.getValue() & 0x1F);
 			resultLO.setValue(A.getValue() >>> s);
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " >>> " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " >>> " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -346,7 +346,7 @@ public class ALU
 		{
 			short s = (short) (B.getValue() & 0x1F);
 			resultLO.setValue(A.getValue() >> s);
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " >> " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " >> " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -355,7 +355,7 @@ public class ALU
 		{
 			short s = (short) (A.getValue() & 0x1F);
 			resultLO.setValue(B.getValue() >>> s);
-			logger.debug(B.getValue() + "(" + B.getHex() + ")" + " >>> " + A.getValue() + "(" + A.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(B.getValue() + "(" + B.getValueAsHexString() + ")" + " >>> " + A.getValue() + "(" + A.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -364,7 +364,7 @@ public class ALU
 		{
 			short s = (short) (A.getValue() & 0x1F);
 			resultLO.setValue(B.getValue() >> s);
-			logger.debug(B.getValue() + "(" + B.getHex() + ")" + " >> " + A.getValue() + "(" + A.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(B.getValue() + "(" + B.getValueAsHexString() + ")" + " >> " + A.getValue() + "(" + A.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
@@ -373,13 +373,13 @@ public class ALU
 			// TODO missing trap on overflow
 		case SUBU:
 			resultLO.setValue(A.getValue() - B.getValue());
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " - " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " - " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;
 		case XOR:
 			resultLO.setValue(A.getValue() ^ B.getValue());
-			logger.debug(A.getValue() + "(" + A.getHex() + ")" + " XOR " + B.getValue() + "(" + B.getHex() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getHex() + ")");
+			logger.debug(A.getValue() + "(" + A.getValueAsHexString() + ")" + " XOR " + B.getValue() + "(" + B.getValueAsHexString() + ")" + " = " + resultLO.getValue() + "(" + resultLO.getValueAsHexString() + ")");
 			// duplicate results
 			resultHI = resultLO;
 			break;

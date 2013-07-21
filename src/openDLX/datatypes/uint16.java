@@ -21,72 +21,85 @@
  ******************************************************************************/
 package openDLX.datatypes;
 
-public class uint16 extends BasicNumber {
-	private short value;
+public class uint16 extends BasicNumber
+{
+    private short value;
 
-	public uint16(int value) {
-		this.value = (short) value; 
-	}
+    public uint16(int value)
+    {
+        this.value = (short) value;
+    }
 
-	public uint16(short value) {
-		this.value = value; 
-	}
+    public uint16(short value)
+    {
+        this.value = value;
+    }
 
-	public uint16(byte value) {
-		this.value = (short) value; 
-	}
-	
-	public uint16(uint16 value) {
-		this.value = (short) value.getValue(); 
-	}
+    public uint16(byte value)
+    {
+        this.value = (short) value;
+    }
 
-	public uint16()
-	{
-	}
+    public uint16(uint16 value)
+    {
+        this.value = (short) value.getValue();
+    }
 
-	public short getValue() {
-		return value;
-	}
+    public uint16()
+    {
+    }
 
-	public void setValue(short value) {
-		this.value = value;
-	}
-	
-	public String getHex() {
-		String s = Integer.toHexString(value);
-		int diff = 4 - s.length();
-		
-		if(diff > 0)
-		{
-			// add leading zeros
-			for(;diff > 0; diff--)
-				s = "0"+s;
-		}
-		else if(diff < 0)
-		{
-			// chop off leading "f"s for negative numbers
-			s = s.substring(s.length()-4, s.length());
-		}
-		
-		return "0x"+s;
-	}
-	
-	public int hashCode()
-	{
-		return getValue();
-	}
-	
-	public boolean equals(Object o)
-	{
-		if(o.getClass() == this.getClass())
-		{
-			return equals((uint16)o);
-		}
-		return false;
-	}
-	
-	public boolean equals(uint16 other)
-	{
-		return (getValue() == other.getValue());
-	}
+    public short getValue()
+    {
+        return value;
+    }
+
+    public void setValue(short value)
+    {
+        this.value = value;
+    }
+
+    public String getValueAsHexString()
+    {
+        String s = Integer.toHexString(value);
+        int diff = 4 - s.length();
+
+        if (diff > 0)
+        {
+            // add leading zeros
+            for (; diff > 0; diff--)
+                s = "0" + s;
+        }
+        else if (diff < 0)
+        {
+            // chop off leading "f"s for negative numbers
+            s = s.substring(s.length() - 4, s.length());
+        }
+
+        return "0x" + s;
+    }
+
+    public int hashCode()
+    {
+        return getValue();
+    }
+
+    public boolean equals(Object o)
+    {
+        if (o.getClass() == this.getClass())
+        {
+            return equals((uint16) o);
+        }
+        return false;
+    }
+
+    public boolean equals(uint16 other)
+    {
+        return (getValue() == other.getValue());
+    }
+
+    public String getValueAsDecimalString()
+    {
+        return Integer.toString(getValue());
+    }
 }

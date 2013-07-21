@@ -21,82 +21,95 @@
  ******************************************************************************/
 package openDLX.datatypes;
 
-public class uint8 extends BasicNumber {
-	private byte value;
-	
-	public uint8 (int value) {
-		this.value = (byte) value;
-	}
+public class uint8 extends BasicNumber
+{
+    private byte value;
 
-	public uint8 (short value) {
-		this.value = (byte) value;
-	}
+    public uint8(int value)
+    {
+        this.value = (byte) value;
+    }
 
-	public uint8 (byte value) {
-		this.value = value;
-	}
-	
-	public uint8 (uint8 value) {
-		this.value = (byte) value.getValue();
-	}
-	
-	public uint8 (uint32 value) {
-		this.value = (byte) (value.getValue()&0xff);
-	}
+    public uint8(short value)
+    {
+        this.value = (byte) value;
+    }
 
-	public uint8()
-	{
-	}
+    public uint8(byte value)
+    {
+        this.value = value;
+    }
 
-	public byte getValue() {
-		return value;
-	}
+    public uint8(uint8 value)
+    {
+        this.value = (byte) value.getValue();
+    }
 
-	public void setValue(byte value) {
-		this.value = value;
-	}
+    public uint8(uint32 value)
+    {
+        this.value = (byte) (value.getValue() & 0xff);
+    }
 
-	public void setValue(uint8 value) 
-	{
-		this.value = value.getValue();
-	}
-	
-	public String getHex() {
-		String s = Integer.toHexString((byte)value);
-		int diff = 2 - s.length();
-		
-		if(diff > 0)
-		{
-			// add leading zeros
-			for(;diff > 0; diff--)
-				s = "0"+s;
-		}
-		else if(diff < 0)
-		{
-			// chop off leading "f"s for negative numbers
-			s = s.substring(s.length()-2, s.length());
-		}
-		
-		return "0x"+s;
-	}
+    public uint8()
+    {
+    }
 
-	public int hashCode()
-	{
-		return getValue();
-	}
-	
-	public boolean equals(Object o)
-	{
-		if(o.getClass() == this.getClass())
-		{
-			return equals((uint8)o);
-		}
-		return false;
-	}
-	
-	public boolean equals(uint8 other)
-	{
-		return (getValue() == other.getValue());
-	}
-	
+    public byte getValue()
+    {
+        return value;
+    }
+
+    public void setValue(byte value)
+    {
+        this.value = value;
+    }
+
+    public void setValue(uint8 value)
+    {
+        this.value = value.getValue();
+    }
+
+    public String getValueAsHexString()
+    {
+        String s = Integer.toHexString((byte) value);
+        int diff = 2 - s.length();
+
+        if (diff > 0)
+        {
+            // add leading zeros
+            for (; diff > 0; diff--)
+                s = "0" + s;
+        }
+        else if (diff < 0)
+        {
+            // chop off leading "f"s for negative numbers
+            s = s.substring(s.length() - 2, s.length());
+        }
+
+        return "0x" + s;
+    }
+
+    public int hashCode()
+    {
+        return getValue();
+    }
+
+    public boolean equals(Object o)
+    {
+        if (o.getClass() == this.getClass())
+        {
+            return equals((uint8) o);
+        }
+        return false;
+    }
+
+    public boolean equals(uint8 other)
+    {
+        return (getValue() == other.getValue());
+    }
+
+    public String getValueAsDecimalString()
+    {
+        return Integer.toString(getValue());
+    }
 }

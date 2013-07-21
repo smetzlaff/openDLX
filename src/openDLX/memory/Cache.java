@@ -181,7 +181,7 @@ public abstract class Cache implements MemoryInterface {
 		
 		if(log_output)
 		{
-			logger.debug("Read u32 from addr: " + addr.getHex());
+			logger.debug("Read u32 from addr: " + addr.getValueAsHexString());
 		}
 		
 		if(isHit(addr))
@@ -192,7 +192,7 @@ public abstract class Cache implements MemoryInterface {
 			
 			if(log_output)
 			{
-				logger.debug("Hit in way " + way + " in cache line " + index + " for address " + addr.getHex() + " value: " + value.getHex());
+				logger.debug("Hit in way " + way + " in cache line " + index + " for address " + addr.getValueAsHexString() + " value: " + value.getValueAsHexString());
 				dumpCacheLine(index);
 			}
 			
@@ -222,7 +222,7 @@ public abstract class Cache implements MemoryInterface {
 			
 			if(log_output)
 			{
-				logger.debug("Miss in cache for address " + addr.getHex() + " replaced cache line " + index + " in way " + way + " loaded value: " + value.getHex());
+				logger.debug("Miss in cache for address " + addr.getValueAsHexString() + " replaced cache line " + index + " in way " + way + " loaded value: " + value.getValueAsHexString());
 				dumpCacheLine(index);
 			}
 
@@ -245,7 +245,7 @@ public abstract class Cache implements MemoryInterface {
 		
 		if(log_output)
 		{
-			logger.debug("Read u8 from addr: " + addr.getHex());
+			logger.debug("Read u8 from addr: " + addr.getValueAsHexString());
 		}
 		
 		if(isHit(addr))
@@ -256,7 +256,7 @@ public abstract class Cache implements MemoryInterface {
 			
 			if(log_output)
 			{
-				logger.debug("Hit in way " + way + " in cache line " + index + " for address " + addr.getHex() + " value: " + value.getHex() + " (read byte " + (getBlockOffset(addr)&0x3) + " from word " + cache_memory[way][index].getWord(getBlockOffset(addr)&(~0x3)) + ")");
+				logger.debug("Hit in way " + way + " in cache line " + index + " for address " + addr.getValueAsHexString() + " value: " + value.getValueAsHexString() + " (read byte " + (getBlockOffset(addr)&0x3) + " from word " + cache_memory[way][index].getWord(getBlockOffset(addr)&(~0x3)) + ")");
 				dumpCacheLine(index);
 			}
 			
@@ -280,7 +280,7 @@ public abstract class Cache implements MemoryInterface {
 			
 			if(log_output)
 			{
-				logger.debug("Miss in cache for address " + addr.getHex() + " replaced cache line " + index + " in way " + way + " loaded value: " + value.getHex() + " (read byte " + (getBlockOffset(addr)&0x3) + " from word " + cache_memory[way][index].getWord(getBlockOffset(addr)&(~0x3)) + ")");
+				logger.debug("Miss in cache for address " + addr.getValueAsHexString() + " replaced cache line " + index + " in way " + way + " loaded value: " + value.getValueAsHexString() + " (read byte " + (getBlockOffset(addr)&0x3) + " from word " + cache_memory[way][index].getWord(getBlockOffset(addr)&(~0x3)) + ")");
 				dumpCacheLine(index);
 			}
 			
@@ -305,11 +305,11 @@ public abstract class Cache implements MemoryInterface {
 		
 		if((addr.getValue()&0x3 ) != 0)
 		{
-			logger.error("Write u32 to unaligned addr: " + addr.getHex());
-			throw new CacheException("Write u32 to unaligned addr: " + addr.getHex());
+			logger.error("Write u32 to unaligned addr: " + addr.getValueAsHexString());
+			throw new CacheException("Write u32 to unaligned addr: " + addr.getValueAsHexString());
 		}
 		
-		logger.debug("Write u32 to addr: " + addr.getHex() + " value: " + value.getHex());
+		logger.debug("Write u32 to addr: " + addr.getValueAsHexString() + " value: " + value.getValueAsHexString());
 		
 		
 		if(isHit(addr))
@@ -321,7 +321,7 @@ public abstract class Cache implements MemoryInterface {
 			cache_memory[way][index].setWord(getBlockOffset(addr), value);
 			
 			
-			logger.debug("Hit in way " + way + " in cache line " + index + " for address " + addr.getHex() + " old value: " + old_value.getHex() + " new value: " + cache_memory[way][index].getWord(getBlockOffset(addr)));
+			logger.debug("Hit in way " + way + " in cache line " + index + " for address " + addr.getValueAsHexString() + " old value: " + old_value.getValueAsHexString() + " new value: " + cache_memory[way][index].getWord(getBlockOffset(addr)));
 			dumpCacheLine(index);
 			
 			updateReplacementCountersOnAccess(way, index);
@@ -349,7 +349,7 @@ public abstract class Cache implements MemoryInterface {
 			// write word into cache
 			cache_memory[way][index].setWord(getBlockOffset(addr), value);
 			
-			logger.debug("Miss in cache for address " + addr.getHex() + " replaced cache line " + index + " in way " + way + " old_value: " + old_value.getHex() + " new value: " + cache_memory[way][index].getWord(getBlockOffset(addr)));
+			logger.debug("Miss in cache for address " + addr.getValueAsHexString() + " replaced cache line " + index + " in way " + way + " old_value: " + old_value.getValueAsHexString() + " new value: " + cache_memory[way][index].getWord(getBlockOffset(addr)));
 			dumpCacheLine(index);
 
 			updateReplacementCountersOnMiss(way, index);
@@ -381,7 +381,7 @@ public abstract class Cache implements MemoryInterface {
 		}
 	
 		
-		logger.debug("Write u8 to addr: " + addr.getHex() + " value: " + value.getHex());
+		logger.debug("Write u8 to addr: " + addr.getValueAsHexString() + " value: " + value.getValueAsHexString());
 		
 		
 		if(isHit(addr))
@@ -393,7 +393,7 @@ public abstract class Cache implements MemoryInterface {
 			cache_memory[way][index].setByte(getBlockOffset(addr), value);
 			
 			
-			logger.debug("Hit in way " + way + " in cache line " + index + " for address " + addr.getHex() + " old value: " + old_value.getHex() + " new value: " + cache_memory[way][index].getByte(getBlockOffset(addr)) + " (written byte " + (getBlockOffset(addr)&0x3) + " of word " + cache_memory[way][index].getWord(getBlockOffset(addr)&(~0x3)) + ")");
+			logger.debug("Hit in way " + way + " in cache line " + index + " for address " + addr.getValueAsHexString() + " old value: " + old_value.getValueAsHexString() + " new value: " + cache_memory[way][index].getByte(getBlockOffset(addr)) + " (written byte " + (getBlockOffset(addr)&0x3) + " of word " + cache_memory[way][index].getWord(getBlockOffset(addr)&(~0x3)) + ")");
 			dumpCacheLine(index);
 			
 			updateReplacementCountersOnAccess(way, index);
@@ -421,7 +421,7 @@ public abstract class Cache implements MemoryInterface {
 			// write word into cache
 			cache_memory[way][index].setByte(getBlockOffset(addr), value);
 			
-			logger.debug("Miss in cache for address " + addr.getHex() + " replaced cache line " + index + " in way " + way + " old_value: " + old_value.getHex() + " new value: " + cache_memory[way][index].getByte(getBlockOffset(addr)) + " (written byte " + (getBlockOffset(addr)&0x3) + " of word " + cache_memory[way][index].getWord(getBlockOffset(addr)&(~0x3)) + ")");
+			logger.debug("Miss in cache for address " + addr.getValueAsHexString() + " replaced cache line " + index + " in way " + way + " old_value: " + old_value.getValueAsHexString() + " new value: " + cache_memory[way][index].getByte(getBlockOffset(addr)) + " (written byte " + (getBlockOffset(addr)&0x3) + " of word " + cache_memory[way][index].getWord(getBlockOffset(addr)&(~0x3)) + ")");
 			dumpCacheLine(index);
 
 			updateReplacementCountersOnMiss(way, index);
@@ -448,7 +448,7 @@ public abstract class Cache implements MemoryInterface {
 	{
 		int mask = (CalculationHelper.generateBitStringOfOnes(index_size));
 		
-		logger.debug("idx: " + Integer.toHexString(CalculationHelper.generateBitStringOfOnes(index_size)) + " index mask: 0x"  + Integer.toHexString(mask) + " value: " + addr.getHex() + " result: 0x" + Integer.toHexString((addr.getValue()>> block_offset_size) & mask));
+		logger.debug("idx: " + Integer.toHexString(CalculationHelper.generateBitStringOfOnes(index_size)) + " index mask: 0x"  + Integer.toHexString(mask) + " value: " + addr.getValueAsHexString() + " result: 0x" + Integer.toHexString((addr.getValue()>> block_offset_size) & mask));
 		
 		int index = (addr.getValue()>> (block_offset_size)) & mask;
 		
@@ -547,7 +547,7 @@ public abstract class Cache implements MemoryInterface {
 			{
 				if(hit != false)
 				{
-					throw new CacheException("Error: multiple hits for " + addr.getHex() + " in cache.");
+					throw new CacheException("Error: multiple hits for " + addr.getValueAsHexString() + " in cache.");
 				}
 				hit = true;
 			}
@@ -568,7 +568,7 @@ public abstract class Cache implements MemoryInterface {
 			{
 				if(hit_way != associativity)
 				{
-					throw new CacheException("Error: multiple hits for " + addr.getHex() + " in cache.");
+					throw new CacheException("Error: multiple hits for " + addr.getValueAsHexString() + " in cache.");
 				}
 				hit_way = i;
 			}

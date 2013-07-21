@@ -1014,7 +1014,7 @@ public class Decode
 			case DLX:
 				if(current_inst.getInstr() != PipelineConstants.PIPELINE_BUBBLE_INSTR)
 				{
-					throw new UnknownInstructionException("Wrong DLX Bubble Instruction: " + current_inst.getInstr().getHex());
+					throw new UnknownInstructionException("Wrong DLX Bubble Instruction: " + current_inst.getInstr().getValueAsHexString());
 				}
 				op = (OpcodeNORMAL.NOP);
 				current_inst.setALUFunction(ALUFunction.NOP);
@@ -1034,8 +1034,8 @@ public class Decode
 		
 		if(op == OpcodeNORMAL.UNKNOWN)
 		{
-			logger.error("Instruction " + op + " unknown. Type: NORMAL Opcode: " + current_inst.getOpcode().getHex());
-			throw new UnknownInstructionException("Instruction " + op + " unknown. Type: NORMAL Opcode: " + current_inst.getOpcode().getHex());
+			logger.error("Instruction " + op + " unknown. Type: NORMAL Opcode: " + current_inst.getOpcode().getValueAsHexString());
+			throw new UnknownInstructionException("Instruction " + op + " unknown. Type: NORMAL Opcode: " + current_inst.getOpcode().getValueAsHexString());
 		}
 			
 		current_inst.setOpNormal(op);
@@ -1977,8 +1977,8 @@ public class Decode
 		
 		if(op == OpcodeSPECIAL.UNKNOWN)
 		{
-			logger.error("Instruction " + op + " unknown. Type: SPECIAL Opcode: " + current_inst.getOpcode().getHex());
-			throw new UnknownInstructionException("Instruction " + op + " unknown. Type: SPECIAL Opcode: " + current_inst.getOpcode().getHex());
+			logger.error("Instruction " + op + " unknown. Type: SPECIAL Opcode: " + current_inst.getOpcode().getValueAsHexString());
+			throw new UnknownInstructionException("Instruction " + op + " unknown. Type: SPECIAL Opcode: " + current_inst.getOpcode().getValueAsHexString());
 		}
 
 		current_inst.setOpSpecial(op);
@@ -2307,8 +2307,8 @@ public class Decode
 		
 		if(op == OpcodeREGIMM.UNKNOWN)
 		{
-			logger.error("Instruction " + op + " unknown. Type: REGIMM Opcode: " + current_inst.getOpcode().getHex());
-			throw new UnknownInstructionException("Instruction " + op + " unknown. Type: REGIMM Opcode: " + current_inst.getOpcode().getHex());
+			logger.error("Instruction " + op + " unknown. Type: REGIMM Opcode: " + current_inst.getOpcode().getValueAsHexString());
+			throw new UnknownInstructionException("Instruction " + op + " unknown. Type: REGIMM Opcode: " + current_inst.getOpcode().getValueAsHexString());
 		}
 
 		current_inst.setOpRegimm(op);
@@ -2328,7 +2328,7 @@ public class Decode
 		uint32 decode_instr = fdd.getInstr();
 		uint32 pc = fdd.getPc();
 		Instruction inst = decodeInstr(decode_instr);
-		logger.debug("PC: " + pc.getHex()
+		logger.debug("PC: " + pc.getValueAsHexString()
 				+ " instruction decoded as " + inst.getString());
 
 		// determination of input for ALU port A

@@ -21,69 +21,81 @@
  ******************************************************************************/
 package openDLX.datatypes;
 
-public class int8 extends BasicNumber{
-	private byte value;
-	
-	public int8 (int value) {
-		this.value = (byte) value;
-	}
+public class int8 extends BasicNumber
+{
+    private byte value;
 
-	public int8 (short value) {
-		this.value = (byte) value;
-	}
+    public int8(int value)
+    {
+        this.value = (byte) value;
+    }
 
-	public int8 (byte value) {
-		this.value = value;
-	}
-	
-	public int8 (int8 value) {
-		this.value = (byte) value.getValue();
-	}
+    public int8(short value)
+    {
+        this.value = (byte) value;
+    }
 
-	public byte getValue() {
-		return value;
-	}
+    public int8(byte value)
+    {
+        this.value = value;
+    }
 
-	public void setValue(byte value) {
-		this.value = value;
-	}
-	
+    public int8(int8 value)
+    {
+        this.value = (byte) value.getValue();
+    }
 
-	public String getHex() {
-		String s = Integer.toHexString(value);
-		int diff = 2 - s.length();
-		
-		if(diff > 0)
-		{
-			// add leading zeros
-			for(;diff > 0; diff--)
-				s = "0"+s;
-		}
-		else if(diff < 0)
-		{
-			// chop off leading "f"s for negative numbers
-			s = s.substring(s.length()-2, s.length());
-		}
-		
-		return "0x"+s;
-	}
-	
-	public int hashCode()
-	{
-		return getValue();
-	}
-	
-	public boolean equals(Object o)
-	{
-		if(o.getClass() == this.getClass())
-		{
-			return equals((int8)o);
-		}
-		return false;
-	}
+    public byte getValue()
+    {
+        return value;
+    }
 
-	public boolean equals(int8 other)
-	{
-		return (getValue() == other.getValue());
-	}
+    public void setValue(byte value)
+    {
+        this.value = value;
+    }
+
+    public String getValueAsHexString()
+    {
+        String s = Integer.toHexString(value);
+        int diff = 2 - s.length();
+
+        if (diff > 0)
+        {
+            // add leading zeros
+            for (; diff > 0; diff--)
+                s = "0" + s;
+        }
+        else if (diff < 0)
+        {
+            // chop off leading "f"s for negative numbers
+            s = s.substring(s.length() - 2, s.length());
+        }
+
+        return "0x" + s;
+    }
+
+    public int hashCode()
+    {
+        return getValue();
+    }
+
+    public boolean equals(Object o)
+    {
+        if (o.getClass() == this.getClass())
+        {
+            return equals((int8) o);
+        }
+        return false;
+    }
+
+    public boolean equals(int8 other)
+    {
+        return (getValue() == other.getValue());
+    }
+
+    public String getValueAsDecimalString()
+    {
+        return Integer.toString(getValue());
+    }
 }

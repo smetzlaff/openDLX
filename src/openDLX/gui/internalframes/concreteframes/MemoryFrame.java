@@ -87,7 +87,7 @@ public final class MemoryFrame extends OpenDLXSimInternalFrame implements Action
                     final uint32 uint_val = MainFrame.getInstance().getOpenDLXSim().getPipeline().getMainMemory().read_u32(new uint32(Integer.parseInt(startAddrString.substring(2), 16) + i * 4));
                     final Object value;
                     if (Preference.displayMemoryAsHex())
-                        value = uint_val.getHex();
+                        value = uint_val.getValueAsHexString();
                     else
                         value = uint_val.getValue();
                     model.setValueAt(value, i, 1);

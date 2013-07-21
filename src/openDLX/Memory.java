@@ -70,19 +70,19 @@ public class Memory
 				{
 				case BYTE:
 					ld_result.setValue((int)dmem.read_u8(alu_outLO, true).getValue());
-					logger.debug("PC: " + pc.getHex() + " load from addr: " + alu_outLO.getHex() + " value: " + ld_result.getHex());
+					logger.debug("PC: " + pc.getValueAsHexString() + " load from addr: " + alu_outLO.getValueAsHexString() + " value: " + ld_result.getValueAsHexString());
 					break;
 				case UBYTE:
 					ld_result.setValue(dmem.read_u8(alu_outLO, true).getValue()&0xFF);
-					logger.debug("PC: " + pc.getHex() + " load from addr: " + alu_outLO.getHex() + " value: " + ld_result.getHex());
+					logger.debug("PC: " + pc.getValueAsHexString() + " load from addr: " + alu_outLO.getValueAsHexString() + " value: " + ld_result.getValueAsHexString());
 					break;
 				case WORD:
 					ld_result.setValue(dmem.read_u32(alu_outLO, true).getValue());
-					logger.debug("PC: " + pc.getHex() + " load from addr: " + alu_outLO.getHex() + " value: " + ld_result.getHex());
+					logger.debug("PC: " + pc.getValueAsHexString() + " load from addr: " + alu_outLO.getValueAsHexString() + " value: " + ld_result.getValueAsHexString());
 					break;
 				case UWORD:
 					ld_result.setValue(dmem.read_u32(alu_outLO, true).getValue());
-					logger.debug("PC: " + pc.getHex() + " load from addr: " + alu_outLO.getHex() + " value: " + ld_result.getHex());
+					logger.debug("PC: " + pc.getValueAsHexString() + " load from addr: " + alu_outLO.getValueAsHexString() + " value: " + ld_result.getValueAsHexString());
 					if(throwExceptionForUntestedAccesses)
 					{
 						throw new MemoryStageException("Untested memory width: " + inst.getMemoryWidth());
@@ -106,19 +106,19 @@ public class Memory
 				switch(inst.getMemoryWidth())
 				{
 				case BYTE:
-					logger.debug("PC: " + pc.getHex() + " store value: " + store_value.getHex() + " to addr: " + alu_outLO.getHex());
+					logger.debug("PC: " + pc.getValueAsHexString() + " store value: " + store_value.getValueAsHexString() + " to addr: " + alu_outLO.getValueAsHexString());
 					dmem.write_u8(alu_outLO, store_value);
 					break;
 				case UBYTE:
-					logger.debug("PC: " + pc.getHex() + " store value: " + store_value.getHex() + " to addr: " + alu_outLO.getHex());
+					logger.debug("PC: " + pc.getValueAsHexString() + " store value: " + store_value.getValueAsHexString() + " to addr: " + alu_outLO.getValueAsHexString());
 					dmem.write_u8(alu_outLO, store_value);
 					break;
 				case WORD:
-					logger.debug("PC: " + pc.getHex() + " store value: " + store_value.getHex() + " to addr: " + alu_outLO.getHex());
+					logger.debug("PC: " + pc.getValueAsHexString() + " store value: " + store_value.getValueAsHexString() + " to addr: " + alu_outLO.getValueAsHexString());
 					dmem.write_u32(alu_outLO, store_value);
 					break;
 				case UWORD:
-					logger.debug("PC: " + pc.getHex() + " store value: " + store_value.getHex() + " to addr: " + alu_outLO.getHex());
+					logger.debug("PC: " + pc.getValueAsHexString() + " store value: " + store_value.getValueAsHexString() + " to addr: " + alu_outLO.getValueAsHexString());
 					dmem.write_u32(alu_outLO, store_value);
 					break;
 				case WORD_RIGHT_PART:
@@ -224,7 +224,7 @@ public class Memory
 		}
 		else
 		{
-			logger.debug("PC: " + pc.getHex() + " nothing to do");
+			logger.debug("PC: " + pc.getValueAsHexString() + " nothing to do");
 		}
 
 		MemoryWritebackData mwd = new MemoryWritebackData(inst, pc, alu_out, ld_result, jump);

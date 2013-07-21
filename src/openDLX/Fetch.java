@@ -50,7 +50,7 @@ public class Fetch {
 	private void setPc(uint32 pc)
 	{
 		program_counter.setValue(pc.getValue());
-		logger.debug("Set Pc to: " + program_counter.getHex());
+		logger.debug("Set Pc to: " + program_counter.getValueAsHexString());
 	}
 	
 	public uint32 getPc()
@@ -72,7 +72,7 @@ public class Fetch {
 	public void increasePC()
 	{
 		program_counter.setValue(program_counter.getValue()+4);
-		logger.debug("Pc is now at: " + program_counter.getHex());
+		logger.debug("Pc is now at: " + program_counter.getValueAsHexString());
 	}
 
 	public void setInputLatches(Queue<ExecuteFetchData> executeFetchLatch, Queue<BranchPredictionModuleFetchData> branchpredictionFetchLatch)
@@ -94,7 +94,7 @@ public class Fetch {
 
 		if(bpmfd.getDoSpeculativeJump())
 		{
-			logger.debug("speculatively jumping from " + bpmfd.getPc().getHex() + " to " + bpmfd.getBranchTgt().getHex());
+			logger.debug("speculatively jumping from " + bpmfd.getPc().getValueAsHexString() + " to " + bpmfd.getBranchTgt().getValueAsHexString());
 			// the branch predictor predicted a branch, set the pc to the predicted target
 			setPc(bpmfd.getBranchTgt());
 		}
@@ -103,7 +103,7 @@ public class Fetch {
 		{
 			if(efd.getMispredictedBranch() == true)
 			{
-				logger.debug("mispredicted branch at pc " + efd.getPc().getHex() + " the branch was actually " + ((efd.getJump())?("taken to " + efd.getNewPc().getHex()):("not taken next instr is " + new uint32(efd.getPc().getValue()+8).getHex())));
+				logger.debug("mispredicted branch at pc " + efd.getPc().getValueAsHexString() + " the branch was actually " + ((efd.getJump())?("taken to " + efd.getNewPc().getValueAsHexString()):("not taken next instr is " + new uint32(efd.getPc().getValue()+8).getValueAsHexString())));
 				flush[PipelineConstants.DECODE_STAGE] = true;
 				if(efd.getJump() == true)
 				{
@@ -150,7 +150,7 @@ public class Fetch {
 		uint32 instr = doFetch();
 		if(instr != null)
 		{
-			logger.debug("PC: " + getPc().getHex() + " fetched instruction " + instr.getHex());
+			logger.debug("PC: " + getPc().getValueAsHexString() + " fetched instruction " + instr.getValueAsHexString());
 		}
 		else
 		{

@@ -163,7 +163,7 @@ public class Execute
 
 			if(old_alu_in_a != alu_in_a.getValue())
 			{
-				logger.debug("{FW} PC: " + pc.getHex() + " forwarding changed value for ALU port A " + inst.getALUPortA() + " from: 0x" + Integer.toHexString(old_alu_in_a) + " to: " + alu_in_a.getHex());
+				logger.debug("{FW} PC: " + pc.getValueAsHexString() + " forwarding changed value for ALU port A " + inst.getALUPortA() + " from: 0x" + Integer.toHexString(old_alu_in_a) + " to: " + alu_in_a.getValueAsHexString());
 			}
 
 			// for ALU PORT B 
@@ -186,7 +186,7 @@ public class Execute
 			}
 			if(old_alu_in_b != alu_in_b.getValue())
 			{
-				logger.debug("{FW} PC: " + pc.getHex() + " forwarding changed value for ALU port B " + inst.getALUPortB() + " from: 0x" + Integer.toHexString(old_alu_in_b) + " to: " + alu_in_b.getHex());
+				logger.debug("{FW} PC: " + pc.getValueAsHexString() + " forwarding changed value for ALU port B " + inst.getALUPortB() + " from: 0x" + Integer.toHexString(old_alu_in_b) + " to: " + alu_in_b.getValueAsHexString());
 			}
 
 			// for BRANCH CONTROL PORT A
@@ -210,7 +210,7 @@ public class Execute
 
 			if(old_branch_ctrl_in_a != branch_ctrl_in_a.getValue())
 			{
-				logger.debug("{FW} PC: " + pc.getHex() + " forwarding changed value for BCTRL port A " + inst.getBrachControlPortA() + " from: 0x" + Integer.toHexString(old_branch_ctrl_in_a) + " to: " + branch_ctrl_in_a.getHex());
+				logger.debug("{FW} PC: " + pc.getValueAsHexString() + " forwarding changed value for BCTRL port A " + inst.getBrachControlPortA() + " from: 0x" + Integer.toHexString(old_branch_ctrl_in_a) + " to: " + branch_ctrl_in_a.getValueAsHexString());
 			}
 
 			// for BRANCH CONTROL PORT B
@@ -232,7 +232,7 @@ public class Execute
 
 			if(old_branch_ctrl_in_b != branch_ctrl_in_b.getValue())
 			{
-				logger.debug("{FW} PC: " + pc.getHex() + " forwarding changed value for BCTRL port B " + inst.getBrachControlPortB() + " from: 0x" + Integer.toHexString(old_branch_ctrl_in_b) + " to: " + branch_ctrl_in_b.getHex());
+				logger.debug("{FW} PC: " + pc.getValueAsHexString() + " forwarding changed value for BCTRL port B " + inst.getBrachControlPortB() + " from: 0x" + Integer.toHexString(old_branch_ctrl_in_b) + " to: " + branch_ctrl_in_b.getValueAsHexString());
 			}
 
 			// for STORE value
@@ -250,7 +250,7 @@ public class Execute
 
 			if(old_store_value != store_value.getValue())
 			{
-				logger.debug("{FW} PC: " + pc.getHex() + " forwarding changed store_value for RT from: 0x" + Integer.toHexString(old_store_value) + " to: " + store_value.getHex());
+				logger.debug("{FW} PC: " + pc.getValueAsHexString() + " forwarding changed store_value for RT from: 0x" + Integer.toHexString(old_store_value) + " to: " + store_value.getValueAsHexString());
 			}
 
 			// DATA FORWARDING END
@@ -299,7 +299,7 @@ public class Execute
 
 			if(old_alu_in_a != alu_in_a.getValue())
 			{
-				logger.debug("{RS/WB-FW} PC: " + pc.getHex() + " forwarding changed value for ALU port A " + inst.getALUPortA() + " from: 0x" + Integer.toHexString(old_alu_in_a) + " to: " + alu_in_a.getHex());
+				logger.debug("{RS/WB-FW} PC: " + pc.getValueAsHexString() + " forwarding changed value for ALU port A " + inst.getALUPortA() + " from: 0x" + Integer.toHexString(old_alu_in_a) + " to: " + alu_in_a.getValueAsHexString());
 			}
 
 			// for ALU PORT B 
@@ -316,7 +316,7 @@ public class Execute
 			}
 			if(old_alu_in_b != alu_in_b.getValue())
 			{
-				logger.debug("{RS/WB-FW} PC: " + pc.getHex() + " forwarding changed value for ALU port B " + inst.getALUPortB() + " from: 0x" + Integer.toHexString(old_alu_in_b) + " to: " + alu_in_b.getHex());
+				logger.debug("{RS/WB-FW} PC: " + pc.getValueAsHexString() + " forwarding changed value for ALU port B " + inst.getALUPortB() + " from: 0x" + Integer.toHexString(old_alu_in_b) + " to: " + alu_in_b.getValueAsHexString());
 			}
 
 			// for BRANCH CONTROL PORT A
@@ -334,7 +334,7 @@ public class Execute
 
 			if(old_branch_ctrl_in_a != branch_ctrl_in_a.getValue())
 			{
-				logger.debug("{RS/WB-FW} PC: " + pc.getHex() + " forwarding changed value for BCTRL port A " + inst.getBrachControlPortA() + " from: 0x" + Integer.toHexString(old_branch_ctrl_in_a) + " to: " + branch_ctrl_in_a.getHex());
+				logger.debug("{RS/WB-FW} PC: " + pc.getValueAsHexString() + " forwarding changed value for BCTRL port A " + inst.getBrachControlPortA() + " from: 0x" + Integer.toHexString(old_branch_ctrl_in_a) + " to: " + branch_ctrl_in_a.getValueAsHexString());
 			}
 
 			// for BRANCH CONTROL PORT B
@@ -350,7 +350,7 @@ public class Execute
 
 			if(old_branch_ctrl_in_b != branch_ctrl_in_b.getValue())
 			{
-				logger.debug("{RS/WB-FW} PC: " + pc.getHex() + " forwarding changed value for BCTRL port B " + inst.getBrachControlPortB() + " from: 0x" + Integer.toHexString(old_branch_ctrl_in_b) + " to: " + branch_ctrl_in_b.getHex());
+				logger.debug("{RS/WB-FW} PC: " + pc.getValueAsHexString() + " forwarding changed value for BCTRL port B " + inst.getBrachControlPortB() + " from: 0x" + Integer.toHexString(old_branch_ctrl_in_b) + " to: " + branch_ctrl_in_b.getValueAsHexString());
 			}
 
 			// for STORE value
@@ -362,7 +362,7 @@ public class Execute
 
 			if(old_store_value != store_value.getValue())
 			{
-				logger.debug("{RS/WB-FW} PC: " + pc.getHex() + " forwarding changed store_value for RT from: 0x" + Integer.toHexString(old_store_value) + " to: " + store_value.getHex());
+				logger.debug("{RS/WB-FW} PC: " + pc.getValueAsHexString() + " forwarding changed store_value for RT from: 0x" + Integer.toHexString(old_store_value) + " to: " + store_value.getValueAsHexString());
 			}
 
 			// DATA FORWARDING END
@@ -374,11 +374,11 @@ public class Execute
 		uint32 alu_outLO = alu_out[0];
 		// uint32 alu_outHI = alu_out[1];
 
-		logger.debug("PC: " + pc.getHex() + " ALU calculated: "
-				+ alu_outLO.getValue() + "(" + alu_outLO.getHex()
+		logger.debug("PC: " + pc.getValueAsHexString() + " ALU calculated: "
+				+ alu_outLO.getValue() + "(" + alu_outLO.getValueAsHexString()
 				+ ") by: " + alu_in_a.getValue() + "("
-				+ alu_in_a.getHex() + ") " + inst.getALUFunction()
-				+ " " + alu_in_b.getValue() + "(" + alu_in_b.getHex()
+				+ alu_in_a.getValueAsHexString() + ") " + inst.getALUFunction()
+				+ " " + alu_in_b.getValue() + "(" + alu_in_b.getValueAsHexString()
 				+ ")");
 
 		// ALU OPERATION END
@@ -415,7 +415,7 @@ public class Execute
 		{
 			if(bpmed.getPc().getValue() != pc.getValue())
 			{
-				throw new ExecuteStageException("Wrong PC :" + bpmed.getPc().getHex() + " != " + pc.getHex());
+				throw new ExecuteStageException("Wrong PC :" + bpmed.getPc().getValueAsHexString() + " != " + pc.getValueAsHexString());
 			}
 			
 			// either the branch direction was falsely predicted 
@@ -486,13 +486,13 @@ public class Execute
 
 		if (old_inst.getWriteLO() && (reg_read == SpecialRegisters.LO))
 		{
-			logger.debug("{FW} using " + old_alu_result[0].getHex() + " for register " + reg_read + " instead of value: " + alu_in.getHex());
+			logger.debug("{FW} using " + old_alu_result[0].getValueAsHexString() + " for register " + reg_read + " instead of value: " + alu_in.getValueAsHexString());
 			alu_in.setValue(old_alu_result[0]);
 		}
 
 		if (old_inst.getWriteHI() && (reg_read == SpecialRegisters.HI))
 		{
-			logger.debug("{FW} using " + old_alu_result[1].getHex() + " for register " + reg_read + " instead of value: " + alu_in.getHex());
+			logger.debug("{FW} using " + old_alu_result[1].getValueAsHexString() + " for register " + reg_read + " instead of value: " + alu_in.getValueAsHexString());
 			alu_in.setValue(old_alu_result[1]);
 		}
 
@@ -507,12 +507,12 @@ public class Execute
 			{
 				if(old_inst.getLoad())
 				{
-					logger.debug("{FW} using LD result " + old_ld_result.getHex() + " for register " + reg_read.getValue() + "/" + ArchCfg.getRegisterDescription(reg_read.getValue()) + " instead of value: " + alu_in.getHex());
+					logger.debug("{FW} using LD result " + old_ld_result.getValueAsHexString() + " for register " + reg_read.getValue() + "/" + ArchCfg.getRegisterDescription(reg_read.getValue()) + " instead of value: " + alu_in.getValueAsHexString());
 					alu_in.setValue(old_ld_result);
 				}
 				else
 				{
-					logger.debug("{FW} using ALU result " + old_alu_result.getHex() + " for register " + reg_read.getValue() + "/" + ArchCfg.getRegisterDescription(reg_read.getValue()) + " instead of value: " + alu_in.getHex());
+					logger.debug("{FW} using ALU result " + old_alu_result.getValueAsHexString() + " for register " + reg_read.getValue() + "/" + ArchCfg.getRegisterDescription(reg_read.getValue()) + " instead of value: " + alu_in.getValueAsHexString());
 					alu_in.setValue(old_alu_result);
 				}
 			}
@@ -528,12 +528,12 @@ public class Execute
 			{
 				if(old_inst.getLoad())
 				{
-					logger.debug("{FW} using LD result " + old_ld_result.getHex() + " for register " + reg_read.getValue() + "/" + ArchCfg.getRegisterDescription(reg_read.getValue()) + " instead of value: " + alu_in.getHex());
+					logger.debug("{FW} using LD result " + old_ld_result.getValueAsHexString() + " for register " + reg_read.getValue() + "/" + ArchCfg.getRegisterDescription(reg_read.getValue()) + " instead of value: " + alu_in.getValueAsHexString());
 					alu_in.setValue(old_ld_result);
 				}
 				else
 				{
-					logger.debug("{FW} using ALU result " + old_alu_result.getHex() + " for register " + reg_read.getValue() + "/" + ArchCfg.getRegisterDescription(reg_read.getValue()) + " instead of value: " + alu_in.getHex());
+					logger.debug("{FW} using ALU result " + old_alu_result.getValueAsHexString() + " for register " + reg_read.getValue() + "/" + ArchCfg.getRegisterDescription(reg_read.getValue()) + " instead of value: " + alu_in.getValueAsHexString());
 					alu_in.setValue(old_alu_result);
 				}
 			}

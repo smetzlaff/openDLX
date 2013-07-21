@@ -101,7 +101,7 @@ public class DLXTrapHandler {
 		if(user_input != null)
 		{
 			System.out.println("Input: " + user_input);
-			logger.info("Input: " + user_input + " @" + write_addr.getHex());
+			logger.info("Input: " + user_input + " @" + write_addr.getValueAsHexString());
 			
 			byte[] raw = user_input.getBytes();
 			for(int i = 0; ((i < user_input.length()) && (i < input_length-1)); i++)
@@ -129,7 +129,7 @@ public class DLXTrapHandler {
 		String format_string = new String("");
 		uint32 parameter_list_pointer = new uint32(parameter + 4);
 		
-		logger.debug("TRAP " + PipelineConstants.DLX_TRAP_PRINTF + " catched. Printf format string is at: " + format_addr.getHex() + " Parameter list begins at: " + parameter_list_pointer.getHex());
+		logger.debug("TRAP " + PipelineConstants.DLX_TRAP_PRINTF + " catched. Printf format string is at: " + format_addr.getValueAsHexString() + " Parameter list begins at: " + parameter_list_pointer.getValueAsHexString());
 		
 //		logger.debug("Format string dump:");
 //		mem.dumpMemory(format_addr, new uint32(format_addr.getValue() + 20));
@@ -179,7 +179,7 @@ public class DLXTrapHandler {
 					format_descr_pos+=2;
 					break;
 				case FORMAT_HEX:
-					print_string += mem.read_u32(parameter_list_pointer).getHex();
+					print_string += mem.read_u32(parameter_list_pointer).getValueAsHexString();
 					// set pointer to next addr in the parameter list
 					parameter_list_pointer.setValue(parameter_list_pointer.getValue()+4);
 					// skip two characters: the "%" and the format descriptor

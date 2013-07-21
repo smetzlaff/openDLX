@@ -92,6 +92,6 @@ public class BranchStat
 	public String toString()
 	{
 		DecimalFormat f = new DecimalFormat("###.##");
-		return new String("bpc: " + branch_addr.getHex() + " [" + btb_idx + "] tgts: " + branch_tgts.toString() + " a:" + accesses + " t/nt: " + taken + "/" + not_taken + " mp/cp: " + mispredicted + "/" + correctly_predicted + " mp-ratio: " + f.format((double)mispredicted/((double)accesses)));
+		return new String("bpc: " + branch_addr.getValueAsHexString() + " [" + btb_idx + "] tgts: " + branch_tgts.toString() + " a:" + accesses + " t/nt: " + taken + "/" + not_taken + " mp/cp: " + mispredicted + "/" + correctly_predicted + " mp-ratio: " + f.format((double)mispredicted/((double)accesses)));
 	}
 }

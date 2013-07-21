@@ -72,7 +72,7 @@ public class WriteBack
 		uint8 regWriteSelect = new uint8(0);
 		uint32 regWriteValue = new uint32(0);
 
-		logger.info("PC: " + pc.getHex());
+		logger.info("PC: " + pc.getValueAsHexString());
 		if (inst.getLoad())
 		{
 			// write load result into the register
@@ -110,12 +110,12 @@ public class WriteBack
 		{
 			if(regWriteSelect.getValue() != 0)
 			{
-				logger.debug("writing: " + regWriteValue.getHex() + " to register " + regWriteSelect.getValue() + "/" + ArchCfg.getRegisterDescription(regWriteSelect.getValue()));
+				logger.debug("writing: " + regWriteValue.getValueAsHexString() + " to register " + regWriteSelect.getValue() + "/" + ArchCfg.getRegisterDescription(regWriteSelect.getValue()));
 				reg_set.write(regWriteSelect, regWriteValue);
 			}
 			else
 			{
-				logger.info("suppressing writing of register 0/" + ArchCfg.getRegisterDescription(0) + " with value: " + regWriteValue.getHex());
+				logger.info("suppressing writing of register 0/" + ArchCfg.getRegisterDescription(0) + " with value: " + regWriteValue.getValueAsHexString());
 			}
 		}
 
@@ -124,13 +124,13 @@ public class WriteBack
 			regWrite = true;
 			if (inst.getWriteLO())
 			{
-				logger.debug("writing: " + alu_outLO.getHex() + " to register " + SpecialRegisters.LO);
+				logger.debug("writing: " + alu_outLO.getValueAsHexString() + " to register " + SpecialRegisters.LO);
 				reg_set.write_SP(SpecialRegisters.LO, alu_outLO);
 			}
 
 			if (inst.getWriteHI())
 			{
-				logger.debug("writing: " + alu_outHI.getHex() + " to register " + SpecialRegisters.HI);
+				logger.debug("writing: " + alu_outHI.getValueAsHexString() + " to register " + SpecialRegisters.HI);
 				reg_set.write_SP(SpecialRegisters.HI, alu_outHI);
 			}
 		}

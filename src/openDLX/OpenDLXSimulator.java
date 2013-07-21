@@ -450,7 +450,7 @@ public class OpenDLXSimulator
         // LATCH
         if (fod.getFlush()[PipelineConstants.DECODE_STAGE])
         {
-            logger.debug("Flushed DECODE PC: " + fetch_decode_latch.element().getPc().getHex() + " " + fetch_decode_latch.element().getInstr().getHex());
+            logger.debug("Flushed DECODE PC: " + fetch_decode_latch.element().getPc().getValueAsHexString() + " " + fetch_decode_latch.element().getInstr().getValueAsHexString());
             fetch_decode_latch.element().flush();
         }
 
@@ -461,7 +461,7 @@ public class OpenDLXSimulator
         // LATCH
         if (fod.getFlush()[PipelineConstants.EXECUTE_STAGE])
         {
-            logger.debug("Flushed EXECUTE PC: " + decode_execute_latch.element().getPc().getHex() + " " + decode_execute_latch.element().getInst().toString());
+            logger.debug("Flushed EXECUTE PC: " + decode_execute_latch.element().getPc().getValueAsHexString() + " " + decode_execute_latch.element().getInst().toString());
             decode_execute_latch.element().flush();
         }
 
@@ -492,7 +492,7 @@ public class OpenDLXSimulator
             // the a bubble needs to be inserted, since no forwarding is possible in the load delay slot
             if (eod.getStall()[PipelineConstants.FETCH_STAGE] && eod.getStall()[PipelineConstants.DECODE_STAGE] && eod.getStall()[PipelineConstants.EXECUTE_STAGE])
             {
-                logger.debug("Stalling IF, ID, and EX because of load dependency for PC: " + decode_execute_latch.element().getPc().getHex());
+                logger.debug("Stalling IF, ID, and EX because of load dependency for PC: " + decode_execute_latch.element().getPc().getValueAsHexString());
                 // leave FETCH, DECODE, and EXECUTE untouched
 
                 // let the other latches running
@@ -746,11 +746,11 @@ public class OpenDLXSimulator
         {
             if (stringToUint32(config.getProperty("assert_reg_" + i + "_value")).getValue() != reg_set.read(new uint8(i)).getValue())
             {
-                logger.warn("Register " + i + " does not has the expected value: " + stringToUint32(config.getProperty("assert_reg_" + i + "_value")).getHex() + " != " + reg_set.read(new uint8(i)).getHex());
+                logger.warn("Register " + i + " does not has the expected value: " + stringToUint32(config.getProperty("assert_reg_" + i + "_value")).getValueAsHexString() + " != " + reg_set.read(new uint8(i)).getValueAsHexString());
             }
             else
             {
-                logger.info("Register " + i + " has the expected value: " + stringToUint32(config.getProperty("assert_reg_" + i + "_value")).getHex() + " == " + reg_set.read(new uint8(i)).getHex());
+                logger.info("Register " + i + " has the expected value: " + stringToUint32(config.getProperty("assert_reg_" + i + "_value")).getValueAsHexString() + " == " + reg_set.read(new uint8(i)).getValueAsHexString());
             }
         }
     }
@@ -761,11 +761,11 @@ public class OpenDLXSimulator
         {
             if (stringToUint32(config.getProperty("assert_reg_LO_value")).getValue() != reg_set.read_SP(SpecialRegisters.LO).getValue())
             {
-                logger.warn("Register LO does not has the expected value: " + stringToUint32(config.getProperty("assert_reg_LO_value")).getHex() + " != " + reg_set.read_SP(SpecialRegisters.LO).getHex());
+                logger.warn("Register LO does not has the expected value: " + stringToUint32(config.getProperty("assert_reg_LO_value")).getValueAsHexString() + " != " + reg_set.read_SP(SpecialRegisters.LO).getValueAsHexString());
             }
             else
             {
-                logger.info("Register LO has the expected value: " + stringToUint32(config.getProperty("assert_reg_LO_value")).getHex() + " == " + reg_set.read_SP(SpecialRegisters.LO).getHex());
+                logger.info("Register LO has the expected value: " + stringToUint32(config.getProperty("assert_reg_LO_value")).getValueAsHexString() + " == " + reg_set.read_SP(SpecialRegisters.LO).getValueAsHexString());
             }
         }
 
@@ -773,11 +773,11 @@ public class OpenDLXSimulator
         {
             if (stringToUint32(config.getProperty("assert_reg_HI_value")).getValue() != reg_set.read_SP(SpecialRegisters.HI).getValue())
             {
-                logger.warn("Register HI does not has the expected value: " + stringToUint32(config.getProperty("assert_reg_HI_value")).getHex() + " != " + reg_set.read_SP(SpecialRegisters.HI).getHex());
+                logger.warn("Register HI does not has the expected value: " + stringToUint32(config.getProperty("assert_reg_HI_value")).getValueAsHexString() + " != " + reg_set.read_SP(SpecialRegisters.HI).getValueAsHexString());
             }
             else
             {
-                logger.info("Register HI has the expected value: " + stringToUint32(config.getProperty("assert_reg_HI_value")).getHex() + " == " + reg_set.read_SP(SpecialRegisters.HI).getHex());
+                logger.info("Register HI has the expected value: " + stringToUint32(config.getProperty("assert_reg_HI_value")).getValueAsHexString() + " == " + reg_set.read_SP(SpecialRegisters.HI).getValueAsHexString());
             }
         }
     }

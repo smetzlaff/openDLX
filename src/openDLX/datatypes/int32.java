@@ -21,60 +21,72 @@
  ******************************************************************************/
 package openDLX.datatypes;
 
-public class int32 extends BasicNumber {
-	private int value;
+public class int32 extends BasicNumber 
+{
+    private int value;
 
-	public int32(int value) {
-		this.value = value;
-	}
+    public int32(int value)
+    {
+        this.value = value;
+    }
 
-	public int32(short value) {
-		this.value = (int) value;
-	}
+    public int32(short value)
+    {
+        this.value = (int) value;
+    }
 
-	public int32(byte value) {
-		this.value = (int) value;
-	}
-	
-	public int32(int32 value) {
-		this.value = (int) value.getValue();
-	}
-	
-	public int getValue() {
-		return value;
-	}
+    public int32(byte value)
+    {
+        this.value = (int) value;
+    }
 
-	public void setValue(int value) {
-		this.value = value;
-	}
+    public int32(int32 value)
+    {
+        this.value = (int) value.getValue();
+    }
 
-	public String getHex()
-	{
-		String s = Integer.toHexString(value);
-		int diff = 8 - s.length();
+    public int getValue()
+    {
+        return value;
+    }
 
-		for (; diff > 0; diff--)
-			s = "0" + s;
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
 
-		return "0x" + s;
-	}
-	
-	public int hashCode()
-	{
-		return getValue();
-	}
-	
-	public boolean equals(Object o)
-	{
-		if(o.getClass() == this.getClass())
-		{
-			return equals((int32)o);
-		}
-		return false;
-	}
-	
-	public boolean equals(int32 other)
-	{
-		return (getValue() == other.getValue());
-	}
+    public String getValueAsHexString()
+    {
+        String s = Integer.toHexString(value);
+        int diff = 8 - s.length();
+
+        for (; diff > 0; diff--)
+            s = "0" + s;
+
+        return "0x" + s;
+    }
+
+    public int hashCode()
+    {
+        return getValue();
+    }
+
+    public boolean equals(Object o)
+    {
+        if (o.getClass() == this.getClass())
+        {
+            return equals((int32) o);
+        }
+        return false;
+    }
+
+    public boolean equals(int32 other)
+    {
+        return (getValue() == other.getValue());
+    }
+
+    public String getValueAsDecimalString()
+    {
+        return Integer.toString(getValue());
+    }
 }

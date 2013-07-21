@@ -201,7 +201,7 @@ public final class ClockCycleFrame extends OpenDLXSimInternalFrame implements GU
             {
                 uint32 inst = openDLXSim.getPipeline().getInstructionMemory().read_u32(addr);
                 String instStr = asm.Instr2Str(inst.getValue());
-                addrModel.addRow(new String[] { addr.getHex() });
+                addrModel.addRow(new String[] { addr.getValueAsHexString() });
                 codeModel.addRow(new String[] { instStr });
                 model.addColumn(i);
                 model.addRow(new String[] { "" });
@@ -212,7 +212,7 @@ public final class ClockCycleFrame extends OpenDLXSimInternalFrame implements GU
                     final ArrayList<uint32> forbidden = new ArrayList<>();
                     for (int k = addrModel.getRowCount() - 1; k >= 0; --k)
                     {
-                        if (addrModel.getValueAt(k, 0).equals(checkAddr.getHex())
+                        if (addrModel.getValueAt(k, 0).equals(checkAddr.getValueAsHexString())
                                 && !forbidden.contains(checkAddr)
                                 && !instStr.contains("bubble"))
                         {
