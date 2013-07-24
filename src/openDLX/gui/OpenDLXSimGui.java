@@ -35,6 +35,27 @@ public class OpenDLXSimGui
         String lafClassName = UIManager.getLookAndFeel().getClass().getCanonicalName();
         //get user preference
         lafClassName = Preference.pref.get(Preference.lookAndFeel, lafClassName);
+        
+        try {
+            // check if the lafClassName is valid, 
+            // since it could be the case that the preferences file contains an invalid class
+            Class.forName(lafClassName, false, null);
+        } catch (ClassNotFoundException e) {
+            // If the lafClassName is not valid, set it to the class name of the current L&F class.
+            String currentLafClassName = UIManager.getLookAndFeel().getClass().getCanonicalName();
+            if(currentLafClassName == lafClassName)
+            {
+                System.err.println("Failed to set look and feel '" + lafClassName + "'");
+                e.printStackTrace();
+            }
+            else
+            {
+                lafClassName = currentLafClassName;
+                // store new (valid) L&F in preferences
+                Preference.pref.put(Preference.lookAndFeel, lafClassName);
+            }
+            
+        }
        	
         //set selected L&F
         setLookAndFeelWithoutTreeUpdate(lafClassName);
