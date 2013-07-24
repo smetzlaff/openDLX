@@ -28,14 +28,14 @@ import javax.swing.UIManager;
 
 public class OpenDLXSimGui
 {
-    public static final String preferenceKey = "lookandfeel";
 
     public static void openDLXGui_main()
     {
         //set default
         String lafClassName = UIManager.getLookAndFeel().getClass().getCanonicalName();
         //get user preference
-        lafClassName = Preference.pref.get(preferenceKey, lafClassName);
+        lafClassName = Preference.pref.get(Preference.lookAndFeel, lafClassName);
+       	
         //set selected L&F
         setLookAndFeelWithoutTreeUpdate(lafClassName);
 

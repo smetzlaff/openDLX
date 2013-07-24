@@ -39,7 +39,7 @@ public class CommandSetLaF implements Command
     public void execute()
     {
         OpenDLXSimGui.setLookAndFeel(lafClassName);
-        Preference.pref.put(OpenDLXSimGui.preferenceKey, lafClassName);
+        Preference.pref.put(Preference.lookAndFeel, lafClassName);
     }
 
 }

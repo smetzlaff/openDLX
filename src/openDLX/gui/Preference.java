@@ -40,6 +40,7 @@ public class Preference
     public static final String maxCyclesPreferenceKey = "maxcycles";
     public static final String displayMemoryAsHex = "displayMemoryAsHex";
     public static final String showExitMessage = "showexitmessage";
+    public static final String lookAndFeel = "lookandfeel";
     // TODO implement option
     public static final String displayRegistersAsHex = "displayRegistersAsHex";
 
