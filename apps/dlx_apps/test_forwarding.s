@@ -6,10 +6,9 @@ Text1:    .asciiz       "Test Trap"
           .align        2       ; aligns following definitions or code to 4 bytes
 TextAdr:  .word         Text1
 
-
-.global main
+          .text
+          .global main
 main:
-
           ; data dependencies:
 	  addi     r1,r0,0x42     
 	  add     r2,r1,r0    
