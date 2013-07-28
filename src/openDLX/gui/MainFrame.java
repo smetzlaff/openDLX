@@ -312,4 +312,16 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         return forwardingMenuItem;
     }
 
+    public OpenDLXSimInternalFrame getOpenDLXFrame(Class<?> className)
+    {
+        for(JInternalFrame jif : getinternalFrames())
+        {
+            if(jif.getClass() == className)
+            {
+                return (OpenDLXSimInternalFrame) jif;
+            }
+        }
+        return null;
+    }
+
 }

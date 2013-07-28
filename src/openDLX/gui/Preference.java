@@ -38,24 +38,19 @@ public class Preference
     public static final String bpInitialStatePreferenceKey = "bbinitialstate";
     public static final String btbSizePreferenceKey = "btbsize";
     public static final String maxCyclesPreferenceKey = "maxcycles";
-    public static final String displayMemoryAsHex = "displayMemoryAsHex";
     public static final String showExitMessage = "showexitmessage";
     public static final String lookAndFeel = "lookandfeel";
-    // TODO implement option
     public static final String displayRegistersAsHex = "displayRegistersAsHex";
+    public static final String displayMemoryAsHex = "displayMemoryAsHex";
 
     public static boolean displayMemoryAsHex()
     {
-        // TODO: Add GUI switch
-        // boolean isHex = pref.getBoolean(displayMemoryAsHex, true);
-        return true;
+        return pref.getBoolean(displayMemoryAsHex, true);
     }
 
     public static boolean displayRegistersAsHex()
     {
-        // TODO: Add GUI switch
-        // boolean isHex = pref.getBoolean(displayRegistersAsHex, true);
-        return true;
+        return pref.getBoolean(displayRegistersAsHex, true);
     }
 
     // TODO: Also move all configuration stuff into this file.

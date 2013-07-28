@@ -42,6 +42,8 @@ import openDLX.datatypes.BranchPredictorState;
 import openDLX.datatypes.BranchPredictorType;
 import openDLX.gui.MainFrame;
 import openDLX.gui.Preference;
+import openDLX.gui.internalframes.concreteframes.MemoryFrame;
+import openDLX.gui.internalframes.concreteframes.RegisterFrame;
 
 @SuppressWarnings("serial")
 public class OptionDialog extends JDialog implements ActionListener
@@ -53,6 +55,8 @@ public class OptionDialog extends JDialog implements ActionListener
     // checkBoxes
     private JCheckBox forwardingCheckBox;
     private JCheckBox mipsCompatibilityCheckBox;
+    private JCheckBox registerRepresentationCheckBox;
+    private JCheckBox memoryRepresentationCheckBox;
 
     /*
      * JComboBox may be represented by Vectors or Arrays of Objects (Object [])
@@ -101,6 +105,12 @@ public class OptionDialog extends JDialog implements ActionListener
         {
             mipsCompatibilityCheckBox.setSelected(false);
         }
+        
+        registerRepresentationCheckBox = new JCheckBox("Display Register Values as Hex");
+        registerRepresentationCheckBox.setSelected(Preference.pref.getBoolean(Preference.displayRegistersAsHex, true));
+        
+        memoryRepresentationCheckBox = new JCheckBox("Display Memory Content as Hex");
+        memoryRepresentationCheckBox.setSelected(Preference.pref.getBoolean(Preference.displayMemoryAsHex, true));
 
         /*create a JComboBoxes
          *
@@ -170,6 +180,8 @@ public class OptionDialog extends JDialog implements ActionListener
 
         optionPanel.add(forwardingCheckBox);
         optionPanel.add(mipsCompatibilityCheckBox);
+        optionPanel.add(registerRepresentationCheckBox);
+        optionPanel.add(memoryRepresentationCheckBox);
         optionPanel.add(bpTypeListPanel);
         optionPanel.add(bpInitialStateListPanel);
         optionPanel.add(btbSizeTextFieldPanel);
@@ -215,7 +227,6 @@ public class OptionDialog extends JDialog implements ActionListener
                 {
                     ArchCfg.use_load_stall_bubble = false;
                 }
-
             }
             else
             {
@@ -234,6 +245,24 @@ public class OptionDialog extends JDialog implements ActionListener
 
             // propagate forwarding to menu
             propagateFWToMenu(forwardingCheckBox.isSelected());
+            
+            if(Preference.pref.getBoolean(Preference.displayRegistersAsHex, true) != registerRepresentationCheckBox.isSelected())
+            {
+                Preference.pref.putBoolean(Preference.displayRegistersAsHex,
+                        registerRepresentationCheckBox.isSelected());
+                // update register frame
+                RegisterFrame rf = (RegisterFrame)MainFrame.getInstance().getOpenDLXFrame(RegisterFrame.class);
+                rf.update();
+            }
+            if(Preference.pref.getBoolean(Preference.displayMemoryAsHex, true) != memoryRepresentationCheckBox.isSelected())
+            {
+                Preference.pref.putBoolean(Preference.displayMemoryAsHex,
+                        memoryRepresentationCheckBox.isSelected());
+                // update memory frame
+                MemoryFrame mf = (MemoryFrame)MainFrame.getInstance().getOpenDLXFrame(MemoryFrame.class);
+                mf.update();
+            }
+            
 
             // TODO also add a field for disabling the branch prediction
             // TODO do some checks for the setting of the BP initial state and sizes
