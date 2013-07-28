@@ -98,4 +98,16 @@ public class uint32 extends BasicNumber
     {
         return Integer.toString(getValue());
     }
+    
+    public String getValueAsCharString()
+    {
+        String s = new String("'");
+        // TODO think of different byte orderings
+        s += (char)((getValue())&0xFF);
+        s += (char)((getValue()>>8)&0xFF);
+        s += (char)((getValue()>>16)&0xFF);
+        s += (char)((getValue()>>24)&0xFF);
+        s += "'";
+        return s;
+    }
 }
