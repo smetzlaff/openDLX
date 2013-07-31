@@ -63,6 +63,7 @@ public class OptionDialog extends JDialog implements ActionListener
      * we have chosen "String[]" to be the representation (in fact - String) for
      * the data within AsmFileLoader-class , but Vector is appropriate as well.
      */
+    private JComboBox<String> memRepresentationComboBox;
     private JComboBox<String> bpTypeComboBox;
     private JComboBox<String> bpInitialStateComboBox;
     private JTextField btbSizeTextField;
@@ -117,6 +118,17 @@ public class OptionDialog extends JDialog implements ActionListener
          * JComboBox need a Object[] or Vector as data representation
          Furthermore the  JComboBox gets a JLabel, describing it,
          * -> put both components into a JPanel*/
+        
+        // memRepresentation:
+        JLabel memRepresentationComboBoxDescriptionLabel = new JLabel("Memory Format: ");
+        memRepresentationComboBox = new JComboBox<String>(ArchCfg.possibleMemRepresentationComboBoxValues);
+        memRepresentationComboBox.setSelectedItem(Preference.pref.get(Preference.memRepresentation, ArchCfg.possibleBpInitialStateComboBoxValues[0])); // load current value
+        //surrounding panel
+        JPanel memRepresentationListPanel = new JPanel();
+        //add the label
+        memRepresentationListPanel.add(memRepresentationComboBoxDescriptionLabel);
+        //add the box itself
+        memRepresentationListPanel.add(memRepresentationComboBox);
 
         // bpType:
         JLabel bpTypeComboBoxDescriptionLabel = new JLabel("Branch Predictor: ");
@@ -182,6 +194,7 @@ public class OptionDialog extends JDialog implements ActionListener
         optionPanel.add(mipsCompatibilityCheckBox);
         optionPanel.add(registerRepresentationCheckBox);
         optionPanel.add(memoryRepresentationCheckBox);
+        optionPanel.add(memRepresentationListPanel);
         optionPanel.add(bpTypeListPanel);
         optionPanel.add(bpInitialStateListPanel);
         optionPanel.add(btbSizeTextFieldPanel);

@@ -42,6 +42,7 @@ public class Preference
     public static final String lookAndFeel = "lookandfeel";
     public static final String displayRegistersAsHex = "displayRegistersAsHex";
     public static final String displayMemoryAsHex = "displayMemoryAsHex";
+    public static final String memRepresentation = "displayMemoryAsHex";
 
     public static boolean displayMemoryAsHex()
     {
