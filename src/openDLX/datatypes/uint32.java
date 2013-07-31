@@ -21,7 +21,7 @@
  ******************************************************************************/
 package openDLX.datatypes;
 
-public class uint32 extends BasicNumber
+public class uint32 extends BasicNumberUnsigned
 {
     private int value;
 

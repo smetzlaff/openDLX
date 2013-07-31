@@ -21,7 +21,7 @@
  ******************************************************************************/
 package openDLX.datatypes;
 
-public class uint8 extends BasicNumber
+public class uint8 extends BasicNumberUnsigned
 {
     private byte value;
 
@@ -111,5 +111,13 @@ public class uint8 extends BasicNumber
     public String getValueAsDecimalString()
     {
         return Integer.toString(getValue());
+    }
+    
+    public String getValueAsCharString()
+    {
+        String s = new String("'");
+        s += (char)((getValue())&0xFF);
+        s += "'";
+        return s;
     }
 }
