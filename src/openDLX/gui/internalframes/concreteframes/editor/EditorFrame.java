@@ -34,14 +34,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
+import javax.swing.undo.*;
 
 import openDLX.gui.GUI_CONST.OpenDLXSimState;
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.EventCommandLookUp;
 import openDLX.gui.command.userLevel.CommandClearEditor;
+import openDLX.gui.command.userLevel.CommandPerformEditorRedo;
+import openDLX.gui.command.userLevel.CommandPerformEditorUndo;
 import openDLX.gui.command.userLevel.CommandRunFromEditor;
 import openDLX.gui.command.userLevel.CommandSave;
 import openDLX.gui.internalframes.FrameConfiguration;
@@ -49,7 +54,7 @@ import openDLX.gui.internalframes.OpenDLXSimInternalFrame;
 import openDLX.gui.internalframes.factories.InternalFrameFactory;
 
 @SuppressWarnings("serial")
-public final class EditorFrame extends OpenDLXSimInternalFrame implements ActionListener, KeyListener
+public final class EditorFrame extends OpenDLXSimInternalFrame implements ActionListener, KeyListener, UndoableEditListener
 {
     //the editor frame is a singleton 
     //default size values
@@ -62,8 +67,25 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     private JButton run;
     private JButton save;
     private JButton clear;
+    
+    /*TODO agarbade: Tidy up the button declaration area.
+     * For now the undo/redo functionality is limited to 
+     * 	- character based actions and
+     *  - buttons, which trigger the associated action.
+     * For the future, a more comprehensive style could be implemented. Such that, using
+     * 'ManuBar' entries (Edit->Undo/Redo) and associated keystroke actions to trigger 
+     * the Undo/Redo actions
+     */
+    private JButton undo;
+    private JButton redo;
+    
     private static EditorFrame instance = null;
     private JTextArea jta;
+
+    /*TODO agarbade: Tidy up the JTextArea extensions (Undo-Manager) */
+    private UndoManager undoMgr = new UndoManager();
+
+    
     private int saved_state_hash;
     private String editor_frame_title;
 
@@ -152,6 +174,10 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         JScrollPane scrollPane = new JScrollPane(jta);
         TextNumberingPanel tln = new TextNumberingPanel(jta);
         jta.addKeyListener(this);
+        
+        /*TODO agarbade Tidy up the editor initialization area */
+        jta.getDocument().addUndoableEditListener(this);
+        
         scrollPane.setRowHeaderView(tln);
         add(scrollPane, BorderLayout.CENTER);
         JPanel down = new JPanel();
@@ -161,17 +187,42 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         save.setMnemonic(KeyEvent.VK_S);
         clear = new JButton("clear");
         clear.setMnemonic(KeyEvent.VK_C);
+
+        /* TODO agarbade Tidy up the button initialization area */
+        undo = new JButton("undo");
+//      undo.setMnemonic(KeyEvent.VK_Z); TODO implement a [ctrl]+[z] listener
+        redo = new JButton("redo");
+//      redo.setMnemonic(KeyEvent.VK_Z); TODO implement a [ctrl]+[shift]+[z] listener
+        
         //if  parameter command = null, command is not yet implemented and should be implemented soon   
 
         EventCommandLookUp.put(run, new CommandRunFromEditor(this));
         EventCommandLookUp.put(save, new CommandSave());
         EventCommandLookUp.put(clear, new CommandClearEditor());
+
+        /* TODO agarbade: Tidy up the button initialization areas */
+        EventCommandLookUp.put(undo, new CommandPerformEditorUndo(undoMgr)); 
+        EventCommandLookUp.put(redo, new CommandPerformEditorRedo(undoMgr));
+
+        
         run.addActionListener(this);
         save.addActionListener(this);
         clear.addActionListener(this);
+
+        /* TODO agarbade: Tidy up the button initialization areas */
+        undo.addActionListener(this);
+        redo.addActionListener(this);
+
+        
         down.add(run);
         down.add(save);
         down.add(clear);
+
+        /*TODO agarbade: Place the buttons to a more appropriate place */
+        down.add(undo);
+        down.add(redo);
+
+        
         down.setBackground(Color.WHITE);
         add(down, BorderLayout.SOUTH);
         setPreferredSize(new Dimension(size_x, size_y));
@@ -185,6 +236,12 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         clean();
         EventCommandLookUp.get(e.getSource()).execute();
     }
+
+    /*TODO agarbade: Override... */
+    @Override
+	public void undoableEditHappened(UndoableEditEvent e) {
+		undoMgr.addEdit(e.getEdit());
+	}
 
     @Override
     public void update()
