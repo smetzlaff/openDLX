@@ -276,46 +276,46 @@ public class Instructions {
 					"xor[eXclusive OR] rd,rs,rt: do a bitwise logical XOR with rt and rs and save result in rt");
 
 			add("sgt", new Instruction(0, 0, 0, 0, 0, 0x28), InstructionType.ALU_REGISTER,
-					"sgt[Set on Greater Than] rd,rs,rt: record result of greater-than comparison with rs and rt in rt");
+					"sgt[Set on Greater Than] rd,rs,rt: record result of greater-than comparison with rs and rt in rd");
 			add("sgtu",
 					new Instruction(0, 0, 0, 0, 0, 0x29),
 					InstructionType.ALU_REGISTER,
-					"sgtu[Set on Greater Than Unsigned] rd,rs,rt: record result of unsigned greater-than comparison with rs and rt in rt");
+					"sgtu[Set on Greater Than Unsigned] rd,rs,rt: record result of unsigned greater-than comparison with rs and rt in rd");
 			add("slt", new Instruction(0, 0, 0, 0, 0, 0x2A), InstructionType.ALU_REGISTER,
-					"slt[Set on Less Than] rd,rs,rt: record result of less-than comparison with rs and rt in rt");
+					"slt[Set on Less Than] rd,rs,rt: record result of less-than comparison with rs and rt in rd");
 			add("sltu",
 					new Instruction(0, 0, 0, 0, 0, 0x2B),
 					InstructionType.ALU_REGISTER,
-					"sltu[Set on Less Than Unsigned] rd,rs,rt: record result of unsigned less-than comparison with rs and rt in rt");
+					"sltu[Set on Less Than Unsigned] rd,rs,rt: record result of unsigned less-than comparison with rs and rt in rd");
 
 			add("seq", new Instruction(0, 0, 0, 0, 0, 0x35), InstructionType.ALU_REGISTER,
-					"seq[Set on EQual] rd,rs,rt: record result of equal comparison with rs and rt in rt");
+					"seq[Set on EQual] rd,rs,rt: record result of equal comparison with rs and rt in rd");
 
 			add("sne", new Instruction(0, 0, 0, 0, 0, 0x37), InstructionType.ALU_REGISTER,
-					"sne[Set on Not Equal] rd,rs,rt: record result of not-equal comparison with rs and rt in rt");
+					"sne[Set on Not Equal] rd,rs,rt: record result of not-equal comparison with rs and rt in rd");
 			add("sle", new Instruction(0, 0, 0, 0, 0, 0x38), InstructionType.ALU_REGISTER,
-					"sle[Set on Less Equal] rd,rs,rt: record result of less-equal comparison with rs and rt in rt");//DSLL
+					"sle[Set on Less Equal] rd,rs,rt: record result of less-equal comparison with rs and rt in rd");//DSLL
 			add("sge",
 					new Instruction(0, 0, 0, 0, 0, 0x39),
 					InstructionType.ALU_REGISTER,
-					"sge[Set on Greater Equal] rd,rs,rt: record result of greater-equal comparison with rs and rt in rt");
+					"sge[Set on Greater Equal] rd,rs,rt: record result of greater-equal comparison with rs and rt in rd");
 
 			add("sequ",
 					new Instruction(0, 0, 0, 0, 0, 0x3A),
 					InstructionType.ALU_REGISTER,
-					"sequ[Set on EQual Unsigned] rd,rs,rt: record result of unsigned equal comparison with rs and rt in rt");//DSRL
+					"sequ[Set on EQual Unsigned] rd,rs,rt: record result of unsigned equal comparison with rs and rt in rd");//DSRL
 			add("sneu",
 					new Instruction(0, 0, 0, 0, 0, 0x3B),
 					InstructionType.ALU_REGISTER,
-					"sneu[Set on Not Equal Unsigned] rd,rs,rt: record result of not-equal comparison with rs and rt in rt");//DSRA
+					"sneu[Set on Not Equal Unsigned] rd,rs,rt: record result of not-equal comparison with rs and rt in rd");//DSRA
 			add("sleu",
 					new Instruction(0, 0, 0, 0, 0, 0x3C),
 					InstructionType.ALU_REGISTER,
-					"sleu[Set on Less Equal Unsigned] rd,rs,rt: record result of unsigned less-equal comparison with rs and rt in rt");//DSLL32
+					"sleu[Set on Less Equal Unsigned] rd,rs,rt: record result of unsigned less-equal comparison with rs and rt in rd");//DSLL32
 			add("sgeu",
 					new Instruction(0, 0, 0, 0, 0, 0x3D),
 					InstructionType.ALU_REGISTER,
-					"sgeu[Set on Grater Equal Unsigned] rd,rs,rt: record result of unsigned greater-equal comparison with rs and rt in rt");
+					"sgeu[Set on Grater Equal Unsigned] rd,rs,rt: record result of unsigned greater-equal comparison with rs and rt in rd");
 
 		} catch (InstructionException e) {
 			e.printStackTrace();
