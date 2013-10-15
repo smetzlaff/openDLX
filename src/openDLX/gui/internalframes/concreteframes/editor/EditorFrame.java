@@ -71,10 +71,9 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     /*TODO agarbade: Tidy up the button declaration area.
      * For now the undo/redo functionality is limited to 
      * 	- character based actions and
-     *  - buttons, which trigger the associated action.
-     * For the future, a more comprehensive style could be implemented. Such that, using
-     * 'ManuBar' entries (Edit->Undo/Redo) and associated keystroke actions to trigger 
-     * the Undo/Redo actions
+     * For the future, 'MenuBar' entries (Edit->Undo/Redo) can be used instead of buttons to trigger the Undo/Redo actions.
+     * 
+     * Further somehow the focus gets lost when using undo/redo
      */
     private JButton undo;
     private JButton redo;
@@ -84,6 +83,9 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
 
     /*TODO agarbade: Tidy up the JTextArea extensions (Undo-Manager) */
     private UndoManager undoMgr = new UndoManager();
+    
+    private CommandPerformEditorUndo undoCommand = new CommandPerformEditorUndo(undoMgr); 
+    private CommandPerformEditorRedo redoCommand = new CommandPerformEditorRedo(undoMgr);
 
     
     private int saved_state_hash;
@@ -174,8 +176,6 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         JScrollPane scrollPane = new JScrollPane(jta);
         TextNumberingPanel tln = new TextNumberingPanel(jta);
         jta.addKeyListener(this);
-        
-        /*TODO agarbade Tidy up the editor initialization area */
         jta.getDocument().addUndoableEditListener(this);
         
         scrollPane.setRowHeaderView(tln);
@@ -187,29 +187,23 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         save.setMnemonic(KeyEvent.VK_S);
         clear = new JButton("clear");
         clear.setMnemonic(KeyEvent.VK_C);
-
-        /* TODO agarbade Tidy up the button initialization area */
         undo = new JButton("undo");
-//      undo.setMnemonic(KeyEvent.VK_Z); TODO implement a [ctrl]+[z] listener
+        undo.setMnemonic(KeyEvent.VK_U); 
         redo = new JButton("redo");
-//      redo.setMnemonic(KeyEvent.VK_Z); TODO implement a [ctrl]+[shift]+[z] listener
+        redo.setMnemonic(KeyEvent.VK_R); 
         
         //if  parameter command = null, command is not yet implemented and should be implemented soon   
 
         EventCommandLookUp.put(run, new CommandRunFromEditor(this));
         EventCommandLookUp.put(save, new CommandSave());
         EventCommandLookUp.put(clear, new CommandClearEditor());
-
-        /* TODO agarbade: Tidy up the button initialization areas */
-        EventCommandLookUp.put(undo, new CommandPerformEditorUndo(undoMgr)); 
-        EventCommandLookUp.put(redo, new CommandPerformEditorRedo(undoMgr));
+        EventCommandLookUp.put(undo, undoCommand); 
+        EventCommandLookUp.put(redo, redoCommand);
 
         
         run.addActionListener(this);
         save.addActionListener(this);
         clear.addActionListener(this);
-
-        /* TODO agarbade: Tidy up the button initialization areas */
         undo.addActionListener(this);
         redo.addActionListener(this);
 
@@ -217,8 +211,6 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         down.add(run);
         down.add(save);
         down.add(clear);
-
-        /*TODO agarbade: Place the buttons to a more appropriate place */
         down.add(undo);
         down.add(redo);
 
@@ -237,7 +229,6 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         EventCommandLookUp.get(e.getSource()).execute();
     }
 
-    /*TODO agarbade: Override... */
     @Override
 	public void undoableEditHappened(UndoableEditEvent e) {
 		undoMgr.addEdit(e.getEdit());
@@ -339,7 +330,19 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     @Override
     public void keyPressed(KeyEvent arg0)
     {
-        // Unused
+        if ((arg0.getKeyCode()==KeyEvent.VK_Z) && (arg0.isControlDown()))
+        {
+            if(!arg0.isShiftDown())
+            {
+                //[ctrl]+[z] for undo
+                undoCommand.execute();
+            }
+            else
+            {
+                //[ctrl]+[shift]+[z] for redo
+                redoCommand.execute();
+            }
+        }
     }
     
     private void updateTitle()

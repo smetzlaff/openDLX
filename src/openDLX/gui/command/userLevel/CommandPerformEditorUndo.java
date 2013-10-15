@@ -26,13 +26,11 @@ import javax.swing.undo.UndoManager;
 
 import openDLX.gui.command.Command;
 
-/* TODO agarbade: Newly added functionality. Waiting for approval */
 public class CommandPerformEditorUndo implements Command
 {
 	private UndoManager manager;
 
 	/**
-	 * 
 	 * @param mgr Takes the UndoManager object
 	 */
 	public CommandPerformEditorUndo( UndoManager mgr )

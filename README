@@ -2,7 +2,7 @@ openDLX v1.0 - A DLX/MIPS processor simulator.
 Copyright (C) 2013 The openDLX project, University of Augsburg
 
 Core contributors: Stefan Metzlaff, Alexander Vogelgsang, and Nico Krezic-Luger
-Contributors: Patrick Lehner
+Contributors: Arne Garbade, Patrick Lehner
 
 Project URL: <http://sourceforge.net/projects/opendlx>
 Development branch: <https://github.com/smetzlaff/openDLX>
