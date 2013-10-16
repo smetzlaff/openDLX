@@ -81,11 +81,10 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     private static EditorFrame instance = null;
     private JTextArea jta;
 
-    /*TODO agarbade: Tidy up the JTextArea extensions (Undo-Manager) */
-    private UndoManager undoMgr = new UndoManager();
+    private UndoManager undoMgr;
     
-    private CommandPerformEditorUndo undoCommand = new CommandPerformEditorUndo(undoMgr); 
-    private CommandPerformEditorRedo redoCommand = new CommandPerformEditorRedo(undoMgr);
+    private CommandPerformEditorUndo undoCommand;
+    private CommandPerformEditorRedo redoCommand;
 
     
     private int saved_state_hash;
@@ -197,8 +196,8 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         EventCommandLookUp.put(run, new CommandRunFromEditor(this));
         EventCommandLookUp.put(save, new CommandSave());
         EventCommandLookUp.put(clear, new CommandClearEditor());
-        EventCommandLookUp.put(undo, undoCommand); 
-        EventCommandLookUp.put(redo, redoCommand);
+//        EventCommandLookUp.put(undo, undoCommand); 
+//        EventCommandLookUp.put(redo, redoCommand);
 
         
         run.addActionListener(this);
@@ -330,19 +329,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     @Override
     public void keyPressed(KeyEvent arg0)
     {
-        if ((arg0.getKeyCode()==KeyEvent.VK_Z) && (arg0.isControlDown()))
-        {
-            if(!arg0.isShiftDown())
-            {
-                //[ctrl]+[z] for undo
-                undoCommand.execute();
-            }
-            else
-            {
-                //[ctrl]+[shift]+[z] for redo
-                redoCommand.execute();
-            }
-        }
+        // Unused
     }
     
     private void updateTitle()
@@ -355,6 +342,17 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         {
             setTitle(editor_frame_title);
         }
+    }
+
+    public void setUndoManager(UndoManager UndoMgr) 
+    {
+        undoMgr = UndoMgr;
+        undoCommand = new CommandPerformEditorUndo(undoMgr);
+        redoCommand = new CommandPerformEditorRedo(undoMgr);
+        
+        EventCommandLookUp.put(undo, undoCommand); 
+        EventCommandLookUp.put(redo, redoCommand);
+
     }
 
 }

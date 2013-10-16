@@ -39,6 +39,7 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.undo.UndoManager;
 
 import openDLX.OpenDLXSimulator;
 import openDLX.config.GlobalConfig;
@@ -68,6 +69,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     public Input input;
 
     private OpenDLXSimulator openDLXSim = null;
+    private UndoManager undoMgr;
     private EditorFrame editor;
     private JDesktopPane desktop;
     private boolean updateAllowed = true;
@@ -121,6 +123,8 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
 
     private void initialize()
     {
+        undoMgr = new UndoManager();
+        
         //uses a factory to outsource creation of the menuBar
         MainFrameMenuBarFactory menuBarFactory = new MainFrameMenuBarFactory(this, this, this);
         Hashtable<String, JMenuItem> importantItems = new Hashtable<>();
@@ -134,6 +138,7 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
         setContentPane(desktop);
 
         editor = EditorFrame.getInstance(this);
+        editor.setUndoManager(undoMgr);
         desktop.add(editor);
 
         output = Output.getInstance(mf);
@@ -310,6 +315,10 @@ public class MainFrame extends JFrame implements ActionListener, ItemListener
     public JMenuItem getForwardingMenuItem()
     {
         return forwardingMenuItem;
+    }
+
+    public UndoManager getEditorUndoManager() {
+        return undoMgr;
     }
 
 }
