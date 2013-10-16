@@ -28,12 +28,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.JToolBar;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.BadLocationException;
@@ -45,6 +47,8 @@ import openDLX.gui.GUI_CONST.OpenDLXSimState;
 import openDLX.gui.MainFrame;
 import openDLX.gui.command.EventCommandLookUp;
 import openDLX.gui.command.userLevel.CommandClearEditor;
+import openDLX.gui.command.userLevel.CommandLoadAndRunFile;
+import openDLX.gui.command.userLevel.CommandLoadFile;
 import openDLX.gui.command.userLevel.CommandPerformEditorRedo;
 import openDLX.gui.command.userLevel.CommandPerformEditorUndo;
 import openDLX.gui.command.userLevel.CommandRunFromEditor;
@@ -56,7 +60,10 @@ import openDLX.gui.internalframes.factories.InternalFrameFactory;
 @SuppressWarnings("serial")
 public final class EditorFrame extends OpenDLXSimInternalFrame implements ActionListener, KeyListener, UndoableEditListener
 {
-    //the editor frame is a singleton 
+    //the editor frame is a singleton
+    
+    private MainFrame mf;
+    
     //default size values
 
     private final int size_x = 250;
@@ -65,15 +72,14 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     //private JTextArea input;
     //buttons
     private JButton run;
+    private JButton load;
+    private JButton loadandrun;
     private JButton save;
     private JButton clear;
     
-    /*TODO agarbade: Tidy up the button declaration area.
+    /* TODO
      * For now the undo/redo functionality is limited to 
-     * 	- character based actions and
-     * For the future, 'MenuBar' entries (Edit->Undo/Redo) can be used instead of buttons to trigger the Undo/Redo actions.
-     * 
-     * Further somehow the focus gets lost when using undo/redo
+     * 	- character based actions
      */
     private JButton undo;
     private JButton redo;
@@ -94,6 +100,7 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
     {
         super(title, true);
         editor_frame_title = title;
+        this.mf = mf;
         initialize();
     }
 
@@ -116,7 +123,6 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         // input = new JTextArea();
         //input.setSize(size_x, size_y);
         //JScrollPane scroll = new JScrollPane(input);
-
 
        new JTextPane();
 //       JTextPane jtp = new JTextPane();
@@ -179,21 +185,19 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         
         scrollPane.setRowHeaderView(tln);
         add(scrollPane, BorderLayout.CENTER);
-        JPanel down = new JPanel();
-        run = new JButton("assemble");
-        run.setMnemonic(KeyEvent.VK_A);
-        save = new JButton("save as");
-        save.setMnemonic(KeyEvent.VK_S);
-        clear = new JButton("clear");
-        clear.setMnemonic(KeyEvent.VK_C);
-        undo = new JButton("undo");
-        undo.setMnemonic(KeyEvent.VK_U); 
-        redo = new JButton("redo");
-        redo.setMnemonic(KeyEvent.VK_R); 
+        run = createButton("assemble", "assemble and run [ALT+a]", KeyEvent.VK_A, "/img/icons/tango/run.png");
+        load = createButton("load", "load program [CRTL+o]", KeyEvent.VK_O, "/img/icons/tango/load.png");
+        loadandrun = createButton("load and run", "load program and run [CRTL+R]", KeyEvent.VK_O, "/img/icons/tango/loadandrun.png");
+        save = createButton("save as", "save program as ... [ALT+s]", KeyEvent.VK_S, "/img/icons/tango/saveas.png");
+        clear = createButton("clear", "clear all text [ALT+c]", KeyEvent.VK_C, "/img/icons/tango/clear.png");
+        undo = createButton("undo", "Undo [CTRL+z]", KeyEvent.VK_U, "/img/icons/tango/undo.png");
+        redo = createButton("redo", "Redo [CTRL+Z]", KeyEvent.VK_R, "/img/icons/tango/redo.png"); 
         
-        //if  parameter command = null, command is not yet implemented and should be implemented soon   
+        // if  parameter command = null, command is not yet implemented and should be implemented soon   
 
         EventCommandLookUp.put(run, new CommandRunFromEditor(this));
+        EventCommandLookUp.put(load, new CommandLoadFile(mf));
+        EventCommandLookUp.put(loadandrun, new CommandLoadAndRunFile(mf));
         EventCommandLookUp.put(save, new CommandSave());
         EventCommandLookUp.put(clear, new CommandClearEditor());
 //        EventCommandLookUp.put(undo, undoCommand); 
@@ -201,25 +205,34 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
 
         
         run.addActionListener(this);
+        load.addActionListener(this);
+        loadandrun.addActionListener(this);
         save.addActionListener(this);
         clear.addActionListener(this);
         undo.addActionListener(this);
         redo.addActionListener(this);
 
         
-        down.add(run);
-        down.add(save);
-        down.add(clear);
-        down.add(undo);
-        down.add(redo);
-
+        // TODO deactivate toolbar when simulator is in run mode
+        JToolBar toolBar = new JToolBar("Editor toolbar");
+        toolBar.add(run);
+        toolBar.add(load);
+        toolBar.add(loadandrun);
+        toolBar.add(save);
+        toolBar.add(clear);
+        toolBar.add(undo);
+        toolBar.add(redo);
+        toolBar.setFloatable(false);
+        toolBar.setRollover(false);
+        toolBar.setFocusable(false);
+        add(toolBar, BorderLayout.PAGE_START);
         
-        down.setBackground(Color.WHITE);
-        add(down, BorderLayout.SOUTH);
+        
         setPreferredSize(new Dimension(size_x, size_y));
         pack();
         setVisible(true);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e)
@@ -355,4 +368,21 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
 
     }
 
+    private JButton createButton(String name, String tooltip, int mnemonic, String icon_path) 
+    {
+        JButton button = new JButton();
+        URL icon_url;
+        if((icon_path != null) && ((icon_url = getClass().getResource(icon_path)) != null))
+        {
+            button.setIcon(new ImageIcon(icon_url));
+        }
+        else
+        {
+            button.setText(name);
+        }
+        button.setMnemonic(mnemonic); 
+        button.setToolTipText(tooltip);
+        button.setFocusable(false);
+        return button;
+    }
 }
