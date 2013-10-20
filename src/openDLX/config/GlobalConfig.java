@@ -28,7 +28,7 @@ public interface GlobalConfig {
 			"openDLX v"+VERSION+" - A DLX/MIPS processor simulator.\n"
 					+"Copyright (C) 2013 The openDLX project, University of Augsburg\n\n"
 					+"Core contributors: Stefan Metzlaff, Alexander Vogelgsang,\nand Nico Krezic-Luger\n"
-					+"Contributors: Patrick Lehner\n"
+					+"Contributors: Arne Garbade, Patrick Lehner\n"
 					+"\n"
 					+"Project URL: <https://sourceforge.net/projects/opendlx>\n"
 					+"Development branch: <https://github.com/smetzlaff/openDLX>\n"
