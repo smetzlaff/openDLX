@@ -185,13 +185,13 @@ public final class EditorFrame extends OpenDLXSimInternalFrame implements Action
         
         scrollPane.setRowHeaderView(tln);
         add(scrollPane, BorderLayout.CENTER);
-        run = createButton("assemble", "assemble and run [ALT+a]", KeyEvent.VK_A, "/img/icons/tango/run.png");
-        load = createButton("load", "load program [CRTL+o]", KeyEvent.VK_O, "/img/icons/tango/load.png");
-        loadandrun = createButton("load and run", "load program and run [CRTL+R]", KeyEvent.VK_O, "/img/icons/tango/loadandrun.png");
-        save = createButton("save as", "save program as ... [ALT+s]", KeyEvent.VK_S, "/img/icons/tango/saveas.png");
-        clear = createButton("clear", "clear all text [ALT+c]", KeyEvent.VK_C, "/img/icons/tango/clear.png");
-        undo = createButton("undo", "Undo [CTRL+z]", KeyEvent.VK_U, "/img/icons/tango/undo.png");
-        redo = createButton("redo", "Redo [CTRL+Z]", KeyEvent.VK_R, "/img/icons/tango/redo.png"); 
+        run = createButton("Assemble", "Assemble and Run [ALT+A]", KeyEvent.VK_A, "/img/icons/tango/run.png");
+        load = createButton("Load", "Load Program [CRTL+O]", KeyEvent.VK_O, "/img/icons/tango/load.png");
+        loadandrun = createButton("Load and Run", "Load Program and Run [CRTL+R]", KeyEvent.VK_O, "/img/icons/tango/loadandrun.png");
+        save = createButton("Save As...", "Save Program As... [ALT+S]", KeyEvent.VK_S, "/img/icons/tango/saveas.png");
+        clear = createButton("Clear", "Clear All [ALT+C]", KeyEvent.VK_C, "/img/icons/tango/clear.png");
+        undo = createButton("Undo", "Undo [CTRL+Z]", KeyEvent.VK_U, "/img/icons/tango/undo.png");
+        redo = createButton("Redo", "Redo [CTRL+SHIFT+Z]", KeyEvent.VK_R, "/img/icons/tango/redo.png"); 
         
         // if  parameter command = null, command is not yet implemented and should be implemented soon   
 

@@ -83,11 +83,11 @@ public class MainFrameMenuBarFactory
 
     private static final String STRING_MENU_FILE_NEW = "New";
     private static final String STRING_MENU_FILE_OPEN = "Open";
-    private static final String STRING_MENU_FILE_OPEN_AND_ASSEMBLE = "Open and assemble";
-    private static final String STRING_MENU_FILE_ADD_CODE = "Add code";
+    private static final String STRING_MENU_FILE_OPEN_AND_ASSEMBLE = "Open and Assemble";
+    private static final String STRING_MENU_FILE_ADD_CODE = "Add Code";
     private static final String STRING_MENU_FILE_SAVE = "Save";
-    private static final String STRING_MENU_FILE_RUN_FROM_CONF = "Run from configuration file";
-    private static final String STRING_MENU_FILE_EXIT = "Exit program";
+    private static final String STRING_MENU_FILE_RUN_FROM_CONF = "Run from Configuration File";
+    private static final String STRING_MENU_FILE_EXIT = "Exit Program";
 
     private static final KeyStroke KEY_MENU_FILE_NEW = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.Event.CTRL_MASK);
     private static final KeyStroke KEY_MENU_FILE_OPEN = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.Event.CTRL_MASK);
@@ -97,13 +97,13 @@ public class MainFrameMenuBarFactory
     private static final KeyStroke KEY_MENU_FILE_RUN_FROM_CONF = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.Event.ALT_MASK);
     private static final KeyStroke KEY_MENU_FILE_EXIT = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.Event.ALT_MASK);
 
-    private static final String STRING_MENU_SIMULATOR_RUN_PROGRAM = "Run program";
-    private static final String STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY = "Run program slowly";
-    private static final String STRING_MENU_SIMULATOR_STOP_RUNNING = "Stop running";
-    private static final String STRING_MENU_SIMULATOR_DO_CYCLE = "Do cycle";
-    private static final String STRING_MENU_SIMULATOR_DO_X_CYCLES = "Do X cycles";
-    private static final String STRING_MENU_SIMULATOR_RUN_TO = "Run to address X";
-    private static final String STRING_MENU_SIMULATOR_RESTART = "Restart program";
+    private static final String STRING_MENU_SIMULATOR_RUN_PROGRAM = "Run Program";
+    private static final String STRING_MENU_SIMULATOR_RUN_PROGRAM_SLOWLY = "Run Program Slowly";
+    private static final String STRING_MENU_SIMULATOR_STOP_RUNNING = "Stop Running";
+    private static final String STRING_MENU_SIMULATOR_DO_CYCLE = "Do Cycle";
+    private static final String STRING_MENU_SIMULATOR_DO_X_CYCLES = "Do X Cycles";
+    private static final String STRING_MENU_SIMULATOR_RUN_TO = "Run to Address X";
+    private static final String STRING_MENU_SIMULATOR_RESTART = "Restart Program";
     private static final String STRING_MENU_SIMULATOR_OPTIONS = "Options";
     public static final String STRING_MENU_SIMULATOR_FORWARDING = "Forwarding";
 
@@ -123,9 +123,9 @@ public class MainFrameMenuBarFactory
     private static final KeyStroke KEY_MENU_EDIT_UNDO = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.Event.CTRL_MASK);
     private static final KeyStroke KEY_MENU_EDIT_REDO = KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.Event.CTRL_MASK | java.awt.Event.SHIFT_MASK);
 
-    private static final String STRING_MENU_WINDOW_SAVE = "Save current window configuration";
-    private static final String STRING_MENU_WINDOW_LOAD = "Load saved window configuration";
-    private static final String STRING_MENU_WINDOW_CLEAR = "Clear all preferences";
+    private static final String STRING_MENU_WINDOW_SAVE = "Save Current Window Configuration";
+    private static final String STRING_MENU_WINDOW_LOAD = "Load Saved Window Configuration";
+    private static final String STRING_MENU_WINDOW_CLEAR = "Clear All Preferences";
     private static final String STRING_MENU_WINDOW_DISPLAY_EDITOR = "Display Editor";
     private static final String STRING_MENU_WINDOW_DISPLAY_LOG = "Display Log";
     private static final String STRING_MENU_WINDOW_DISPLAY_CODE = "Display Code";
@@ -145,7 +145,7 @@ public class MainFrameMenuBarFactory
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_STATS = null;
     private static final KeyStroke KEY_MENU_WINDOW_DISPLAY_MEM = null;
 
-    private static final String STRING_MENU_HELP_TOOLTIPS = "Display tooltips";
+    private static final String STRING_MENU_HELP_TOOLTIPS = "Display Tooltips";
     // currently unused:
 //    private static final String STRING_MENU_HELP_TUTORIAL = "Tutorial";
     private static final String STRING_MENU_HELP_ABOUT = "About";
