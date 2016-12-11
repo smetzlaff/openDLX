@@ -8,6 +8,8 @@ Project URL: <http://sourceforge.net/projects/opendlx>
 Development branch: <https://github.com/smetzlaff/openDLX>
 
 
+hacked version that supports unsigned word up to 0xFFFFFFFF
+
 ----------------------------
 Requirements
 ----------------------------
