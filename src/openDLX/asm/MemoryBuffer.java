@@ -280,6 +280,26 @@ public class MemoryBuffer {
 	}
 
 	/**
+	 * write long(unsigned word) to position
+	 * 
+	 * @param position
+	 * @param value
+	 */
+	public void writeLong(int position, long value) {
+		if (littleEndian) {
+			writeByte(position, (byte) (value & 0xFF));
+			writeByte(position + 1, (byte) ((value >> 8) & 0xFF));
+			writeByte(position + 2, (byte) ((value >> 16) & 0xFF));
+			writeByte(position + 3, (byte) ((value >> 24) & 0xFF));
+		} else {
+			writeByte(position + 3, (byte) (value & 0xFF));
+			writeByte(position + 2, (byte) ((value >> 8) & 0xFF));
+			writeByte(position + 1, (byte) ((value >> 16) & 0xFF));
+			writeByte(position, (byte) ((value >> 24) & 0xFF));
+		}
+	}
+
+	/**
 	 * write word to position
 	 * 
 	 * @param position

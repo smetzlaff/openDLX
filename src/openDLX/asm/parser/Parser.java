@@ -1055,8 +1055,13 @@ public class Parser {
 		try {
 			i = 1;
 			do {
-				int value = Integer.decode(tokens[i++].getString());
-				memory_.writeWord(segmentPointer_.get(), value);
+				try {
+					int value = Integer.decode(tokens[i++].getString());
+					memory_.writeWord(segmentPointer_.get(), value);
+				} catch (NumberFormatException ex) {
+					long value = Long.decode(tokens[i++].getString());
+					memory_.writeLong(segmentPointer_.get(), value);
+				}
 				segmentPointer_.add(4);
 				memory_.setDataEnd(segmentPointer_.get());
 			} while (i < tokens.length && tokens[i++].getString().equals(","));
